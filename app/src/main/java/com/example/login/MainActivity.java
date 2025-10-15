@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
         String username = getIntent().getStringExtra("username");
         if (username == null || username.isEmpty()) {
-            username = "Khách";
+            username = "Khách hàng";
         }
 
         tvWelcome.setText("Xin chào, " + username + "!");
