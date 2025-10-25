@@ -8,14 +8,6 @@
     android:padding="24dp"
     android:background="#FAFAFA">
 
-    <EditText android:id="@+id/etFullname"
-        android:hint="Full name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <EditText android:id="@+id/etPhone"
-        android:hint="Phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
     <EditText android:id="@+id/etUsername"
         android:hint="Username"
@@ -25,6 +17,28 @@
         android:hint="Email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <RadioGroup
+        android:id="@+id/radioRoleGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <RadioButton
+            android:id="@+id/radioStudent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Học viên" />
+
+        <RadioButton
+            android:id="@+id/radioTutor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gia sư"
+            android:layout_marginStart="24dp" />
+
+    </RadioGroup>
+
     <EditText android:id="@+id/etPassword"
         android:hint="Password"
         android:inputType="textPassword"
