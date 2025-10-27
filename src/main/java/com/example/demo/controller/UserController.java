@@ -4,6 +4,8 @@ import com.example.demo.config.JwtTokenUtil;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,24 +35,33 @@ public class UserController {
         userRepository.save(user);
         return "Đăng ký thành công!";
     }
+@PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
+    String username = body.get("username");
+    String password = body.get("password");
 
-    @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody Map<String, String> body) {
-        String username = body.get("username");
-        String password = body.get("password");
-
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
-
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Sai mật khẩu!");
-        }
-
-        String token = jwtTokenUtil.generateToken(user.getUsername());
-
-        return Map.of(
-                "message", "Đăng nhập thành công",
-                "token", token
-        );
+    // Kiểm tra có user hay không
+    User user = userRepository.findByUsername(username).orElse(null);
+    if (user == null) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", "Người dùng không tồn tại"));
     }
+
+    // Kiểm tra mật khẩu
+    if (!passwordEncoder.matches(password, user.getPassword())) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("error", "Sai mật khẩu!"));
+    }
+
+    // Sinh token
+    String token = jwtTokenUtil.generateToken(user.getUsername());
+
+    return ResponseEntity.ok(Map.of(
+            "message", "Đăng nhập thành công",
+            "token", token
+    ));
+}
+
 }
