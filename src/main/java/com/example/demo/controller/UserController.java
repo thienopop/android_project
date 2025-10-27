@@ -29,12 +29,31 @@ public class UserController {
         return "Hello, World!";
     }
 
-    @PostMapping("/register")
-    public String registerUser(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return "Đăng ký thành công!";
+   @PostMapping("/register")
+public ResponseEntity<?> registerUser(@RequestBody User user) {
+    // Kiểm tra username đã tồn tại chưa
+    if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+        return ResponseEntity
+                .badRequest()
+                .body("Tên đăng nhập đã tồn tại!");
     }
+
+    // Kiểm tra email đã tồn tại chưa
+    if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+        return ResponseEntity
+                .badRequest()
+                .body("Email đã được sử dụng!");
+    }
+
+    // Mã hoá mật khẩu trước khi lưu
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+    // Lưu user mới vào database
+    userRepository.save(user);
+
+    return ResponseEntity.ok("Đăng ký thành công!");
+}
+
 @PostMapping("/login")
 public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
     String username = body.get("username");
