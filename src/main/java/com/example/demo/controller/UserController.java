@@ -36,6 +36,7 @@ public ResponseEntity<?> registerUser(@RequestBody User user) {
         return ResponseEntity
                 .badRequest()
                 .body("Tên đăng nhập đã tồn tại!");
+
     }
 
     // Kiểm tra email đã tồn tại chưa
@@ -49,9 +50,19 @@ public ResponseEntity<?> registerUser(@RequestBody User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
 
     // Lưu user mới vào database
-    userRepository.save(user);
+    // userRepository.save(user);
+    User savedUser = userRepository.save(user);
+//mới thêm vào sau trả về token đăng ký
+     // Sinh token
+    String token = jwtTokenUtil.generateToken(savedUser.getUsername());
 
-    return ResponseEntity.ok("Đăng ký thành công!");
+    return ResponseEntity.ok(Map.of(
+            "message", "Đăng ký thành công",
+            "token", token
+    ));  
+
+
+    // return ResponseEntity.ok("Đăng ký thành công!");
 }
 
 @PostMapping("/login")

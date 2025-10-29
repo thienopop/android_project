@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -39,7 +40,7 @@ public class TutorController {
         Optional<Tutor> tutorOpt = tutorRepository.findById(id);
         return tutorOpt.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
-
+//lấy thông tin tutor của user hiện tại
  @GetMapping("/me")
 public ResponseEntity<?> getMyTutorProfile() {
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -61,21 +62,43 @@ public ResponseEntity<?> getMyTutorProfile() {
         return ResponseEntity.ok(savedTutor);
     }
 
-    // Cập nhật tutor (chỉ admin)
-    @PutMapping("/{id}")
-    public ResponseEntity<Tutor> updateTutor(@PathVariable int id, @RequestBody Tutor updatedTutor) {
-        Optional<Tutor> tutorOpt = tutorRepository.findById(id);
-        if (tutorOpt.isEmpty()) return ResponseEntity.notFound().build();
+    // Cập nhật tutor 
+    @PutMapping("/update")
+    public ResponseEntity<Tutor> updateTutor( @RequestBody Tutor updatedTutor) {
+        // Optional<Tutor> tutorOpt = tutorRepository.findById(id);
 
+         String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<Tutor> tutorOpt = tutorRepository.findByUser_Username(username);
+        if (tutorOpt.isEmpty()) return ResponseEntity.notFound().build();
         Tutor tutor = tutorOpt.get();
-        tutor.setFullName(updatedTutor.getFullName());
+       if (updatedTutor.getFullName() != null)
+       {
+            tutor.setFullName(updatedTutor.getFullName());
+       }
+       if(updatedTutor.getPhone() != null){
         tutor.setPhone(updatedTutor.getPhone());
+       }
+       if(updatedTutor.getAddress() != null){
         tutor.setAddress(updatedTutor.getAddress());
+       }
+       if(updatedTutor.getBio() != null){
         tutor.setBio(updatedTutor.getBio());
-        tutor.setExperienceYears(updatedTutor.getExperienceYears());
+       }
+       if(updatedTutor.getExperienceYears() != null){
+         tutor.setExperienceYears(updatedTutor.getExperienceYears());
+       }
+       if(updatedTutor.getDateOfBirth() != null){
+       
+        tutor.setDateOfBirth(updatedTutor.getDateOfBirth());
+         }
+         if(updatedTutor.getHourlyRate() != null){
         tutor.setHourlyRate(updatedTutor.getHourlyRate());
-        tutor.setVerified(updatedTutor.getVerified());
+         }
+        // cập nhật verified bằng phương pháp khác
+        // tutor.setVerified(updatedTutor.getVerified());
+        if(updatedTutor.getProfileImage() != null){
         tutor.setProfileImage(updatedTutor.getProfileImage());
+    }
 
         tutorRepository.save(tutor);
         return ResponseEntity.ok(tutor);
