@@ -61,6 +61,11 @@ public ResponseEntity<?> getMyTutorProfile() {
         Tutor savedTutor = tutorRepository.save(tutor);
         return ResponseEntity.ok(savedTutor);
     }
+    //  @PostMapping("/createUserTutor")
+    // public ResponseEntity<Tutor> createTutorByUser(@RequestBody Tutor tutor) {
+    //     Tutor savedTutor = tutorRepository.save(tutor);
+    //     return ResponseEntity.ok(savedTutor);
+    // }
 
     // Cập nhật tutor 
     @PutMapping("/update")

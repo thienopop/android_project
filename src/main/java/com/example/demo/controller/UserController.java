@@ -2,7 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.config.JwtTokenUtil;
 import com.example.demo.entity.User;
+import com.example.demo.entity.Tutor;
+
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,8 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private TutorRepository tutorRepository;
+
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -36,7 +41,6 @@ public ResponseEntity<?> registerUser(@RequestBody User user) {
         return ResponseEntity
                 .badRequest()
                 .body("Tên đăng nhập đã tồn tại!");
-
     }
 
     // Kiểm tra email đã tồn tại chưa
@@ -45,6 +49,7 @@ public ResponseEntity<?> registerUser(@RequestBody User user) {
                 .badRequest()
                 .body("Email đã được sử dụng!");
     }
+    user.setRole("TUTOR"); // Mặc định role là tutor
 
     // Mã hoá mật khẩu trước khi lưu
     user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -52,6 +57,11 @@ public ResponseEntity<?> registerUser(@RequestBody User user) {
     // Lưu user mới vào database
     // userRepository.save(user);
     User savedUser = userRepository.save(user);
+
+    //  Tutor tutor = new Tutor();
+    // tutor.setUser(savedUser);
+    // tutorRepository.save(tutor); 
+
 //mới thêm vào sau trả về token đăng ký
      // Sinh token
     String token = jwtTokenUtil.generateToken(savedUser.getUsername());
@@ -60,8 +70,7 @@ public ResponseEntity<?> registerUser(@RequestBody User user) {
             "message", "Đăng ký thành công",
             "token", token
     ));  
-
-
+    // status(HttpStatus.CREATED).body("Đăng ký thành công!");
     // return ResponseEntity.ok("Đăng ký thành công!");
 }
 
