@@ -1,5 +1,23 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Tutor;
+import com.example.demo.entity.User;
+import com.example.demo.repository.TutorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+import java.util.Map;
+
+import com.example.demo.config.JwtTokenUtil;
+import com.example.demo.entity.User;
+import com.example.demo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
 import com.example.demo.entity.Course;
 import com.example.demo.entity.Student;
 import com.example.demo.entity.Tutor;
@@ -7,6 +25,7 @@ import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +52,19 @@ public class CourseController {
         return courseRepository.findAll();
     }
 
+
+
+
+
+    // chức năng cho tutor
+
+
+    
+
+
+
+
+
     // ✅ Xem chi tiết 1 khóa học theo id
 
     @GetMapping("/{id}")
@@ -41,11 +73,44 @@ public class CourseController {
         return courseOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // lấy danh sách khóa học của tutor hiện tại theo trạng thái
+
+    @GetMapping("/my_courses")
+public ResponseEntity<?> getMyCoursesByStatus(@RequestParam String status) {
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    Optional<Tutor> tutorOpt = tutorRepository.findByUser_Username(username);
+    if (tutorOpt.isEmpty()) {
+        return ResponseEntity.status(404).body(Map.of(
+            "error", "Không tìm thấy tutor cho user: " + username
+        ));
+    }
+
+    // Chuẩn hóa & kiểm tra status
+    status = status.toUpperCase();
+    List<String> validStatuses = List.of("PENDING", "ONGOING", "COMPLETED", "CANCELLED");
+    if (!validStatuses.contains(status)) {
+        return ResponseEntity.badRequest().body(Map.of(
+            "error", "Trạng thái không hợp lệ!",
+            "valid_statuses", validStatuses
+        ));
+    }
+
+    List<Course> courses = courseRepository.findByTutorAndStatus(tutorOpt.get(), status);
+
+    if (courses.isEmpty()) {
+        return ResponseEntity.ok(Map.of(
+            "message", "Không có khóa học nào với trạng thái " + status
+        ));
+    }
+
+    return ResponseEntity.ok(courses);
+}
+
     // ✅ Tạo mới khóa học (Tutor tạo)
     @PostMapping("/create")
     public ResponseEntity<?> createCourse(@RequestBody Course course) {
         // Kiểm tra tutor & student có tồn tại không
-         String username = SecurityContextHolder.getContext().getAuthentication().getName();
+     String username = SecurityContextHolder.getContext().getAuthentication().getName();
     // System.out.println(">>> Current username: " + username);
 
     Optional<Tutor> tutorOpt = tutorRepository.findByUser_Username(username);
@@ -56,13 +121,13 @@ public class CourseController {
         course.setStatus("PENDING");
         Course saved = courseRepository.save(course);
         return ResponseEntity.ok(saved);
-
     }
 
+
     // ✅ Cập nhật khóa học
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateCourse(@PathVariable int id, @RequestBody Course updatedCourse) {
-        Optional<Course> courseOpt = courseRepository.findById(id);
+    @PutMapping("/update")
+    public ResponseEntity<?> updateCourse( @RequestBody Course updatedCourse) {
+        Optional<Course> courseOpt = courseRepository.findById(updatedCourse.getId());
         if (courseOpt.isEmpty()) return ResponseEntity.notFound().build();
 
         Course course = courseOpt.get();
@@ -76,16 +141,107 @@ public class CourseController {
         course.setEndDate(updatedCourse.getEndDate());
         course.setStatus(updatedCourse.getStatus());
         course.setNotes(updatedCourse.getNotes());
-
         courseRepository.save(course);
         return ResponseEntity.ok(course);
     }
 
     // ✅ Xóa khóa học
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteCourse(@PathVariable int id) {
         if (!courseRepository.existsById(id)) return ResponseEntity.notFound().build();
         courseRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+
+
+
+
+
+
+// chức năng cho student
+
+
+
+
+
+
+
+
+
+        // ✅ Đăng ký khóa học (Student đăng ký)
+@PutMapping("/register_course_by_student/{id}")
+public ResponseEntity<?> registerCourse(@PathVariable int id) {
+    // 🔹 Tìm khóa học theo ID
+    Optional<Course> courseOpt = courseRepository.findById(id);
+    if (courseOpt.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", "Không tìm thấy khóa học với ID: " + id));
+    }
+
+    // 🔹 Lấy username của người dùng hiện tại (đã login bằng token)
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+    // 🔹 Tìm student tương ứng với username
+    Optional<Student> studentOpt = studentRepository.findByUser_UsernameAndUser_Role(username, "STUDENT");
+    // Optional<Student> findByUser_UsernameAndUser_Role(String username, String role);
+
+    if (studentOpt.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", "Không tìm thấy sinh viên cho user: " + username));
+    }
+
+    Course course = courseOpt.get();
+
+    // 🔹 Kiểm tra xem khóa học đã có student chưa
+    if (course.getStudent() != null) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", "Khóa học này đã có sinh viên đăng ký rồi."));
+    }
+
+    // 🔹 Gán sinh viên hiện tại vào khóa học
+    course.setStudent(studentOpt.get());
+    course.setStatus("STUDENT_REGISTERED"); // hoặc "ONGOING" nếu bạn muốn bắt đầu ngay
+
+    // 🔹 Lưu lại thay đổi
+    courseRepository.save(course);
+
+    return ResponseEntity.ok(Map.of(
+            "message", "Sinh viên đã đăng ký khóa học thành công!",
+            "courseId", course.getId(),
+            "studentName", studentOpt.get().getFullName(),
+            "status", course.getStatus()
+    ));
+}
+
+//lấy dnh sách khóa học đang chờ đăng ký cho student
+@GetMapping("/available_courses")
+public ResponseEntity<?> getAvailableCoursesForStudent() {
+    List<Course> availableCourses = courseRepository.findByStatus("PENDING");
+    if(availableCourses.isEmpty()) {
+        return ResponseEntity.ok(Map.of(
+            "message", "Hiện không có khóa học nào đang chờ đăng ký."
+        ));
+    }
+    return ResponseEntity.ok(availableCourses);
+}
+// sinh viên lấy khoá học của mình
+@GetMapping("/my_courses_student/me/{status}")
+public ResponseEntity<?> getMyCoursesAsStudent( @PathVariable String status) {
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    Optional<Student> studentOpt = studentRepository.findByUser_UsernameAndUser_Role(username
+, "STUDENT");
+    if (studentOpt.isEmpty()) {
+        return ResponseEntity.status(404).body("Không tìm thấy student cho user: " + username);
+    }
+    List<Course> courses = courseRepository.findByStudentAndStatus(studentOpt.get(), status);
+    if(courses.isEmpty()) {
+        return ResponseEntity.ok(Map.of(
+            "message", "Không có khóa học nào."
+        ));
+    }
+    return ResponseEntity.ok(courses);
+
+}
+
 }

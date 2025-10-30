@@ -19,7 +19,7 @@ public class Course {
 
     // Liên kết với Student
     @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "student_id")
     private Student student;
 
     private String subject;
