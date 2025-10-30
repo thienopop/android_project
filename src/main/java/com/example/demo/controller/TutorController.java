@@ -41,6 +41,7 @@ public class TutorController {
         return tutorOpt.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 //lấy thông tin tutor của user hiện tại
+// chính tutor đăng nhập để lấy thông tin của mình
  @GetMapping("/me")
 public ResponseEntity<?> getMyTutorProfile() {
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -68,6 +69,7 @@ public ResponseEntity<?> getMyTutorProfile() {
     // }
 
     // Cập nhật tutor 
+    // chính tutor cập nhật thông tin của mình
     @PutMapping("/update")
     public ResponseEntity<Tutor> updateTutor( @RequestBody Tutor updatedTutor) {
         // Optional<Tutor> tutorOpt = tutorRepository.findById(id);

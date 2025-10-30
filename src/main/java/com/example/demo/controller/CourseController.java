@@ -9,26 +9,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
-import com.example.demo.config.JwtTokenUtil;
-import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.Course;
 import com.example.demo.entity.Student;
-import com.example.demo.entity.Tutor;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.StudentRepository;
-import com.example.demo.repository.TutorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -65,7 +51,7 @@ public class CourseController {
 
 
 
-    // ✅ Xem chi tiết 1 khóa học theo id
+    // ✅ Xem chi tiết 1 khóa học theo id/ cả student và tutor đều xem được
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable int id) {
@@ -74,7 +60,7 @@ public class CourseController {
     }
 
     // lấy danh sách khóa học của tutor hiện tại theo trạng thái
-
+// phải chính tutor đó mới xem được
     @GetMapping("/my_courses")
 public ResponseEntity<?> getMyCoursesByStatus(@RequestParam String status) {
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -154,6 +140,63 @@ public ResponseEntity<?> getMyCoursesByStatus(@RequestParam String status) {
     }
 
 
+    //xác nhận hoàn thành khoá học (tutor xác nhận)
+
+    @PutMapping("/confirm_completion/{id}")
+    public ResponseEntity<?> confirmCourseCompletion(@PathVariable int id) {
+        Optional<Course> courseOpt = courseRepository.findById(id);
+        if (courseOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Không tìm thấy khóa học với ID: " +
+                            id));
+        }
+        Course course = courseOpt.get();
+        course.setStatus("COMPLETED");
+        courseRepository.save(course);
+        return ResponseEntity.ok(Map.of(
+                "message", "Khóa học đã được xác nhận hoàn thành!",
+                "courseId", course.getId(),
+                "status", course.getStatus()
+        ));
+    }
+
+    //✅ Hủy khóa học (tutor hủy)
+    @PutMapping("/cancel_course/{id}")
+    public ResponseEntity<?> cancelCourse(@PathVariable int id) {
+        Optional<Course> courseOpt = courseRepository.findById(id);
+        if (courseOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Không tìm thấy khóa học với ID: " +
+                            id));
+        }
+        Course course = courseOpt.get();
+        course.setStatus("CANCELLED");
+        courseRepository.save(course);
+        return ResponseEntity.ok(Map.of(
+                "message", "Khóa học đã được hủy!",
+                "courseId", course.getId(),
+                "status", course.getStatus()
+        ));
+    }
+
+    //xác nhận bắt đầu khoá học (tutor xác nhận)
+    @PutMapping("/confirm_start/{id}")
+    public ResponseEntity<?> confirmCourseStart(@PathVariable int id) {
+        Optional<Course> courseOpt = courseRepository.findById(id);
+        if (courseOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Không tìm thấy khóa học với ID: " +
+                            id));
+        }
+        Course course = courseOpt.get();
+        course.setStatus("ONGOING");
+        courseRepository.save(course);
+        return ResponseEntity.ok(Map.of(
+                "message", "Khóa học đã được xác nhận bắt đầu!",
+                "courseId", course.getId(),
+                "status", course.getStatus()
+        ));
+    }
 
 
 
@@ -243,5 +286,22 @@ public ResponseEntity<?> getMyCoursesAsStudent( @PathVariable String status) {
     return ResponseEntity.ok(courses);
 
 }
-
+// huỷ đăng ký khoá học (student hủy) với điều kiện chưa bắt đầu khoá học
+@PutMapping("/cancel_registration_by_student/{id}")
+public ResponseEntity<?> cancelCourseRegistrationByStudent(@PathVariable int id) {
+        Optional<Course> courseOpt = courseRepository.findById(id);
+        if (courseOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Không tìm thấy khóa học với ID: " +
+                            id));
+        }
+        Course course = courseOpt.get();
+        if(course.getStatus() != "STUDENT_REGISTERED") {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "không thể huỷ hoá học"));
+        }
+        course.setStatus("PENDING");
+        Course this_course =courseRepository.save(course);
+        return ResponseEntity.ok(this_course);
+    }
 }
