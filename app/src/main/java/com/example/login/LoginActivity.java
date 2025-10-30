@@ -2,14 +2,14 @@ package com.example.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
-import android.view.View;
-
 import com.example.login.api.ApiService;
+import com.example.login.api.PrefsHelper;
 import com.example.login.api.RetrofitClient;
 import com.example.login.model.User;
-
+import com.example.login.model.RegisterLoginResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,27 +50,44 @@ public class LoginActivity extends AppCompatActivity {
             // ✅ Tạo user gửi đi
             User user = new User();
             user.setUsername(username);
-            user.setPasswordHash(password);
+            user.setPassword(password);
 
             // ✅ Gọi API đăng nhập
-            Call<User> call = apiService.login(user);
-            call.enqueue(new Callback<User>() {
+            Call<RegisterLoginResponse> call = apiService.login(user);
+            call.enqueue(new Callback<RegisterLoginResponse>() {
                 @Override
-                public void onResponse(Call<User> call, Response<User> response) {
+                public void onResponse(Call<RegisterLoginResponse> call, Response<RegisterLoginResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {
-                        Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
-                        // Chuyển sang màn hình chính (MainActivity)
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        RegisterLoginResponse loginResponse = response.body();
+
+                        String message = loginResponse.getMessage();  // ✅ Lấy message từ JSON
+                        String token = loginResponse.getToken();      // ✅ Lấy token từ JSON
+
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+
+                        // 🔒 Lưu token vào SharedPreferences để dùng sau
+                        PrefsHelper.saveToken(LoginActivity.this, token);
+//cáh lấy token: String token = PrefsHelper.getToken(this);
+
+//                        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+//                        prefs.edit().putString("token", token).apply();
+
+                        // 👉 Chuyển sang màn hình chính
+                        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Sai tài khoản hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+                        RegisterLoginResponse loginResponse = response.body();
+
+                        String message = loginResponse.getMessage();
+
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<User> call, Throwable t) {
+                public void onFailure(Call<RegisterLoginResponse> call, Throwable t) {
                     Toast.makeText(LoginActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

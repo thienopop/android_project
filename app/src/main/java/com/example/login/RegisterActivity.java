@@ -7,7 +7,9 @@ import android.widget.*;
 import android.view.View;
 
 import com.example.login.api.ApiService;
+import com.example.login.api.PrefsHelper;
 import com.example.login.api.RetrofitClient;
+import com.example.login.model.RegisterLoginResponse;
 import com.example.login.model.User;
 
 import retrofit2.Call;
@@ -32,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnRegister = findViewById(R.id.btnRegister);
         tvRegister = findViewById(R.id.FtvBackLogin);
-        radioRoleGroup = findViewById(R.id.radioRoleGroup);
+//        radioRoleGroup = findViewById(R.id.radioRoleGroup);
 
         apiService = RetrofitClient.getClient().create(ApiService.class);
 
@@ -49,23 +51,6 @@ public class RegisterActivity extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String passwordHash = etPassword.getText().toString().trim();
 
-        // ✅ Lấy vai trò người dùng
-        int selectedId = radioRoleGroup.getCheckedRadioButtonId();
-        if (selectedId == -1) {
-            Toast.makeText(this, "Vui lòng chọn vai trò (Học viên hoặc Gia sư)", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        RadioButton selectedRadio = findViewById(selectedId);
-        String roleText = selectedRadio.getText().toString();
-        String role;
-
-        if (roleText.equalsIgnoreCase("Học viên")) {
-            role = "STUDENT";
-        } else {
-            role = "TUTOR";
-        }
-
         if (username.isEmpty() || email.isEmpty() || passwordHash.isEmpty()) {
             Toast.makeText(this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show();
             return;
@@ -74,26 +59,44 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // ✅ Gửi dữ liệu về server
+        // 🔸 Tạm thời cố định vai trò (có thể thay bằng radio button sau)
+        String role = "TUTOR";
+
+        // ✅ Tạo đối tượng user để gửi request
         User user = new User(username, email, passwordHash, role);
 
-        Call<User> call = apiService.registerUser(user);
-        call.enqueue(new Callback<User>() {
+        // ✅ Gọi API đăng ký
+        Call<RegisterLoginResponse> call = apiService.registerUser(user);
+        call.enqueue(new Callback<RegisterLoginResponse>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(RegisterActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            public void onResponse(Call<RegisterLoginResponse> call, Response<RegisterLoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    RegisterLoginResponse loginResponse = response.body();
+                    String message = loginResponse.getMessage();
+                    String token = loginResponse.getToken();
+
+                    Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
+
+                    // 🔒 Lưu token
+                    PrefsHelper.saveToken(RegisterActivity.this, token);
+
+                    // 👉 Chuyển sang MainActivity
+                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
+                    // ⚠️ Khi response.body() là null, cần kiểm tra tránh lỗi NullPointerException
+                    String message = "Đăng ký thất bại. Vui lòng kiểm tra lại thông tin.";
+                    if (response.errorBody() != null) {
+                        message = "Lỗi: " + response.message();
+                    }
+                    Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(RegisterActivity.this, "Không kết nối được server", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<RegisterLoginResponse> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

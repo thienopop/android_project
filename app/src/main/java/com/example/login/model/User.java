@@ -3,7 +3,7 @@ package com.example.login.model;
 public class User {
     private String username;
     private String email;
-    private String passwordHash; // ⚠️ đổi từ passwordHash → password để đồng bộ với form đăng nhập
+    private String password; // ⚠️ đổi từ passwordHash → password để đồng bộ với form đăng nhập
     private String role;
 
     // 🔹 Constructor trống (Retrofit/Gson cần để parse JSON)
@@ -14,7 +14,7 @@ public class User {
     public User(String username, String email, String passwordHash, String role) {
         this.username = username;
         this.email = email;
-        this.passwordHash = passwordHash;
+        this.password = passwordHash;
         this.role=role;
     }
 
@@ -35,11 +35,11 @@ public class User {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String passwordHash) {
+        this.password = passwordHash;
     }
     public String getRole() {
         return role;
