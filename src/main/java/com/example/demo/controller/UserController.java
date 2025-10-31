@@ -40,20 +40,14 @@ public ResponseEntity<?> registerUser(@RequestBody User user) {
     if (userRepository.findByUsername(user.getUsername()).isPresent()) {
         return ResponseEntity
                 .badRequest()
-                .body(Map.of(
-                    "message", "Username đã được sử dụng!",
-                    "token", null
-                ));
+                .body("Username đã được sử dụng!");
     }
 
     // Kiểm tra email đã tồn tại chưa
     if (userRepository.findByEmail(user.getEmail()).isPresent()) {
         return ResponseEntity
                 .badRequest()
-                .body(Map.of(
-                    "message", "Email đã được sử dụng!",
-                    "token", null
-                ));
+                .body("Email đã được sử dụng!");
                 
             //     (Mapof()
             //         "message", "Email đã được sử dụng!",
@@ -95,21 +89,16 @@ public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
     if (user == null) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(Map.of(
-                    "message", "Người dùng không tồn tại!",
-                    "token", null
-                ));
+                .body("Người dùng không tồn tại!");
     }
 
     // Kiểm tra mật khẩu
     if (!passwordEncoder.matches(password, user.getPassword())) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of(
-                     "message", "Sai mật khẩu!",
-            "token", null
-               ));
+                .body("Mật khẩu không đúng!");
     }
+    //  ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
 
     // Sinh token
     String token = jwtTokenUtil.generateToken(user.getUsername());
