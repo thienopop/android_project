@@ -36,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         tvRegister = findViewById(R.id.FtvBackLogin);
 //        radioRoleGroup = findViewById(R.id.radioRoleGroup);
 
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = RetrofitClient.getClient(this).create(ApiService.class);
 
         btnRegister.setOnClickListener(v -> registerUser());
         tvRegister.setOnClickListener(v -> {

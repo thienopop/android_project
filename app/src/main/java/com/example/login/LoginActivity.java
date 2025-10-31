@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister = findViewById(R.id.FtvRegister);
 
         // ✅ Khởi tạo Retrofit
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = RetrofitClient.getClient(this).create(ApiService.class);
 
         // --- Xử lý khi nhấn nút Đăng nhập ---
         btnLogin.setOnClickListener(v -> {
@@ -78,13 +78,16 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        RegisterLoginResponse loginResponse = response.body();
-
-                        String message = loginResponse.getMessage();
-
-                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                }
+                        // ❌ Xử lý khi login thất bại (ví dụ sai tài khoản hoặc lỗi server)
+                        try {
+                            // Lấy thông báo lỗi trả về từ server (nếu có)
+                            String errorBody = response.errorBody().string();
+                            Toast.makeText(LoginActivity.this,  errorBody, Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(LoginActivity.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    }}
 
                 @Override
                 public void onFailure(Call<RegisterLoginResponse> call, Throwable t) {
