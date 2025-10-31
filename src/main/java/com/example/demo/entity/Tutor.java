@@ -13,10 +13,22 @@ public class Tutor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // Liên kết với bảng users (một user có thể là tutor)
-    @OneToOne
+    // // Liên kết với bảng users (một user có thể là tutor)
+    // @OneToOne
+    // @JoinColumn(name = "user_id", nullable = false)
+    // private User user;
+
+
+ @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private User user;
+
+    // Trả thêm userId để hiển thị trong JSON
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private Integer user_Id;
+
+
 
     @Column(name = "full_name", nullable = false, length = 255)
     private String fullName;
@@ -180,6 +192,14 @@ public class Tutor {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+     public Integer getUser_Id() {
+        return user_Id;
+    }
+
+    public void setUser_Id(Integer user_Id) {
+        this.user_Id = user_Id;
+    }
+    
 
     // ===== Lifecycle callbacks =====
     @PreUpdate
@@ -187,3 +207,4 @@ public class Tutor {
         this.updatedAt = LocalDateTime.now();
     }
 }
+   

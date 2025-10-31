@@ -13,14 +13,37 @@ public class Course {
     private int id;
 
     // Liên kết với Tutor
-    @ManyToOne
+    // @ManyToOne
+    // @JoinColumn(name = "tutor_id", nullable = false)
+    // private Tutor tutor;
+
+
+@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Tutor tutor;
 
-    // Liên kết với Student
-    @ManyToOne
-    @JoinColumn(name = "student_id")
+    // Trả thêm userId để hiển thị trong JSON
+    @Column(name = "tutor_id", insertable = false, updatable = false)
+    private Integer tutor_Id;
+
+
+
+    // // Liên kết với Student
+    // @ManyToOne
+    // @JoinColumn(name = "student_id")
+    // private Student student;
+
+
+@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Student student;
+
+    // Trả thêm userId để hiển thị trong JSON
+    @Column(name = "student_id", insertable = false, updatable = false)
+    private Integer student_Id;
+
 
     private String subject;
     private int totalSessions;
@@ -77,4 +100,16 @@ public class Course {
 
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+    public Integer getTutor_Id() {
+        return tutor_Id;
+    }
+    public void setTutor_Id(Integer tutor_Id) {
+        this.tutor_Id = tutor_Id;
+    }
+    public Integer getStudent_Id() {
+        return student_Id;
+    }
+    public void setStudent_Id(Integer student_Id) {
+        this.student_Id = student_Id;
+    }
 }

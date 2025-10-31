@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.config.JwtTokenUtil;
 import com.example.demo.entity.User;
-import com.example.demo.entity.Tutor;
+// import com.example.demo.entity.Tutor;
 
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.TutorRepository;
@@ -40,14 +40,25 @@ public ResponseEntity<?> registerUser(@RequestBody User user) {
     if (userRepository.findByUsername(user.getUsername()).isPresent()) {
         return ResponseEntity
                 .badRequest()
-                .body("Tên đăng nhập đã tồn tại!");
+                .body(Map.of(
+                    "message", "Username đã được sử dụng!",
+                    "token", null
+                ));
     }
 
     // Kiểm tra email đã tồn tại chưa
     if (userRepository.findByEmail(user.getEmail()).isPresent()) {
         return ResponseEntity
                 .badRequest()
-                .body("Email đã được sử dụng!");
+                .body(Map.of(
+                    "message", "Email đã được sử dụng!",
+                    "token", null
+                ));
+                
+            //     (Mapof()
+            //         "message", "Email đã được sử dụng!",
+            // "token", null
+            //    ););
     }
     user.setRole("TUTOR"); // Mặc định role là tutor
 
@@ -84,14 +95,20 @@ public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
     if (user == null) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(Map.of("error", "Người dùng không tồn tại"));
+                .body(Map.of(
+                    "message", "Người dùng không tồn tại!",
+                    "token", null
+                ));
     }
 
     // Kiểm tra mật khẩu
     if (!passwordEncoder.matches(password, user.getPassword())) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("error", "Sai mật khẩu!"));
+                .body(Map.of(
+                     "message", "Sai mật khẩu!",
+            "token", null
+               ));
     }
 
     // Sinh token

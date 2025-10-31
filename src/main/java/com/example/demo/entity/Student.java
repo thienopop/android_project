@@ -12,10 +12,20 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // Khóa ngoại liên kết đến bảng users
-    @ManyToOne
+    // // Khóa ngoại liên kết đến bảng users
+    // @ManyToOne
+    // @JoinColumn(name = "user_id", nullable = false)
+    // private User user;
+
+@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private User user;
+
+    // Trả thêm userId để hiển thị trong JSON
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private Integer user_Id;
+
 
     @Column(nullable = false, length = 100)
     private String fullName;
@@ -51,6 +61,14 @@ public class Student {
 
     public String getGrade() { return grade; }
     public void setGrade(String grade) { this.grade = grade; }
+    // mới thêm vào 
+
+    public Integer getUser_Id() {
+        return user_Id;
+    }
+    public void setUser_Id(Integer user_Id) {
+        this.user_Id = user_Id;
+    }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

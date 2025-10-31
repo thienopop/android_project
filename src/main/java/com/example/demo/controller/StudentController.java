@@ -45,14 +45,11 @@ public class StudentController {
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
-
-
-
     // ✅ Lấy hồ sơ học viên theo ID
    //lấy thông tin tutor của user hiện tại
-// chính tutor đăng nhập để lấy thông tin của mình
+// chính student đăng nhập để lấy thông tin của mình
  @GetMapping("/me")
-public ResponseEntity<?> getMyTutorProfile() {
+public ResponseEntity<?> getMyStudentProfile() {
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
     System.out.println(">>> Current username: " + username);
 
@@ -79,13 +76,12 @@ public ResponseEntity<?> getMyTutorProfile() {
     //     Student saved = studentRepository.save(student);
     //     return ResponseEntity.ok(saved);
     // }
-
     // ✅ Cập nhật hồ sơ học viên
+    // chính student cập nhật thông tin của mình
     @PutMapping("/update_by_student")
     public ResponseEntity<?> updateStudent( @RequestBody Student updated) {
          String username = SecurityContextHolder.getContext().getAuthentication().getName();
     System.out.println(">>> Current username: " + username);
-
     Optional<Student> studentOpt = studentRepository.findByUser_UsernameAndUser_Role(username, "STUDENT");
         if (studentOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -101,15 +97,12 @@ public ResponseEntity<?> getMyTutorProfile() {
         studentRepository.save(student);
         return ResponseEntity.ok(student);
     }
-
     //lấy hồ sơ học viên theo ID
     @GetMapping("/get_student/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable int id) {
         Optional<Student> studentOpt = studentRepository.findById(id);
         return studentOpt.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
-
-
     // ✅ Xóa hồ sơ học viên
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteStudent(@PathVariable int id) {
