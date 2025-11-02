@@ -13,14 +13,7 @@ import java.util.List;
 public interface SessionRepository extends JpaRepository<Session, Integer> {
     List<Session> findByCourseId(Integer courseId);
     List<Session> findByStatus(String status);
-    
-    // List<Session> findByStudentIdAndSessionDate(Integer studentId, LocalDateTime sessionDate);
-    // List<Session> findByTutorIdAndSessionDate(Integer tutorId, LocalDateTime sessionDate);
-    // List<Session> findByTutorIdAndSessionDateBetween(Integer tutorId,LocalDateTime startDate, LocalDateTime endDate);
-    // List<Session> findByStudentIdAndSessionDateBetween(Integer studentId, LocalDateTime startDate, LocalDateTime endDate);
- 
-//    List<Session> findSessionsByStudentId(@Param("studentId") Integer studentId);
-
+    // lấy danh sách session của học viên theo ngày
 @Query("SELECT s FROM Session s " +
        "JOIN s.course c " +
        "JOIN c.student st " +
@@ -32,20 +25,36 @@ List<Session> findSessionsByStudentIdAndDate(
         @Param("endOfDay") LocalDateTime endOfDay
 );
 
+//lấy danh sách session của học viên theo trạng thái
 
-// @Query("SELECT s FROM Session s " +
-//        "JOIN s.course c " +
-//        "JOIN c.tutor st " +
-//        "WHERE st.id = :tutorId " +
-//        "AND s.sessionDate BETWEEN :startOfDay AND :endOfDay")
-// List<Session> findSessionsByTutorIdAndDate(
-//         @Param("studentId") Integer tutorId,
-//         @Param("startOfDay") LocalDateTime startOfDay,
-//         @Param("endOfDay") LocalDateTime endOfDay
-// );
+// List<Session> findByCourseStudentIdAndStatus(Integer studentId, String status);
+// có thể thay thế, cần xem xét lại
+// lấy danh sách session của học viên theo trạng thái
+@Query("SELECT s FROM Session s " +
+       "JOIN s.course c " +
+       "JOIN c.student st " +
+       "WHERE st.id = :studentId " +
+       "AND s.status = :status")
+List<Session> findSessionsByStudentIdAndStatus(
+        @Param("studentId") Integer studentId,
+        @Param("status") String status
+);
+
+
+// lấy danh sách session của gia sư theo trạng thái
+@Query("SELECT s FROM Session s " +
+       "JOIN s.course c " +
+       "JOIN c.tutor tt " +
+       "WHERE tt.id = :tutorId " +
+       "AND s.status = :status")
+List<Session> findSessionsByTutorIdAndStatus(
+        @Param("tutorId") Integer tutorId,
+        @Param("status") String status
+);
 
 
 
+// lấy danh sách session của gia sư theo ngày
 @Query("SELECT s FROM Session s JOIN s.course c JOIN c.tutor t " +
        "WHERE t.id = :tutorId AND s.sessionDate BETWEEN :startOfDay AND :endOfDay")
 List<Session> findSessionsByTutorIdAndDate(
@@ -53,7 +62,8 @@ List<Session> findSessionsByTutorIdAndDate(
         @Param("startOfDay") LocalDateTime startOfDay,
         @Param("endOfDay") LocalDateTime endOfDay);
 
-
+//tìm tất cả session của course theo id course
+        List<Session> findByCourse_Id(Integer courseId);
 }
 
   

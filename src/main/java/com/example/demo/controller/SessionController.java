@@ -2,8 +2,6 @@ package com.example.demo.controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-
 import com.example.demo.entity.Session;
 import com.example.demo.entity.Student;
 import com.example.demo.entity.Tutor;
@@ -196,6 +194,75 @@ public ResponseEntity<?> getSessionsByTutorAndDate(
     return ResponseEntity.ok(sessions);
 }
 
+
+
+
+
+
+//lấy buổi học của tutor đăng nhập , và theo trạng thái buổi học
+    @GetMapping("/by-tutor/status/{status}")
+    public ResponseEntity<?> getSessionsByTutorAndStatus(@PathVariable String status) {
+        
+        // 🔐 Lấy username từ token (đã xác thực qua Spring Security)
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println(">>> Current username: " + username);
+
+        // 🔍 Tìm tutor theo username
+        Optional<Tutor> tutorOpt = tutorRepository.findByUser_Username(username);
+        if (tutorOpt.isEmpty()) {
+            return ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
+        }
+        Integer tutorId = tutorOpt.get().getId();
+
+        // 🔍 Truy vấn buổi học theo trạng thái
+        List<Session> sessions = sessionRepository.findSessionsByTutorIdAndStatus(
+                tutorId, status);
+
+        if (sessions.isEmpty()) {
+            return ResponseEntity.status(404).body("Không có buổi học nào cho tutorId = "
+                    + tutorId + ", trạng thái = " + status);
+        }
+
+        return ResponseEntity.ok(sessions);
+    }
+
+    //lấy buổi học của student đăng nhập , và theo trạng thái buổi học
+    @GetMapping("/by-student/status/{status}")
+    public ResponseEntity<?> getSessionsByStudentAndStatus(@PathVariable String status) {
+        
+        // 🔐 Lấy username từ token (đã xác thực qua Spring Security)
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println(">>> Current username: " + username);
+
+        // 🔍 Tìm tutor theo username
+        Optional<Student> studentOpt = studentRepository.findByUser_Username(username);
+        if (studentOpt.isEmpty()) {
+            return ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
+        }
+        Integer studentId = studentOpt.get().getId();
+
+        // 🔍 Truy vấn buổi học theo trạng thái
+        List<Session> sessions = sessionRepository.findSessionsByStudentIdAndStatus(
+                studentId, status);
+
+        if (sessions.isEmpty()) {
+            return ResponseEntity.status(404).body("Không có buổi học nào cho tutorId = "
+                    + studentId + ", trạng thái = " + status);
+        }
+
+        return ResponseEntity.ok(sessions);
+    }
+
+
+    //lấy session theo course id
+    @GetMapping("/by-course-id/{courseId}")
+    public ResponseEntity<?> getSessionsByCourseId(@PathVariable Integer courseId) {
+        List<Session> sessions = sessionRepository.findByCourse_Id(courseId);
+        if (sessions.isEmpty()) {
+            return ResponseEntity.status(404).body("Không có buổi học nào cho courseId = " + courseId);
+        }
+        return ResponseEntity.ok(sessions);
+    }
 
 
 }
