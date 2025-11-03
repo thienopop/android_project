@@ -30,7 +30,7 @@ public class NotificationController {
     public ResponseEntity<?> findById(@PathVariable Integer id) {
         Optional<Notification> notification = notificationRepository.findById(id);
         if (notification.isEmpty()) {
-            return ResponseEntity.status(404).body("Không tìm thâý thông báo với ID = " + id);
+            return ResponseEntity.status(404).body("Không tìm thấy thông báo với ID = " + id);
         }
         return ResponseEntity.ok(notification.get());
     }
@@ -60,7 +60,7 @@ public class NotificationController {
         Notification existingNotification = existingNotificationOpt.get();
         existingNotification.setIsRead(notification.getIsRead());
         LocalDateTime readAt = notification.getReadAt() != null ? notification.getReadAt() : (notification.getIsRead() ? LocalDateTime.now() : null);
-        existingNotification.setReadAt(notification.getReadAt());
+        existingNotification.setReadAt(readAt);
         Notification updatedNotification = notificationRepository.save(existingNotification);
         return ResponseEntity.ok(updatedNotification);
     }
