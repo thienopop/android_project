@@ -1,31 +1,36 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "students")
-public class Student {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class Student extends BaseEntity {
 
     // // Khóa ngoại liên kết đến bảng users
     // @ManyToOne
     // @JoinColumn(name = "user_id", nullable = false)
     // private User user;
 
-@OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @com.fasterxml.jackson.annotation.JsonIgnore
+    @JsonIgnore
     private User user;
 
     // Trả thêm userId để hiển thị trong JSON
     @Column(name = "user_id", insertable = false, updatable = false)
     private Integer user_Id;
-
 
     @Column(nullable = false, length = 100)
     private String fullName;
@@ -37,42 +42,4 @@ public class Student {
 
     @Column(columnDefinition = "TEXT")
     private String description;
-
-    private LocalDateTime updatedAt;
-
-    // Getters và Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
-
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
-
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
-
-    public LocalDate getDateOfBirth() { return dateOfBirth; }
-    public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
-
-    public String getGrade() { return grade; }
-    public void setGrade(String grade) { this.grade = grade; }
-    // mới thêm vào 
-
-    public Integer getUser_Id() {
-        return user_Id;
-    }
-    public void setUser_Id(Integer user_Id) {
-        this.user_Id = user_Id;
-    }
-
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
