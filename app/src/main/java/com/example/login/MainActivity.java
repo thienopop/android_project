@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
             username = "Khách hàng";
         }
 
+
         tvWelcome.setText("Xin chào, " + username + "!");
     }
 }
