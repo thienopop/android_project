@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/sessions")
+@RequestMapping("/sessions")
 public class SessionController {
 
     @Autowired

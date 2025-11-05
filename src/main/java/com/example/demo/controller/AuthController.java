@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/auth")
+public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
@@ -29,9 +29,9 @@ public class UserController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello, World!";
+    @GetMapping("/status")
+    public ResponseEntity<String> status() {
+        return ResponseEntity.ok("Hệ thống xác thực đang hoạt động");
     }
 
    @PostMapping("/register")
