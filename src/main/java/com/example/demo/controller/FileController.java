@@ -30,24 +30,29 @@ public class FileController {
     private String allowedExtensions;
 
     @PostMapping("/upload")
-    public ResponseEntity<Map<String, Object>> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        if (file.isEmpty()) {
+            return ResponseEntity.status(400).body("Tệp tin tải lên không được để trống");
+        }
+
         Path uploadDirectory = Paths.get(uploadDir);
         Files.createDirectories(uploadDirectory);
 
         String originalName = file.getOriginalFilename();
-        String extension = "";
-
-        List<String> allowedList = Arrays.asList(allowedExtensions.split(","));
-        if (!allowedList.contains(extension)) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(Map.of("error", "Định dạng tệp không được phép: " + extension));
+        if (originalName == null || originalName.trim().isEmpty()) {
+            return ResponseEntity.status(400).body("Không tìm thấy tên tệp tin trong yêu cầu tải lên");
         }
 
+        String extension = "";
         int dotIndex = originalName.lastIndexOf('.');
         if (dotIndex > 0) {
             extension = originalName.substring(dotIndex);
             originalName = originalName.substring(0, dotIndex);
+        }
+
+        List<String> allowedList = Arrays.asList(allowedExtensions.split(","));
+        if (!allowedList.contains(extension)) {
+            return ResponseEntity.status(400).body("Định dạng tệp không được phép: " + extension);
         }
 
         String uniqueName = originalName + "_" + System.currentTimeMillis() + extension;
@@ -67,7 +72,12 @@ public class FileController {
 
     @GetMapping("/download/{filename:.+}")
     public ResponseEntity<?> downloadFile(@PathVariable String filename) throws IOException {
-        Path filePath = Paths.get(uploadDir).resolve(filename);
+        Path uploadDirectory = Paths.get(uploadDir).toAbsolutePath().normalize();
+        Path filePath = uploadDirectory.resolve(filename).normalize();
+        if (!filePath.startsWith(uploadDirectory)) {
+            return ResponseEntity.status(400).body("Đường dẫn tệp không hợp lệ.");
+        }
+
         Resource resource = new UrlResource(filePath.toUri());
 
         if (!resource.exists() || !resource.isReadable()) {
