@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 //                        prefs.edit().putString("token", token).apply();
 
                         // 👉 Chuyển sang màn hình chính
-                        Intent intent = new Intent(LoginActivity.this, TutorDashboarActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, TutorDashboardActivity.class);
                         startActivity(intent);
                         finish();
                     } else {

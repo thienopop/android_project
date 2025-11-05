@@ -12,16 +12,16 @@ import android.widget.TextView;
 import java.util.List;
 
 
-public class SessionAdapter extends ArrayAdapter<SessionInfo> {
+public class FagmentsSessionTodayAdapter extends ArrayAdapter<SessionInfo> {
 
-    public SessionAdapter(Context context, List<SessionInfo> sessions) {
-        super(context, R.layout.list_item_tutor_dashboar, sessions);
+    public FagmentsSessionTodayAdapter(Context context, List<SessionInfo> sessions) {
+        super(context, R.layout.list_item_fragment_sessions_today, sessions);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view = convertView == null ? inflater.inflate(R.layout.list_item_tutor_dashboar, parent, false) : convertView;
+        View view = convertView == null ? inflater.inflate(R.layout.list_item_fragment_sessions_today, parent, false) : convertView;
 
         SessionInfo session = getItem(position);
 

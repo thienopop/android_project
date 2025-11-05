@@ -5,29 +5,17 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.widget.*;
 import com.example.login.api.ApiService;
-import com.example.login.api.PrefsHelper;
 import com.example.login.api.RetrofitClient;
-import com.example.login.model.User;
-import com.example.login.model.RegisterLoginResponse;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import com.example.login.api.ApiService;
-import com.example.login.api.RetrofitClient;
+
 import com.example.login.model.SessionInfo;
-import com.example.login.adapter.SessionAdapter;
+import com.example.login.adapter.FagmentsSessionTodayAdapter;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class TutorDashboarActivity extends AppCompatActivity {
 
@@ -36,7 +24,7 @@ public class TutorDashboarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tutor_dashboar);
+        setContentView(R.layout.fragment_sessions_today);
 
         listViewSessions = findViewById(R.id.listViewSessions);
 
@@ -52,7 +40,7 @@ public class TutorDashboarActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
 
                     List<SessionInfo> sessionList = response.body();
-                    SessionAdapter adapter = new SessionAdapter(TutorDashboarActivity.this, sessionList);
+                    FagmentsSessionTodayAdapter adapter = new FagmentsSessionTodayAdapter(TutorDashboarActivity.this, sessionList);
                     listViewSessions.setAdapter(adapter);
 
                     // Bắt sự kiện click item
