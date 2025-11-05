@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/notifications")
+@RequestMapping("/notifications")
 public class NotificationController {
     @Autowired
     private NotificationRepository notificationRepository;

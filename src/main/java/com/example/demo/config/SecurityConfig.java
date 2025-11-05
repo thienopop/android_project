@@ -1,4 +1,3 @@
-
 package com.example.demo.config;
 
 import com.example.demo.service.UserDetailsServiceImpl;
@@ -28,8 +27,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").permitAll() // Cho phép login/register không cần token
-                        .requestMatchers("/user/**").permitAll()
+                        .requestMatchers("/api/**").permitAll() // Chỉ thêm dòng này để tiện hơn cho việc test API
+                        .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .anyRequest().authenticated()
                 )
