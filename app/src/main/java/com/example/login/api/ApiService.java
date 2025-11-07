@@ -19,10 +19,10 @@ import java.util.Locale;
 
 
 public interface ApiService {
-    @POST("/user/register")
+    @POST("/auth/register")
     Call<RegisterLoginResponse> registerUser(@Body User user);
 
-    @POST("/user/login")
+    @POST("/auth/login")
     Call<RegisterLoginResponse> login(@Body User user);
 
     // ✅ API lấy danh sách session theo gia sư và ngày
