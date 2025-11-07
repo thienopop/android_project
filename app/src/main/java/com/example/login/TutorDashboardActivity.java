@@ -7,10 +7,10 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.login.fragments.SessionsTodayFragment;
+import com.example.login.fragments.HomeFragment;
 import com.example.login.fragments.MessagesFragment;
 import com.example.login.fragments.ProfileFragment;
-import com.example.login.fragments.SessionsFragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TutorDashboardActivity extends AppCompatActivity {
@@ -25,10 +25,10 @@ public class TutorDashboardActivity extends AppCompatActivity {
         // Gắn sự kiện click vào các mục trong Bottom Navigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
-                loadFragment(new SessionsTodayFragment());
+                loadFragment(new HomeFragment());
                 return true;
             } else if (item.getItemId() == R.id.nav_sessions) {
-                loadFragment(new SessionsFragment());
+                loadFragment(new HomeFragment());
                 return true;
             } else if (item.getItemId() == R.id.nav_messages) {
                 loadFragment(new MessagesFragment());

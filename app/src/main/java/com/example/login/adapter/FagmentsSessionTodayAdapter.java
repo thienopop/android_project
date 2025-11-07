@@ -29,8 +29,8 @@ public class FagmentsSessionTodayAdapter extends ArrayAdapter<SessionInfo> {
         TextView txtTutor = view.findViewById(R.id.txtTutor);
         TextView txtStatus = view.findViewById(R.id.txtStatus);
         TextView txtDuration = view.findViewById(R.id.txtDuration);
-
         TextView txtSessionDate = view.findViewById(R.id.txtSessionDate);
+
         if (session != null) {
             view.setTag(session.getId()); //getId()
             txtSubject.setText("📘 " + session.getSubject());

@@ -17,7 +17,7 @@ import com.example.login.adapter.FagmentsSessionTodayAdapter;
 
 import java.util.List;
 
-public class TutorDashboarActivity extends AppCompatActivity {
+public class TutorDashboarActivityModel extends AppCompatActivity {
 
     ListView listViewSessions;
 
@@ -40,23 +40,23 @@ public class TutorDashboarActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
 
                     List<SessionInfo> sessionList = response.body();
-                    FagmentsSessionTodayAdapter adapter = new FagmentsSessionTodayAdapter(TutorDashboarActivity.this, sessionList);
+                    FagmentsSessionTodayAdapter adapter = new FagmentsSessionTodayAdapter(TutorDashboarActivityModel.this, sessionList);
                     listViewSessions.setAdapter(adapter);
 
                     // Bắt sự kiện click item
                     listViewSessions.setOnItemClickListener((parent, view, position, id) -> {
                         SessionInfo ss = sessionList.get(position);
-                        Toast.makeText(TutorDashboarActivity.this, "Bạn chọn session ID: " + ss.getId(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TutorDashboarActivityModel.this, "Bạn chọn session ID: " + ss.getId(), Toast.LENGTH_SHORT).show();
                     });
 
                 } else {
-                    Toast.makeText(TutorDashboarActivity.this, "⚠️ API trả về rỗng", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TutorDashboarActivityModel.this, "⚠️ API trả về rỗng", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<SessionInfo>> call, Throwable t) {
-                Toast.makeText(TutorDashboarActivity.this, "❌ Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(TutorDashboarActivityModel.this, "❌ Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

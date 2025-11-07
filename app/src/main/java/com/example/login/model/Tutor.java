@@ -13,7 +13,7 @@ public class Tutor {
     private String fullName;
     private String phone;
     private String address;
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
     private String bio;
     private Integer experienceYears;
     private Double hourlyRate;
@@ -21,12 +21,36 @@ public class Tutor {
     private Integer totalSessions;
     private Double averageRating;
     private String profileImage;
+
+
+
+
+
+
+
 //    private LocalDateTime createdAt ;
 //    private LocalDateTime updatedAt;
 
     // ===== Constructors =====
 
     // ===== Getters & Setters =====
+//    public LocalDateTime getUpdatedAt()
+//    {
+//        return updatedAt;
+//    }
+//    public void  setUpdatedAt( LocalDateTime localdate)
+//    {
+//        updatedAt= localdate;
+//    }
+//    public LocalDateTime getCreatedAt()
+//    {
+//        return createdAt;
+//    }
+//    public void  setCreatedAt( LocalDateTime localdate)
+//    {
+//        createdAt= localdate;
+//    }
+
     public int getId() {
         return id;
     }
@@ -58,11 +82,12 @@ public class Tutor {
         this.address = address;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+    public String getDateOfBirth() {
+        return dateOfBirth.toString();
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

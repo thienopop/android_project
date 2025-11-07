@@ -23,11 +23,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import com.example.login.R;
 
-public class SessionsTodayFragment extends Fragment {
+public class ShowSessionsFragment extends Fragment {
 
     private ListView listViewSessions;
 
-    public SessionsTodayFragment() {
+    public ShowSessionsFragment() {
         // Required empty public constructor
     }
 

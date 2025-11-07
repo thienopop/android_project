@@ -1,0 +1,162 @@
+package com.example.login.fragments;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.example.login.R;
+import com.example.login.adapter.FragmentsCourseAdapter;
+import com.example.login.api.ApiService;
+import com.example.login.api.RetrofitClient;
+import com.example.login.model.CourseInfo;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class ShowCourseFragment extends Fragment {
+
+    private ListView listViewCourse;
+    private TextView txtMessage;
+    private String status = "ONGOING"; // Giá trị mặc định
+
+    private Button btnShowPENDING, btnShowSTUDENT_REGISTERED,
+            btnShowONGOING, btnShowCOMPLETED, btnShowCANCELLED;
+
+    public ShowCourseFragment() {
+        // Required empty public constructor
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_sup_course, container, false);
+
+        listViewCourse = view.findViewById(R.id.listViewCourse);
+        txtMessage = view.findViewById(R.id.txtMessage); // Dùng để hiển thị message rỗng/lỗi
+
+        btnShowPENDING = view.findViewById(R.id.btnShowPENDING);
+        btnShowSTUDENT_REGISTERED = view.findViewById(R.id.btnShowSTUDENT_REGISTERED);
+        btnShowONGOING = view.findViewById(R.id.btnShowONGOING);
+        btnShowCOMPLETED = view.findViewById(R.id.btnShowCOMPLETED);
+        btnShowCANCELLED = view.findViewById(R.id.btnShowCANCELLED);
+
+        setupButton(btnShowPENDING, "PENDING");
+        setupButton(btnShowSTUDENT_REGISTERED, "STUDENT_REGISTERED");
+        setupButton(btnShowONGOING, "ONGOING");
+        setupButton(btnShowCOMPLETED, "COMPLETED");
+        setupButton(btnShowCANCELLED, "CANCELLED");
+
+        // Phục hồi trạng thái sau khi xoay màn hình/xuất hiện lại
+        if (savedInstanceState != null) {
+            status = savedInstanceState.getString("status", "ONGOING");
+        }
+
+        highlightSelectedButton(getButtonByStatus(status));
+        loadCourses(status);
+
+        return view;
+    }
+
+    private void loadCourses(String status) {
+        if (getContext() == null) return;
+        txtMessage.setText("Đang tải khóa học...");
+        txtMessage.setVisibility(View.VISIBLE);
+        listViewCourse.setAdapter(null);
+
+        ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
+        Call<List<CourseInfo>> call = apiService.getCourseByTutor(status);
+
+        call.enqueue(new Callback<List<CourseInfo>>() {
+            @Override
+            public void onResponse(Call<List<CourseInfo>> call, Response<List<CourseInfo>> response) {
+                if (!isAdded()) return; // Tránh lỗi nếu fragment đã bị detach
+
+                if (response.isSuccessful() && response.body() != null) {
+                    List<CourseInfo> courseList = response.body();
+
+                    if (courseList.isEmpty()) {
+                        txtMessage.setText("Không có khóa học với trạng thái: " + status);
+                        txtMessage.setVisibility(View.VISIBLE);
+                        return;
+                    }
+
+                    txtMessage.setVisibility(View.GONE);
+                    FragmentsCourseAdapter adapter = new FragmentsCourseAdapter(getContext(), courseList);
+                    listViewCourse.setAdapter(adapter);
+
+                    listViewCourse.setOnItemClickListener((parent, view, position, id) -> {
+                        CourseInfo course = courseList.get(position);
+                        Toast.makeText(getContext(),
+                                "Bạn chọn khóa học ID: " + course.getId(),
+                                Toast.LENGTH_SHORT).show();
+                        // TODO: mở Fragment chi tiết khóa học tại đây (nếu cần)
+                    });
+                } else {
+                    txtMessage.setText("⚠️ API trả về dữ liệu không hợp lệ!");
+                    txtMessage.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CourseInfo>> call, Throwable t) {
+                if (!isAdded()) return;
+                txtMessage.setText("❌ Lỗi kết nối API: " + t.getMessage());
+                txtMessage.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void setupButton(Button button, String newStatus) {
+        button.setOnClickListener(v -> {
+            status = newStatus;
+            highlightSelectedButton(button);
+            loadCourses(status);
+        });
+    }
+
+    private void highlightSelectedButton(Button selectedButton) {
+        resetButtonColors();
+        selectedButton.setBackgroundColor(Color.parseColor("#4CAF50")); // Màu xanh đẹp hơn
+        selectedButton.setTextColor(Color.WHITE);
+    }
+
+    private void resetButtonColors() {
+        Button[] buttons = {btnShowPENDING, btnShowSTUDENT_REGISTERED, btnShowONGOING, btnShowCOMPLETED, btnShowCANCELLED};
+        for (Button btn : buttons) {
+            btn.setBackgroundColor(Color.LTGRAY);
+            btn.setTextColor(Color.BLACK);
+        }
+    }
+
+    private Button getButtonByStatus(String status) {
+        switch (status) {
+            case "PENDING": return btnShowPENDING;
+            case "STUDENT_REGISTERED": return btnShowSTUDENT_REGISTERED;
+            case "ONGOING": return btnShowONGOING;
+            case "COMPLETED": return btnShowCOMPLETED;
+            case "CANCELLED": return btnShowCANCELLED;
+            default: return btnShowONGOING;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString("status", status);
+        super.onSaveInstanceState(outState);
+    }
+}
