@@ -1,5 +1,5 @@
 package com.example.demo.controller;
-
+import  com.example.demo.entity.entity_design.CourseInfo;
 import com.example.demo.entity.Tutor;
 import com.example.demo.repository.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +58,13 @@ public class CourseController {
         return courseOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // lấy danh sách khóa học của tutor hiện tại theo trạng thái
+ // lấy danh sách khóa học của tutor hiện tại theo trạng thái
 // phải chính tutor đó mới xem được
-    @GetMapping("/my_courses")
-public ResponseEntity<?> getMyCoursesByStatus(@RequestParam String status) {
+@GetMapping("/my_courses/{status}")
+public ResponseEntity<?> getMyCoursesByStatus(@PathVariable String status) {
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
     Optional<Tutor> tutorOpt = tutorRepository.findByUser_Username(username);
+
     if (tutorOpt.isEmpty()) {
         return ResponseEntity.status(404).body(Map.of(
             "error", "Không tìm thấy tutor cho user: " + username
@@ -72,7 +73,7 @@ public ResponseEntity<?> getMyCoursesByStatus(@RequestParam String status) {
 
     // Chuẩn hóa & kiểm tra status
     status = status.toUpperCase();
-    List<String> validStatuses = List.of("PENDING", "ONGOING", "COMPLETED", "CANCELLED");
+    List<String> validStatuses = List.of("PENDING", "STUDENT_REGISTERED", "ONGOING", "COMPLETED", "CANCELLED");
     if (!validStatuses.contains(status)) {
         return ResponseEntity.badRequest().body(Map.of(
             "error", "Trạng thái không hợp lệ!",
@@ -80,16 +81,19 @@ public ResponseEntity<?> getMyCoursesByStatus(@RequestParam String status) {
         ));
     }
 
-    List<Course> courses = courseRepository.findByTutorAndStatus(tutorOpt.get(), status);
+    List<CourseInfo> courseInfo = courseRepository.findCoursesByTutorIdAndStatus(
+        tutorOpt.get().getId(), status
+    );
 
-    if (courses.isEmpty()) {
-        return ResponseEntity.ok(Map.of(
-            "message", "Không có khóa học nào với trạng thái " + status
-        ));
-    }
+    // if (courseInfo.isEmpty()) {
+    //     return ResponseEntity.ok(Map.of(
+    //         "message", "Không có khóa học nào với trạng thái " + status
+    //     ));
+    // }
 
-    return ResponseEntity.ok(courses);
+    return ResponseEntity.ok(courseInfo);
 }
+
 
     // ✅ Tạo mới khóa học (Tutor tạo)
     @PostMapping("/create")

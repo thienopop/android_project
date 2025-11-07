@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/auth")
 public class UserController {
 
     @Autowired
@@ -156,34 +156,5 @@ public ResponseEntity<?> studentLogin(@RequestBody Map<String, String> body) {
     ));
 }
 
-@PostMapping("/login")
-public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
-    String username = body.get("username");
-    String password = body.get("password");
-
-    // Kiểm tra có user hay không
-    User user = userRepository.findByUsername(username).orElse(null);
-    if (user == null) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body("Người dùng không tồn tại!");
-    }
-
-    // Kiểm tra mật khẩu
-    if (!passwordEncoder.matches(password, user.getPassword())) {
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body("Mật khẩu không đúng!");
-    }
-    //  ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
-
-    // Sinh token
-    String token = jwtTokenUtil.generateToken(user.getUsername());
-
-    return ResponseEntity.ok(Map.of(
-            "message", "Đăng nhập thành công",
-            "token", token
-    ));
-}
 
 }
