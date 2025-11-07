@@ -50,3 +50,4 @@ public class Session extends BaseEntity {
         }
     }
 }
+

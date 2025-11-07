@@ -1,5 +1,5 @@
 package com.example.demo.controller;
-
+import com.example.demo.entity.entity_design.SessionInfo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import com.example.demo.entity.Session;
@@ -147,20 +147,14 @@ public ResponseEntity<?> getSessionsByStudentStatusDate(
     // LocalDateTime endOfDay = sessionDate.atTime(LocalTime.MAX);
 
     // 🔍 Truy vấn buổi học trong ngày
-    List<Session> sessions = sessionRepository.findSessionsByStudentIdAndDate(
+    List<SessionInfo> sessions = sessionRepository.findSessionsByStudentIdAndDate(
             studentId, startOfDay, endOfDay);
 
     if (sessions.isEmpty()) {
         return ResponseEntity.status(404).body("Không có buổi học nào cho studentId = " + studentId + ", ngày = " + sessionDate);
     }
-
     return ResponseEntity.ok(sessions);
 }
-
-
-
-
-
     // lấy buổi học của tutor đăng nhập , và n diễ ra gày buổi học
  // Lấy buổi học của tutor đăng nhập và diễn ra trong ngày chỉ định
 @GetMapping("/by-tutor/date/{sessionDate}")
@@ -183,15 +177,15 @@ public ResponseEntity<?> getSessionsByTutorAndDate(
     Integer tutorId = tutorOpt.get().getId();
 
     // 🔍 Truy vấn buổi học trong ngày
-    List<Session> sessions = sessionRepository.findSessionsByTutorIdAndDate(
+    List<SessionInfo> sessionInfo = sessionRepository.findSessionsByTutorIdAndDate(
             tutorId, startOfDay, endOfDay);
 
-    if (sessions.isEmpty()) {
+    if (sessionInfo.isEmpty()) {
         return ResponseEntity.status(404).body("Không có buổi học nào cho tutorId = " 
                 + tutorId + ", ngày = " + sessionDate);
     }
 
-    return ResponseEntity.ok(sessions);
+    return ResponseEntity.ok(sessionInfo);
 }
 
 
@@ -257,7 +251,7 @@ public ResponseEntity<?> getSessionsByTutorAndDate(
     //lấy session theo course id
     @GetMapping("/by-course-id/{courseId}")
     public ResponseEntity<?> getSessionsByCourseId(@PathVariable Integer courseId) {
-        List<Session> sessions = sessionRepository.findByCourse_Id(courseId);
+        List<Session> sessions = sessionRepository.findByCourseId(courseId);
         if (sessions.isEmpty()) {
             return ResponseEntity.status(404).body("Không có buổi học nào cho courseId = " + courseId);
         }
