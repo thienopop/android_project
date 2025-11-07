@@ -27,14 +27,9 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-<<<<<<< HEAD
                         .requestMatchers("/api/**").permitAll() // Chỉ thêm dòng này để tiện hơn cho việc test API
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
-=======
-                        .requestMatchers("/api/**").permitAll() // Cho phép login/register không cần token
-                        .requestMatchers("/auth/**").permitAll() 
->>>>>>> javaBackEndThien
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -16,11 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-<<<<<<< HEAD:src/main/java/com/example/demo/controller/AuthController.java
 public class AuthController {
-=======
-public class UserController {
->>>>>>> javaBackEndThien:src/main/java/com/example/demo/controller/UserController.java
 
     @Autowired
     private UserRepository userRepository;
