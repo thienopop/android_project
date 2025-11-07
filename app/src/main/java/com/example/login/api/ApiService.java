@@ -18,26 +18,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
 public interface ApiService {
-    @POST("/auth/register")
+    @POST("auth/register")
     Call<RegisterLoginResponse> registerUser(@Body User user);
 
-    @POST("/auth/login")
+    @POST("auth/login")
     Call<RegisterLoginResponse> login(@Body User user);
 
     // ✅ API lấy danh sách session theo gia sư và ngày
-    @GET("/sessions/by-tutor/date/{sessionDate}")
+    @GET("sessions/by-tutor/date/{sessionDate}")
     Call<List<SessionInfo>> getSessionsByTutor(@Path("sessionDate") String sessionDate);
-    @GET("/tutors/me")
+    @GET("tutors/me")
     Call<Tutor> getTutorLogin();
 
-//    @GET("/api/courses/my_courses/{status}")
+//    @GET("courses/my_courses/{status}")
 //    Call<List<CourseInfo>> getCourseByTutor(@Path("status") String status);
 ////    http://localhost:8080/api/courses/my_courses?status=STUDENT_REGISTER
 //
 
-    @GET("/api/courses/my_courses/{status}")
+    @GET("courses/my_courses/{status}")
     Call<List<CourseInfo>> getCourseByTutor(@Path("status") String status);
 
 }
