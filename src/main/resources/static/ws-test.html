@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Test</title>
+</head>
+<body>
+<h3>WebSocket Chat Test</h3>
+<div>
+    <input id="msg" placeholder="Nhập tin nhắn...">
+    <button onclick="sendMessage()">Gửi</button>
+</div>
+<ul id="chat"></ul>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script>
+    const chatId = 1;
+    const senderId = 4;
+
+    fetch(`/api/chats/${chatId}/messages`)
+        .then(res => res.json())
+        .then(messages => {
+            const chatBox = document.getElementById('chat');
+            messages.forEach(m => {
+                const li = document.createElement('li');
+                li.textContent = `${m.senderId}: ${m.messageText}`;
+                chatBox.appendChild(li);
+            });
+        })
+        .catch(err => console.error('Error loading messages:', err));
+
+    const socket = new SockJS('/ws');
+    const stomp = Stomp.over(socket);
+
+    stomp.connect({}, () => {
+        console.log('Connected to WebSocket');
+        stomp.subscribe(`/topic/chats/${chatId}`, msg => {
+            const message = JSON.parse(msg.body);
+            const li = document.createElement('li');
+            li.textContent = `${message.senderId}: ${message.messageText}`;
+            document.getElementById('chat').appendChild(li);
+        });
+    });
+
+    function sendMessage() {
+        const input = document.getElementById('msg');
+        const msg = input.value.trim();
+        if (!msg) return;
+        stomp.send(`/app/chats/${chatId}`, {}, JSON.stringify({
+            senderId: senderId,
+            messageText: msg
+        }));
+        input.value = '';
+    }
+</script>
+</body>
+</html>

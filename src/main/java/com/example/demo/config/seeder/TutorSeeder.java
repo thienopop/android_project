@@ -15,10 +15,10 @@ public class TutorSeeder {
     @Autowired
     private TutorRepository tutorRepository;
 
-    public void createTutor(User user, String fullName, String phone, String address,
-                            LocalDate dateOfBirth, String bio, Integer experienceYears,
-                            Double hourlyRate, Boolean verified, Integer totalSessions,
-                            Double averageRating, String profileImage) {
+    public Tutor createTutor(User user, String fullName, String phone, String address,
+                             LocalDate dateOfBirth, String bio, Integer experienceYears,
+                             Double hourlyRate, Boolean verified, Integer totalSessions,
+                             Double averageRating, String profileImage) {
 
         Tutor tutor = new Tutor();
         tutor.setUser(user);
@@ -37,5 +37,6 @@ public class TutorSeeder {
         tutor.setUpdatedAt(LocalDateTime.now());
 
         tutorRepository.save(tutor);
+        return tutor;
     }
 }
