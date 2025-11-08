@@ -15,8 +15,8 @@ public class StudentSeeder {
     @Autowired
     private StudentRepository studentRepository;
 
-    public void createStudent(User user, String fullName, String phone, String address,
-                              LocalDate dateOfBirth, String grade, String description) {
+    public Student createStudent(User user, String fullName, String phone, String address,
+                                 LocalDate dateOfBirth, String grade, String description) {
 
         Student student = new Student();
         student.setUser(user);
@@ -29,5 +29,6 @@ public class StudentSeeder {
         student.setUpdatedAt(LocalDateTime.now());
 
         studentRepository.save(student);
+        return student;
     }
 }
