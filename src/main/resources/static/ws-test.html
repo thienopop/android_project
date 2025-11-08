@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +18,7 @@
     const chatId = 1;
     const senderId = 4;
 
-    fetch(`/api/chat/${chatId}/messages`)
+    fetch(`/api/chats/${chatId}/messages`)
         .then(res => res.json())
         .then(messages => {
             const chatBox = document.getElementById('chat');
@@ -36,7 +35,7 @@
 
     stomp.connect({}, () => {
         console.log('Connected to WebSocket');
-        stomp.subscribe(`/topic/chat/${chatId}`, msg => {
+        stomp.subscribe(`/topic/chats/${chatId}`, msg => {
             const message = JSON.parse(msg.body);
             const li = document.createElement('li');
             li.textContent = `${message.senderId}: ${message.messageText}`;
@@ -48,7 +47,7 @@
         const input = document.getElementById('msg');
         const msg = input.value.trim();
         if (!msg) return;
-        stomp.send(`/app/chat/${chatId}`, {}, JSON.stringify({
+        stomp.send(`/app/chats/${chatId}`, {}, JSON.stringify({
             senderId: senderId,
             messageText: msg
         }));

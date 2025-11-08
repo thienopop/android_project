@@ -5,25 +5,27 @@ import com.example.demo.entity.Message;
 import com.example.demo.repository.ChatRepository;
 import com.example.demo.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/chat")
+@RequestMapping("/chats")
 public class ChatController {
 
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
 
     @GetMapping("/{chatId}/messages")
-    public List<Message> getChatMessages(@PathVariable int chatId) {
-        Chat chat = chatRepository.findById(chatId).orElseThrow();
-        return messageRepository.findAll().stream()
-                .filter(m -> m.getChatId() == chat.getId())
-                .sorted(Comparator.comparing(Message::getCreatedAt))
-                .toList();
+    public ResponseEntity<?> getChatMessages(@PathVariable int chatId) {
+        Optional<Chat> chat = chatRepository.findById(chatId);
+        if (chat.isEmpty()) {
+            return ResponseEntity.status(404).body("Không tìm thấy đoạn chat với ID = " + chatId);
+        }
+        List<Message> messages = messageRepository.findByChatIdOrderByCreatedAtAsc(chatId);
+        return ResponseEntity.ok(messages);
     }
 }
