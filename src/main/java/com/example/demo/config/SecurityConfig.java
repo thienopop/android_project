@@ -30,6 +30,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/**").permitAll() // Chỉ thêm dòng này để tiện hơn cho việc test API
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/ws-test.html").permitAll()
+                        .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/sockjs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
