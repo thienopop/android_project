@@ -25,14 +25,27 @@ android:padding="16dp">
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Lich Học Hôm nay" />
+        android:text="@string/lich_hoc_titel"
+        android:background="@drawable/button_background_selector"
+        android:textColor="@color/button_text_color_selector"/>
 
     <Button
         android:id="@+id/btnShowFragmentB"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Khóa học" />
+        android:text="@string/khoa_hoc_title"
+        android:background="@drawable/button_background_selector"
+        android:textColor="@color/button_text_color_selector"/>
+
+
+<!--    <Button-->
+<!--        android:id="@+id/btnShowFragmentB"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Khóa học"-->
+<!--        style="@style/BlueButton"/>-->
 </LinearLayout>
 
 <androidx.fragment.app.FragmentContainerView

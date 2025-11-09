@@ -19,6 +19,7 @@ public class HomeFragment extends Fragment {
 //    private TextView tvCourse;
 //    private TextView tvSession;
     private Button btnShowFragmentA, btnShowFragmentB; // <-- Thêm nút
+    private Button[] allButtons;
 
     @Nullable
     @Override
@@ -33,6 +34,7 @@ public class HomeFragment extends Fragment {
 //        tvSession = view.findViewById(R.id.tvSession);
         btnShowFragmentA = view.findViewById(R.id.btnShowFragmentA);
         btnShowFragmentB = view.findViewById(R.id.btnShowFragmentB);
+        allButtons = new Button[]{btnShowFragmentB,btnShowFragmentA};
 
         return view;
     }
@@ -47,6 +49,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 // Tạo mới và tải Fragment A
                 loadChildFragment(new ShowSessionsFragment());
+                highlightSelectedButton(btnShowFragmentA);
             }
         });
 
@@ -55,12 +58,19 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 // Tạo mới và tải Fragment B
                 loadChildFragment(new ShowCourseFragment());
+                highlightSelectedButton(btnShowFragmentB);
+
+
+
             }
         });
 
         // Tải một fragment mặc định khi bắt đầu
         if (savedInstanceState == null) {
-            loadChildFragment(new ShowSessionsFragment()); // Tải Fragment A làm mặc định
+            loadChildFragment(new ShowSessionsFragment());
+            highlightSelectedButton(btnShowFragmentA);
+
+            // Tải Fragment A làm mặc định
         }
     }
 
@@ -80,4 +90,21 @@ public class HomeFragment extends Fragment {
 
         ft.commit();
     }
+
+
+
+    private void highlightSelectedButton(Button selectedButton) {
+        // 1. Bỏ chọn TẤT CẢ các button
+        for (Button btn : allButtons) {
+            btn.setSelected(false);
+        }
+
+        // 2. Chỉ CHỌN button được click
+        if (selectedButton != null) {
+            selectedButton.setSelected(true);
+        }
+    }
+
+
+
 }
