@@ -5,11 +5,7 @@
     <color name="button">#FFFFFFFF</color>
     <color name="bottom_nav_color">#000000</color>
     <color name="blue_primary">#2196F3</color>
-
-
     <color name="blue">#2196F3</color>
-
     <color name="blue_light">#03A9F4</color>
-
     <color name="blue_primary_dark">#1976D2</color> <!-- nút active -->
 </resources>

@@ -10,9 +10,9 @@
         android:title="Sessions" />
 
     <item
-        android:id="@+id/nav_messages"
+        android:id="@+id/nav_chats"
         android:icon="@drawable/ic_message"
-        android:title="Messages" />
+        android:title="Chats" />
 
     <item
         android:id="@+id/nav_profile"
