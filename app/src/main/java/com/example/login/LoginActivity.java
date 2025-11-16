@@ -1,15 +1,18 @@
 package com.example.login;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
+
 import com.example.login.api.ApiService;
 import com.example.login.api.PrefsHelper;
 import com.example.login.api.RetrofitClient;
 import com.example.login.model.User;
 import com.example.login.model.RegisterLoginResponse;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,11 +66,13 @@ public class LoginActivity extends AppCompatActivity {
 
                         String message = loginResponse.getMessage();  // ✅ Lấy message từ JSON
                         String token = loginResponse.getToken();      // ✅ Lấy token từ JSON
+                        int currentUserId = loginResponse.getCurrentUserId();    // ✅ Lấy currentUserId từ JSON
 
                         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
 
                         // 🔒 Lưu token vào SharedPreferences để dùng sau
                         PrefsHelper.saveToken(LoginActivity.this, token);
+                        PrefsHelper.saveCurrentUserId(LoginActivity.this, currentUserId);
 //cáh lấy token: String token = PrefsHelper.getToken(this);
 
 //                        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
@@ -82,12 +87,13 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             // Lấy thông báo lỗi trả về từ server (nếu có)
                             String errorBody = response.errorBody().string();
-                            Toast.makeText(LoginActivity.this,  errorBody, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, errorBody, Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             Toast.makeText(LoginActivity.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
-                    }}
+                    }
+                }
 
                 @Override
                 public void onFailure(Call<RegisterLoginResponse> call, Throwable t) {
