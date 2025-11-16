@@ -65,7 +65,7 @@
         android:text="Đăng ký"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/button" />
+        android:backgroundTint="@color/blue" />
     <TextView
         android:id="@+id/FtvBackLogin"
         android:text="Quay lại đăng nhập"

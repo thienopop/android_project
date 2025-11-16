@@ -8,5 +8,11 @@
     <string name="cancelled_title">Huỹ</string>
     <string name="completed_title">Hoàn thành</string>
     <string name="register_title">Chờ đăng ký</string>
+    <string name="log_out">Đăng xuất</string>
+    <string name="notification">Thông báo</string>
+    <string name="edit_profile">Chỉnh sửa thông tin</string>
+    <string name="setting">Cài đặt</string>
+    <string name="payment">Thanh toán</string>
+
 
 </resources>

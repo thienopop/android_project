@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"  android:layout_marginBottom="24dp"  android:padding="8dp"> <ImageView
+        android:id="@+id/tutor_avatar"
+        android:layout_width="48dp"         android:layout_height="48dp"        android:src="@drawable/tutor_image"
+        android:contentDescription="Ảnh đại diện gia sư" />
+
+        <TextView
+            android:id="@+id/tvTutorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"  android:text="Trịnh Xuân Thiện"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+
+            android:text="SDT: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvSdt"
+            android:text="0889002058"
+            android:textSize="18sp"
+
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Địa chỉ: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvDiaChi"
+            android:text="Thôn 5 xã cư ni huyện eakar"
+            android:textSize="18sp"
+
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Ngày sinh: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvNgaySinh"
+            android:text="2044/2/2"
+            android:textSize="18sp"
+
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Bio: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvBio"
+            android:text="từng lười học"
+            android:textSize="18sp"
+
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Kinh nghiêm: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvKinhNghiem"
+            android:text="8 năm"
+            android:textSize="18sp"
+
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tvEditProfile"
+        android:text="Sửa thông tin"
+        android:textSize="18sp"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        />
+
+
+    <!--    <TextView-->
+    <!--        android:text="Tutor:"-->
+    <!--        android:textSize="28sp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        android:layout_marginBottom="24dp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content" />-->
+
+
+</LinearLayout>
+
+
+
+
+
+    <!--    {-->
+    <!--    "id": 2,-->
+    <!--    "user_Id": 9,-->
+    <!--    "fullName": "Nguyễn Văn A",-->
+    <!--    "phone": "0987123456",-->
+    <!--    "address": "Hà Nội",-->
+    <!--    "dateOfBirth": "1990-05-12",-->
+    <!--    "bio": "Giảng viên dạy toán 10 năm kinh nghiệm",-->
+    <!--    "experienceYears": 10,-->
+    <!--    "hourlyRate": 250000.0,-->
+    <!--    "verified": false,-->
+    <!--    "totalSessions": 0,-->
+    <!--    "averageRating": 0.0,-->
+    <!--    "profileImage": "https://example.com/avatar.jpg",-->
+    <!--    "createdAt": "2025-10-28T15:03:55",-->
+    <!--    "updatedAt": "2025-10-30T12:15:13"-->
+    <!--    }-->
+
+
+

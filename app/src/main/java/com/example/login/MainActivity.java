@@ -15,8 +15,6 @@ public class MainActivity extends AppCompatActivity {
         if (username == null || username.isEmpty()) {
             username = "Khách hàng";
         }
-
-
         tvWelcome.setText("Xin chào, " + username + "!");
     }
 }
