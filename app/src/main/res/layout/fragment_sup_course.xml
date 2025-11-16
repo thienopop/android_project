@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+<!--    android:text="@string/khoa_hoc_title"-->
+
+<!--    style="@style/TransparentButton"-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnShowONGOING"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ongoing_title"
+            android:background="@drawable/button_background_selector"
+            android:textColor="@color/button_text_color_selector"/>
+        <Button
+            android:id="@+id/btnShowPENDING"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/pending_title"
+            android:background="@drawable/button_background_selector"
+            android:textColor="@color/button_text_color_selector"/>
+        <Button
+            android:id="@+id/btnShowSTUDENT_REGISTERED"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/register_title"
+            android:background="@drawable/button_background_selector"
+            android:textColor="@color/button_text_color_selector"/>
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnShowCOMPLETED"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/completed_title"
+            android:background="@drawable/button_background_selector"
+            android:textColor="@color/button_text_color_selector"/>
+
+        <Button
+            android:id="@+id/btnShowCANCELLED"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cancelled_title"
+            android:background="@drawable/button_background_selector"
+            android:textColor="@color/button_text_color_selector"/>
+
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/txtMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#888"
+        android:gravity="center"
+        android:padding="16dp"
+        android:visibility="gone" />
+
+
+    <!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/child_fragment_container"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_marginTop="16dp" />-->
+    <ListView
+        android:id="@+id/listViewCourse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

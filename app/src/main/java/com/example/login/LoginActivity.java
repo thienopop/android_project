@@ -1,9 +1,21 @@
 package com.example.login;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
-import android.view.View;
+
+import com.example.login.api.ApiService;
+import com.example.login.api.PrefsHelper;
+import com.example.login.api.RetrofitClient;
+import com.example.login.model.User;
+import com.example.login.model.RegisterLoginResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -11,74 +23,95 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvForgotPassword, tvRegister;
 
-    private final String CORRECT_USERNAME = "admin";
-    private final String CORRECT_PASSWORD = "123456";
+    private ApiService apiService;  // ✅ Retrofit API interface
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Ánh xạ view
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvForgotPassword = findViewById(R.id.FtvForgotPassword);
         tvRegister = findViewById(R.id.FtvRegister);
 
+        // ✅ Khởi tạo Retrofit
+        apiService = RetrofitClient.getClient(this).create(ApiService.class);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = edtUsername.getText().toString().trim();
-                String password = edtPassword.getText().toString().trim();
+        // --- Xử lý khi nhấn nút Đăng nhập ---
+        btnLogin.setOnClickListener(v -> {
+            String username = edtUsername.getText().toString().trim();
+            String password = edtPassword.getText().toString().trim();
 
-                if (username.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show();
-                    return;
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // ✅ Tạo user gửi đi
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+
+            // ✅ Gọi API đăng nhập
+            Call<RegisterLoginResponse> call = apiService.login(user);
+            call.enqueue(new Callback<RegisterLoginResponse>() {
+                @Override
+                public void onResponse(Call<RegisterLoginResponse> call, Response<RegisterLoginResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+
+                        RegisterLoginResponse loginResponse = response.body();
+
+                        String message = loginResponse.getMessage();  // ✅ Lấy message từ JSON
+                        String token = loginResponse.getToken();      // ✅ Lấy token từ JSON
+                        int currentUserId = loginResponse.getCurrentUserId();    // ✅ Lấy currentUserId từ JSON
+
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+
+                        // 🔒 Lưu token vào SharedPreferences để dùng sau
+                        PrefsHelper.saveToken(LoginActivity.this, token);
+                        PrefsHelper.saveCurrentUserId(LoginActivity.this, currentUserId);
+//cáh lấy token: String token = PrefsHelper.getToken(this);
+
+//                        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+//                        prefs.edit().putString("token", token).apply();
+
+                        // 👉 Chuyển sang màn hình chính
+                        Intent intent = new Intent(LoginActivity.this, TutorDashboardActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        // ❌ Xử lý khi login thất bại (ví dụ sai tài khoản hoặc lỗi server)
+                        try {
+                            // Lấy thông báo lỗi trả về từ server (nếu có)
+                            String errorBody = response.errorBody().string();
+                            Toast.makeText(LoginActivity.this, errorBody, Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(LoginActivity.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    }
                 }
 
-                if (username.equals(CORRECT_USERNAME) && password.equals(CORRECT_PASSWORD)) {
-                    Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("username", username);
-                    startActivity(intent);
-
-//                    putExtra(key, value): gắn dữ liệu vào Intent để gửi sang Activity khác.
-//
-//                    key: tên dữ liệu, ở đây là "username".
-//
-//                            value: giá trị muốn gửi, ở đây là biến username mà người dùng vừa nhập.
-//
-//                            Trong MainActivity, bạn sẽ lấy giá trị này bằng getIntent().getStringExtra("username").
-                    finish();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Sai tên đăng nhập hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+                @Override
+                public void onFailure(Call<RegisterLoginResponse> call, Throwable t) {
+                    Toast.makeText(LoginActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-            }
+            });
         });
 
-
-        tvForgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-                    startActivity(intent);
-              finish();
-            }
+        // --- Quên mật khẩu ---
+        tvForgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
         });
 
-        tvRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        // --- Đăng ký ---
+        tvRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
-
-
-
-
     }
 }
-

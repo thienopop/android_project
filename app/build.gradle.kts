@@ -17,7 +17,8 @@ android {
     }
 
     buildTypes {
-        release {
+        // Dùng getByName để cấu hình một build type đã có (như "release")
+        getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -25,14 +26,17 @@ android {
             )
         }
     }
+
+    // ⭐ SỬA LỖI 1: Cú pháp .kts dùng dấu '=' và 'isCoreLibraryDesugaringEnabled'
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true // Sửa từ 'coreLibraryDesugaringEnabled'
     }
 }
 
 dependencies {
-
+    implementation("com.google.android.material:material:1.11.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -40,4 +44,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Retrofit for REST API calls
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    // Converter GSON for automatic JSON <-> Java object mapping
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    // ⭐ SỬA LỖI 2: Cú pháp .kts dùng dấu ngoặc đơn ()
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }

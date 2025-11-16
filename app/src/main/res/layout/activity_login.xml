@@ -8,7 +8,7 @@
     android:background="#FAFAFA">
 
     <TextView
-        android:text="My App"
+        android:text="TUTOR"
         android:textSize="28sp"
         android:textStyle="bold"
         android:layout_marginBottom="24dp"
@@ -27,7 +27,7 @@
 
     <EditText
         android:id="@+id/edtUsername"
-        android:hint="Gmail"
+        android:hint="Username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -50,8 +50,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:backgroundTint="#6200EE"
-        android:textColor="#FFFFFF" />
+        android:background="@color/button"
+        />
     <TextView
         android:id="@+id/FtvForgotPassword"
         android:text="Quên mật khẩu?"
