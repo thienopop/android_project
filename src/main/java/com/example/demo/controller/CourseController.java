@@ -37,19 +37,7 @@ public class CourseController {
         return courseRepository.findAll();
     }
 
-
-
-
-
     // chức năng cho tutor
-
-
-    
-
-
-
-
-
     // ✅ Xem chi tiết 1 khóa học theo id/ cả student và tutor đều xem được
 
     @GetMapping("/{id}")
@@ -107,11 +95,10 @@ public ResponseEntity<?> getMyCoursesByStatus(@PathVariable String status) {
         return ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
     }
         course.setTutor(tutorOpt.get());
-        course.setStatus("PENDING");
-        Course saved = courseRepository.save(course);
-        return ResponseEntity.ok(saved);
+     
+      
+        return ResponseEntity.ok(null);
     }
-
 
     // ✅ Cập nhật khóa học
     @PutMapping("/update")
