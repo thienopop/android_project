@@ -85,34 +85,64 @@ public class Seeder implements CommandLineRunner {
                 LocalDateTime.of(2025, 11, 12, 18, 30),
                 LocalDate.of(2025, 11, 12),
                 LocalDate.of(2025, 12, 12),
-                "SCHEDULED", "Củng cố kiến thức Lý và Hóa cho học sinh lớp 9");
+                "ONGOING", "Củng cố kiến thức Lý và Hóa cho học sinh lớp 9");
         Course course3 = courseSeeder.createCourse(tutor3, student3, "Tiếng Anh luyện thi", 12, 4_500_000.0, "Thứ 2,4 16h-17h30",
                 LocalDateTime.of(2025, 11, 11, 16, 0),
                 LocalDateTime.of(2025, 11, 11, 17, 30),
                 LocalDate.of(2025, 11, 11),
                 LocalDate.of(2025, 12, 30),
-                "SCHEDULED", "Luyện thi đại học và IELTS");
+                "ONGOING", "Luyện thi đại học và IELTS");
         Course course4 = courseSeeder.createCourse(
                 tutor1, student2, "Toán cơ bản", 8, 2_500_000.0, "Thứ 2,5 17h-18h30",
                 LocalDateTime.of(2025, 11, 15, 17, 0),
                 LocalDateTime.of(2025, 11, 15, 18, 30),
                 LocalDate.of(2025, 11, 15),
                 LocalDate.of(2025, 12, 15),
-                "SCHEDULED", "Lớp học dành cho học sinh cần củng cố Toán cơ bản");
+                "ONGOING", "Lớp học dành cho học sinh cần củng cố Toán cơ bản");
         Course course5 = courseSeeder.createCourse(
                 tutor2, student3, "Hóa nâng cao", 10, 3_200_000.0, "Thứ 3,6 18h-19h30",
                 LocalDateTime.of(2025, 11, 16, 18, 0),
                 LocalDateTime.of(2025, 11, 16, 19, 30),
                 LocalDate.of(2025, 11, 16),
                 LocalDate.of(2025, 12, 16),
-                "SCHEDULED", "Luyện tập Hóa nâng cao cho học sinh lớp 9-10");
+                "ONGOING", "Luyện tập Hóa nâng cao cho học sinh lớp 9-10");
         Course course6 = courseSeeder.createCourse(
                 tutor3, student1, "Tiếng Anh giao tiếp", 6, 1_800_000.0, "Thứ 4,7 16h-17h",
                 LocalDateTime.of(2025, 11, 17, 16, 0),
                 LocalDateTime.of(2025, 11, 17, 17, 0),
                 LocalDate.of(2025, 11, 17),
                 LocalDate.of(2025, 12, 17),
-                "SCHEDULED", "Cải thiện kỹ năng giao tiếp tiếng Anh cho học sinh lớp 10");
+                "ONGOING", "Cải thiện kỹ năng giao tiếp tiếng Anh cho học sinh lớp 10");
+        courseSeeder.createCourse(
+                tutor1, null, "Toán chuyên đề hình học", 0, 2_000_000.0,
+                "Thứ 2,4 19h-20h30",
+                LocalDateTime.of(2025, 11, 20, 19, 0),
+                LocalDateTime.of(2025, 11, 20, 20, 30),
+                LocalDate.of(2025, 11, 20),
+                LocalDate.of(2025, 12, 20),
+                "STUDENT_REGISTERED",
+                "Khoá học mở, đang chờ học viên đăng ký"
+        );
+        courseSeeder.createCourse(
+                tutor2, null, "Lý – Hóa tổng hợp", 0, 1_800_000.0,
+                "Thứ 3,5 19h-20h30",
+                LocalDateTime.of(2025, 11, 21, 19, 0),
+                LocalDateTime.of(2025, 11, 21, 20, 30),
+                LocalDate.of(2025, 11, 21),
+                LocalDate.of(2025, 12, 21),
+                "STUDENT_REGISTERED",
+                "Khoá học mở, đang chờ học viên đăng ký"
+        );
+        courseSeeder.createCourse(
+                tutor3, null, "Tiếng Anh giao tiếp cơ bản", 0, 1_500_000.0,
+                "Thứ 6,7 17h-18h30",
+                LocalDateTime.of(2025, 11, 22, 17, 0),
+                LocalDateTime.of(2025, 11, 22, 18, 30),
+                LocalDate.of(2025, 11, 22),
+                LocalDate.of(2025, 12, 22),
+                "STUDENT_REGISTERED",
+                "Khoá học mở, đang chờ học viên đăng ký"
+        );
 
         sessionSeeder.createSession(course1, LocalDateTime.of(2025, 11, 10, 18, 0), 90, "SCHEDULED", "Buổi 1: Ôn tập kiến thức cơ bản");
         sessionSeeder.createSession(course1, LocalDateTime.of(2025, 11, 12, 18, 0), 90, "SCHEDULED", "Buổi 2: Giải bài tập nâng cao");
