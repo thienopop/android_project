@@ -71,7 +71,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.VH> {
             List<ChatWithUserDetail> filtered = new ArrayList<>();
             for (ChatWithUserDetail c : original) {
                 String name = c.getFullName() == null ? "" : c.getFullName().toLowerCase();
-                String username = c.getUsername() == null ? "" : c.getUsername().toLowerCase();
+                String username = c.getUsername() == null ? "" : "@" + c.getUsername().toLowerCase();
                 if (name.contains(query) || username.contains(query)) filtered.add(c);
             }
             items = filtered;

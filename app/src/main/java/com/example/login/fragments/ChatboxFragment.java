@@ -61,8 +61,8 @@ public class ChatboxFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(v, savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
             chatId = getArguments().getInt("chatId", -1);
@@ -71,12 +71,12 @@ public class ChatboxFragment extends Fragment {
             chatFullName = getArguments().getString("chatFullName");
         }
 
-        tvName = v.findViewById(R.id.tvChatTopName);
-        tvUsername = v.findViewById(R.id.tvChatTopUsername);
-        rvMessages = v.findViewById(R.id.recyclerViewMessages);
-        etMessage = v.findViewById(R.id.etMessage);
-        btnBack = v.findViewById(R.id.btnBack);
-        btnSend = v.findViewById(R.id.btnSend);
+        tvName = view.findViewById(R.id.tvChatTopName);
+        tvUsername = view.findViewById(R.id.tvChatTopUsername);
+        rvMessages = view.findViewById(R.id.recyclerViewMessages);
+        etMessage = view.findViewById(R.id.etMessage);
+        btnBack = view.findViewById(R.id.btnBack);
+        btnSend = view.findViewById(R.id.btnSend);
 
         tvName.setText(chatFullName != null ? chatFullName : "(no name)");
         tvUsername.setText(chatUsername != null ? "@" + chatUsername : "");
@@ -88,10 +88,10 @@ public class ChatboxFragment extends Fragment {
         loadMessages();
         setupWebSocket();
 
-        btnBack.setOnClickListener(x -> {
+        btnBack.setOnClickListener(v -> {
             if (getActivity() != null) getActivity().getSupportFragmentManager().popBackStack();
         });
-        btnSend.setOnClickListener(x -> sendText());
+        btnSend.setOnClickListener(v -> sendText());
     }
 
     @Override
