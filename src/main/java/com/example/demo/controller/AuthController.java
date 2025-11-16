@@ -165,7 +165,8 @@ public ResponseEntity<?> studentLogin(@RequestBody Map<String, String> body) {
 
     return ResponseEntity.ok(Map.of(
             "message", "Đăng nhập thành công",
-            "token", token
+            "token", token,
+            "currentUserId", user.getId()
     ));
 }
 
