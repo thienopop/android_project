@@ -109,8 +109,6 @@ public class ChatboxFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Message>> call, Response<List<Message>> res) {
                 if (res.isSuccessful() && res.body() != null) {
-                    Log.d("ChatboxFragment", "loaded " + res.body().size() + " messages");
-                    Log.d("ChatboxFragment", "messages: " + gson.toJson(res.body()));
                     adapter.setMessages(res.body());
                     rvMessages.scrollToPosition(adapter.getItemCount() - 1);
                 }
