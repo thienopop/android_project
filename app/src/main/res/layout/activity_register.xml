@@ -7,7 +7,6 @@
     android:gravity="center"
     android:padding="24dp"
     android:background="#FAFAFA">
-
     <TextView
         android:text="TUTOR"
         android:textSize="28sp"

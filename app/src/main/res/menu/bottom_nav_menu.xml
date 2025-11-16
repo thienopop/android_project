@@ -8,6 +8,10 @@
         android:id="@+id/nav_sessions"
         android:icon="@drawable/ic_schedule"
         android:title="Sessions" />
+    <item
+        android:id="@+id/nav_create_course"
+        android:icon="@drawable/add_course"
+        android:title="Add course" />
 
     <item
         android:id="@+id/nav_chats"

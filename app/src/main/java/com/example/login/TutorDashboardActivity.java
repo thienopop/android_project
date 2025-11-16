@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import com.example.login.fragments.HomeFragment;
 import com.example.login.fragments.ChatsFragment;
 import com.example.login.fragments.ProfileFragment;
+import com.example.login.fragments.CreateCourseFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -27,6 +28,9 @@ public class TutorDashboardActivity extends AppCompatActivity {
                 return true;
             } else if (item.getItemId() == R.id.nav_sessions) {
                 loadFragment(new HomeFragment());
+                return true;
+            } else if (item.getItemId() == R.id.nav_create_course) {
+                loadFragment(new CreateCourseFragment());
                 return true;
             } else if (item.getItemId() == R.id.nav_chats) {
                 loadFragment(new ChatsFragment());

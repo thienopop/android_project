@@ -22,7 +22,16 @@ public class Course {
     private LocalDate endDate;
     private String status;
     private String notes;
+public  Course( String subject, String notes, String timeOfTheLesson, double totalPrice, int totalSessions)
+{
+    this.subject=subject;
+    this.notes=notes;
+    this.timeOfTheLesson=timeOfTheLesson;
+    this.totalPrice=totalPrice;
+    this.totalSessions=totalSessions;
 
+
+}
     // Getters và Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

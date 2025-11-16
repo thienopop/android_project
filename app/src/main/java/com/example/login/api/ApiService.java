@@ -3,6 +3,7 @@ package com.example.login.api;
 import com.example.login.model.ChatWithUserDetail;
 import com.example.login.model.Message;
 import com.example.login.model.Tutor;
+import com.example.login.model.Course;
 import com.example.login.model.SessionInfo;
 import com.example.login.model.CourseInfo;
 import com.example.login.model.UploadFileResponse;
@@ -21,10 +22,6 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 public interface ApiService {
     @POST("auth/register")
@@ -60,6 +57,10 @@ public interface ApiService {
     @Multipart
     @POST("files/upload")
     Call<UploadFileResponse> uploadFile(@Part MultipartBody.Part file);
+
+
+    @POST("courses/create")
+    Call<Void> AddCourse(@Body Course course);
 
     @GET("files/download/{filename}")
     Call<ResponseBody> downloadFile(@Path("filename") String filename);
