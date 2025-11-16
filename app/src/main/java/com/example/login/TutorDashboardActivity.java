@@ -1,14 +1,12 @@
 package com.example.login;
 
-
-
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.login.fragments.HomeFragment;
-import com.example.login.fragments.MessagesFragment;
+import com.example.login.fragments.ChatsFragment;
 import com.example.login.fragments.ProfileFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,8 +28,8 @@ public class TutorDashboardActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_sessions) {
                 loadFragment(new HomeFragment());
                 return true;
-            } else if (item.getItemId() == R.id.nav_messages) {
-                loadFragment(new MessagesFragment());
+            } else if (item.getItemId() == R.id.nav_chats) {
+                loadFragment(new ChatsFragment());
                 return true;
             } else if (item.getItemId() == R.id.nav_profile) {
                 loadFragment(new ProfileFragment());
@@ -39,7 +37,6 @@ public class TutorDashboardActivity extends AppCompatActivity {
             }
             return false;
         });
-
 
         // Load Fragment mặc định khi mở Activity
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
