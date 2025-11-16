@@ -9,6 +9,7 @@ import com.example.demo.repository.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,18 @@ public class AuthController {
     @GetMapping("/status")
     public ResponseEntity<String> status() {
         return ResponseEntity.ok("Hệ thống xác thực đang hoạt động");
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByUsername(username).orElse(null);
+
+        if (currentUser == null) {
+            return ResponseEntity.status(404).body("Không tìm thấy người dùng cho user: " + username);
+        }
+
+        return ResponseEntity.ok(currentUser);
     }
 
    @PostMapping("/register")
