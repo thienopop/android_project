@@ -89,18 +89,18 @@ public class ShowSessionsFragment extends Fragment {
             int month = myCalendar.get(Calendar.MONTH);
             int day = myCalendar.get(Calendar.DAY_OF_MONTH);
 
-            // ⭐ FIX 1: Dùng getContext() thay vì 'this'
-            // Chú ý: dùng requireContext() sẽ an toàn hơn, tránh NullPointerException
+            // FIX 1: Dùng getContext() thay vì 'this'
+            //  dùng requireContext() sẽ an toàn hơn, tránh NullPointerException
             DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
                     dateSetListener,
                     year, month, day);
             datePickerDialog.show();
 
-            // ⭐ FIX 2 & 3: Đã XÓA các dòng code lỗi ở đây
+            //  FIX 2 & 3: Đã XÓA các dòng code lỗi ở đây
         });
 
 
-        // ⭐ KHỞI ĐỘNG: Load dữ liệu cho ngày hôm nay khi Fragment mới mở
+        //  KHỞI ĐỘNG: Load dữ liệu cho ngày hôm nay khi Fragment mới mở
 
         // 1. Cập nhật EditText để hiển thị ngày hôm nay (Format UI)
         updateLabel();

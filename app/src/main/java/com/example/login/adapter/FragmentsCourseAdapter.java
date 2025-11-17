@@ -40,9 +40,8 @@ public class FragmentsCourseAdapter extends ArrayAdapter<CourseInfo> {
             txtStudent.setText("👨‍🏫 Học viên: " + course.getFullName());
             txtStatus.setText("⏳ Trạng thái: " + course.getStatus());
             txtStartDate.setText("🗓️ Ngày học: " + course.getStartTime());
-            txtTotalSessions.setText("⏱️ Tổng buổi học: " + course.getTotalSessions());
+            txtTotalSessions.setText("⏱️ Buổi học đã hoàn thành: " + course.getSessionCompleted()+"/"+ course.getTotalSessions());
         }
-
         return view;
     }
 }

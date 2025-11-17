@@ -10,9 +10,10 @@ public class CourseInfo {
     private String status;
     private String notes;
     private String startTime;
+    private int sessionCompleted;
 
 
-    public CourseInfo(int id, int totalSessions, String fullName, String subject, String status, String notes, String startTime) {
+    public CourseInfo(int id, int totalSessions, String fullName, String subject, String status, String notes, String startTime, int sessionCompleted ) {
         this.id = id;
         this.totalSessions= totalSessions;
         this.fullName = fullName;
@@ -20,6 +21,7 @@ public class CourseInfo {
         this.status = status;
         this.notes = notes;
         this.startTime = startTime;
+        this.sessionCompleted=sessionCompleted;
     }
 
     // Getter
@@ -30,4 +32,7 @@ public class CourseInfo {
     public String getStatus() { return status; }
     public String getNotes() { return notes; }
     public String getStartTime() { return startTime; }
+    public int getSessionCompleted(){
+        return sessionCompleted;
+    }
 }
