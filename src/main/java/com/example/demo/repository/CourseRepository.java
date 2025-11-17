@@ -24,4 +24,26 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 List<CourseInfo> findCoursesByTutorIdAndStatus(@Param("tutorId") int tutorId, @Param("status") String status);
 
 
+
+    @Query(value = "SELECT " +
+            "    c.id AS id, " +
+            "    c.start_time AS startTime, " +
+            "    c.total_sessions AS totalSessions, " +
+            "    c.notes AS notes, " +
+            "    c.status AS status, " +
+            "    s.full_name AS fullName, " +
+            "    c.subject AS subject, " +
+            "    COUNT(ss.id) AS sessionCompleted" + // Lưu ý: bỏ dấu gạch dưới để khớp với getter trong Java
+            "FROM " +
+            "    courses c " +
+            "LEFT JOIN " +
+            "    students s ON c.student_id = s.id " +
+            "LEFT JOIN " +
+            "    sessions ss ON c.id = ss.course_id AND ss.status = 'COMPLETED' " + // Hoặc 'COMPLETED' tùy bạn
+            "WHERE " +
+            "    c.tutor_id = :tutorId " +
+            "GROUP BY " +
+            "    c.id, c.start_time, c.total_sessions, c.notes, c.status, s.full_name, c.subject",
+            nativeQuery = true)
+    List<CourseInfo> findCoursesWithSessionCount(@Param("tutorId") Integer tutorId);
 }

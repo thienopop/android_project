@@ -95,8 +95,10 @@ public ResponseEntity<?> getMyCoursesByStatus(@PathVariable String status) {
         return ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
     }
         course.setTutor(tutorOpt.get());
+        course.setStatus("PENDING");
      
-      
+        Course newCourse = courseRepository.save(course);
+        //không gửi giữ liệu
         return ResponseEntity.ok(null);
     }
 

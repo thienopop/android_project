@@ -10,6 +10,7 @@ public interface CourseInfo {
     String getStatus();
     String getFullName();
     String getSubject();
+    Integer getSessionCompleted();
     //  private int id;
     // private int totalSessions;
     // private String fullName;

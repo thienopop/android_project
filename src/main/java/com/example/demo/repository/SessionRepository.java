@@ -74,7 +74,7 @@ List<Session> findSessionsByTutorIdAndStatus(
 //lấy danh sách session của gia sư theo ngày với thông tin chi tiết
         @Query("SELECT s.id AS id, s.sessionDate AS sessionDate, s.duration AS duration, " +
        "s.notes AS notes, s.status AS status, t.fullName AS fullName, c.subject AS subject " +
-       "FROM Session s JOIN s.course c JOIN c.student t " +
+       "FROM Session s JOIN s.course c left JOIN c.student t " +
        "WHERE c.tutor.id = :tutorId AND s.sessionDate BETWEEN :startOfDay AND :endOfDay")
 List<SessionInfo> findSessionsByTutorIdAndDate(
         @Param("tutorId") Integer tutorId,
@@ -88,7 +88,7 @@ List<SessionInfo> findSessionsByTutorIdAndDate(
         //lấy danh sách session của gia sư theo ngày với thông tin chi tiết
        @Query("SELECT s.id AS id, s.sessionDate AS sessionDate, s.duration AS duration, " +
        "s.notes AS notes, s.status AS status, t.fullName AS fullName, c.subject AS subject " +
-       "FROM Session s JOIN s.course c JOIN c.tutor t " +
+       "FROM Session s JOIN s.course c left JOIN c.tutor t " +
        "WHERE c.student.id = :studentId AND s.sessionDate BETWEEN :startOfDay AND :endOfDay")
 List<SessionInfo> findSessionsByStudentIdAndDate(
         @Param("studentId") Integer studentId,
