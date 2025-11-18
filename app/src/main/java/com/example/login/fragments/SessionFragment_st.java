@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.login.R;
 
-public class HomeFragment extends Fragment {
+public class SessionFragment_st extends Fragment {
 //
 //    private TextView tvCourse;
 //    private TextView tvSession;
@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_sup_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_sup_session_st, container, false);
 
 //        // Ánh xạ các view
 //        tvCourse = view.findViewById(R.id.tvCourse);
@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Tạo mới và tải Fragment A
-                loadChildFragment(new ShowSessionsFragment());
+                loadChildFragment(new ShowSessionsFragment_st());
                 highlightSelectedButton(btnShowFragmentA);
             }
         });
@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Tạo mới và tải Fragment B
-                loadChildFragment(new ShowCourseFragment());
+                loadChildFragment(new ShowCourseFragment_st());
                 highlightSelectedButton(btnShowFragmentB);
 
 
@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
 
         // Tải một fragment mặc định khi bắt đầu
         if (savedInstanceState == null) {
-            loadChildFragment(new ShowSessionsFragment());
+            loadChildFragment(new ShowSessionsFragment_st());
             highlightSelectedButton(btnShowFragmentA);
 
             // Tải Fragment A làm mặc định

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.login.R;
-import com.example.login.adapter.ChatsAdapter;
+import com.example.login.adapter.ChatsAdapter_st;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
 import com.example.login.model.ChatWithUserDetail;
@@ -25,10 +25,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChatsFragment extends Fragment implements ChatsAdapter.OnItemClickListener {
+public class ChatsFragment_st extends Fragment implements ChatsAdapter_st.OnItemClickListener {
 
     private RecyclerView recyclerView;
-    private ChatsAdapter adapter;
+    private ChatsAdapter_st adapter;
     private SearchView searchView;
 
     @Nullable
@@ -47,7 +47,7 @@ public class ChatsFragment extends Fragment implements ChatsAdapter.OnItemClickL
         searchView = view.findViewById(R.id.svChats);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ChatsAdapter(new ArrayList<>());
+        adapter = new ChatsAdapter_st(new ArrayList<>());
         adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
 
@@ -87,7 +87,7 @@ public class ChatsFragment extends Fragment implements ChatsAdapter.OnItemClickL
     @Override
     public void onItemClick(ChatWithUserDetail item) {
         if (getActivity() != null) {
-            androidx.fragment.app.Fragment chat = com.example.login.fragments.ChatboxFragment.newInstance(
+            androidx.fragment.app.Fragment chat = ChatboxFragment_st.newInstance(
                     item.getChatId(), item.getUserId(), item.getUsername(), item.getFullName());
             getActivity().getSupportFragmentManager()
                     .beginTransaction()

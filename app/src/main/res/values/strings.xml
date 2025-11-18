@@ -3,11 +3,10 @@
 
         <string name="lich_hoc_titel">Lịch Học</string>
         <string name="khoa_hoc_title">Khóa học</string>
-    <string name="ongoing_title">Đang dạy</string>
-    <string name="pending_title">Chưa xác nhận</string>
+    <string name="ongoing_title">Đang học</string>
     <string name="cancelled_title">Huỹ</string>
     <string name="completed_title">Hoàn thành</string>
-    <string name="register_title">Chờ đăng ký</string>
+    <string name="register_title">Đăng ký mới</string>
     <string name="log_out">Đăng xuất</string>
     <string name="notification">Thông báo</string>
     <string name="edit_profile">Chỉnh sửa thông tin</string>
@@ -20,7 +19,7 @@
     <string name="timeOfTheLesson">Giờ học cố định trong tuần/ vd: Tối thứ 2, 4, 6... </string>
     <string name="course_course">Thêm khoá học</string>
 
-    <string name="s1"></string>
+    <string name="student_tt">STUDENT</string>
     <string name="s2"></string>
     <string name="s3"></string>
     <string name="s5"></string>

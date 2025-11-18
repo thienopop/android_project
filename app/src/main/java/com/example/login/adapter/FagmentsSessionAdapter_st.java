@@ -12,16 +12,16 @@ import android.widget.TextView;
 import java.util.List;
 
 
-public class FagmentsSessionTodayAdapter extends ArrayAdapter<SessionInfo> {
+public class FagmentsSessionAdapter_st extends ArrayAdapter<SessionInfo> {
 
-    public FagmentsSessionTodayAdapter(Context context, List<SessionInfo> sessions) {
-        super(context, R.layout.list_item_fragment_sessions_today, sessions);
+    public FagmentsSessionAdapter_st(Context context, List<SessionInfo> sessions) {
+        super(context, R.layout.list_item_fragment_sessions_st, sessions);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view = convertView == null ? inflater.inflate(R.layout.list_item_fragment_sessions_today, parent, false) : convertView;
+        View view = convertView == null ? inflater.inflate(R.layout.list_item_fragment_sessions_st, parent, false) : convertView;
 
         SessionInfo session = getItem(position);
 
@@ -34,7 +34,7 @@ public class FagmentsSessionTodayAdapter extends ArrayAdapter<SessionInfo> {
         if (session != null) {
             view.setTag(session.getId()); //getId()
             txtSubject.setText("📘 " + session.getSubject());
-            txtTutor.setText("👨‍🏫Học viên: " + session.getFullName());
+            txtTutor.setText("👨‍🏫Giáo viên: " + session.getFullName());
             txtStatus.setText("⏳ Trạng thái: " + session.getStatus());
             txtSessionDate.setText("🗓️ Ngày học: " + session.getSessionDate());
             txtDuration.setText("Thời lượng: "+ session.getDuration());

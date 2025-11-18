@@ -8,7 +8,7 @@
     android:padding="24dp"
     android:background="#FAFAFA">
     <TextView
-        android:text="TUTOR"
+        android:text="@string/student_tt"
         android:textSize="28sp"
         android:textStyle="bold"
         android:layout_marginBottom="24dp"

@@ -2,7 +2,6 @@ package com.example.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
 import com.example.login.api.ApiService;
@@ -63,20 +62,26 @@ public class LoginActivity extends AppCompatActivity {
 
                         String message = loginResponse.getMessage();  // ✅ Lấy message từ JSON
                         String token = loginResponse.getToken();      // ✅ Lấy token từ JSON
-
+                        String role=loginResponse.getRole();
                         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
 
                         // 🔒 Lưu token vào SharedPreferences để dùng sau
                         PrefsHelper.saveToken(LoginActivity.this, token);
 //cáh lấy token: String token = PrefsHelper.getToken(this);
+//                        Kiểm tra role
+                        if (role.equals("STUDENT")) {
+                            // 👉 Navigate to Student Dashboard
+                            Intent intent = new Intent(LoginActivity.this, StudentDashboardActivity.class);
+                            startActivity(intent);
+                            finish(); // Prevents user from going back to Login using the Back button
+                        }
+                        //chuyển qua giao diện tutor.
+                        else{
+                            Intent intent = new Intent(LoginActivity.this, StudentDashboardActivity.class);
+                            startActivity(intent);
+                            finish(); // Prevents user from going back to Login using the Back button
+                        }
 
-//                        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-//                        prefs.edit().putString("token", token).apply();
-
-                        // 👉 Chuyển sang màn hình chính
-                        Intent intent = new Intent(LoginActivity.this, TutorDashboardActivity.class);
-                        startActivity(intent);
-                        finish();
                     } else {
                         // ❌ Xử lý khi login thất bại (ví dụ sai tài khoản hoặc lỗi server)
                         try {

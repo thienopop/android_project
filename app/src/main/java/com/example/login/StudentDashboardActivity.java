@@ -5,38 +5,34 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.login.fragments.HomeFragment;
-import com.example.login.fragments.ChatsFragment;
-import com.example.login.fragments.ProfileFragment;
-import com.example.login.fragments.CreateCourseFragment;
+import com.example.login.fragments.SessionFragment_st;
+import com.example.login.fragments.ChatsFragment_st;
+import com.example.login.fragments.ProfileFragment_st;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class TutorDashboardActivity extends AppCompatActivity {
+public class StudentDashboardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tutor_dashboard);
+        setContentView(R.layout.activity_student_dashboard_st);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         // Gắn sự kiện click vào các mục trong Bottom Navigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
-                loadFragment(new HomeFragment());
+                loadFragment(new SessionFragment_st());
                 return true;
             } else if (item.getItemId() == R.id.nav_sessions) {
-                loadFragment(new HomeFragment());
-                return true;
-            } else if (item.getItemId() == R.id.nav_create_course) {
-                loadFragment(new CreateCourseFragment());
+                loadFragment(new SessionFragment_st());
                 return true;
             } else if (item.getItemId() == R.id.nav_chats) {
-                loadFragment(new ChatsFragment());
+                loadFragment(new ChatsFragment_st());
                 return true;
             } else if (item.getItemId() == R.id.nav_profile) {
-                loadFragment(new ProfileFragment());
+                loadFragment(new ProfileFragment_st());
                 return true;
             }
             return false;

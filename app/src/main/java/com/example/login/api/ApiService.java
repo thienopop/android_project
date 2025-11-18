@@ -24,9 +24,11 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiService {
-    @POST("auth/register")
+    // chỉnh song
+    @POST("auth/student/register")
     Call<RegisterLoginResponse> registerUser(@Body User user);
-
+///student/register
+/// giữa nguyên
     @POST("auth/login")
     Call<RegisterLoginResponse> login(@Body User user);
 
@@ -34,7 +36,8 @@ public interface ApiService {
     Call<UserWithId> getCurrentUser();
 
     // API lấy danh sách session theo gia sư và ngày
-    @GET("sessions/by-tutor/date/{sessionDate}")
+    //đã sửa/by-student/date/{sessionDate}")
+    @GET("sessions/by-student/date/{sessionDate}")
     Call<List<SessionInfo>> getSessionsByTutor(@Path("sessionDate") String sessionDate);
 
     @GET("tutors/me")
@@ -47,6 +50,8 @@ public interface ApiService {
 
     @GET("courses/my_courses/{status}")
     Call<List<CourseInfo>> getCourseByTutor(@Path("status") String status);
+    @GET("courses/my_courses_student/{status}")
+    Call<List<CourseInfo>> getCourseByStudent(@Path("status") String status);
 
     @GET("chats/my_chats")
     Call<List<ChatWithUserDetail>> getMyChats();

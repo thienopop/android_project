@@ -6,10 +6,14 @@ android:layout_height="match_parent"
 android:orientation="vertical"
 android:padding="10dp"
     >
-
-
-
-
+<!--<TextView-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_marginStart="16dp"  -->
+<!--    android:text="Lớp học của tôi"-->
+<!--    android:textSize="24sp"-->
+<!--    android:gravity="center"-->
+<!--    android:textStyle="bold" />-->
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -38,14 +42,6 @@ android:padding="10dp"
         android:background="@drawable/button_background_selector"
         android:textColor="@color/button_text_color_selector"/>
 
-
-<!--    <Button-->
-<!--        android:id="@+id/btnShowFragmentB"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_weight="1"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Khóa học"-->
-<!--        style="@style/BlueButton"/>-->
 </LinearLayout>
 
 <androidx.fragment.app.FragmentContainerView

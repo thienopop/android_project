@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,7 +18,7 @@ import com.example.login.R;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
 import com.example.login.model.SessionInfo;
-import com.example.login.adapter.FagmentsSessionTodayAdapter;
+import com.example.login.adapter.FagmentsSessionAdapter_st;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowSessionsFragment extends Fragment {
+public class ShowSessionsFragment_st extends Fragment {
 
     private ListView listViewSessions;
     private EditText editTextDate;
@@ -43,7 +42,7 @@ public class ShowSessionsFragment extends Fragment {
     // ⭐ TÁCH RA: Định dạng này DÙNG ĐỂ GỌI API (phải khớp với backend)
     private SimpleDateFormat apiSdf;
 
-    public ShowSessionsFragment() {
+    public ShowSessionsFragment_st() {
         // Required empty public constructor
     }
 
@@ -53,7 +52,7 @@ public class ShowSessionsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_sessions_today, container, false);
+        View view = inflater.inflate(R.layout.fragment_sessions_today_st, container, false);
         listViewSessions = view.findViewById(R.id.listViewSessions);
         editTextDate = view.findViewById(R.id.editTextDate);
 
@@ -131,7 +130,7 @@ public class ShowSessionsFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     List<SessionInfo> sessionList = response.body();
                     txtMessage.setText("");
-                    FagmentsSessionTodayAdapter adapter = new FagmentsSessionTodayAdapter(getContext(), sessionList);
+                    FagmentsSessionAdapter_st adapter = new FagmentsSessionAdapter_st(getContext(), sessionList);
                     listViewSessions.setAdapter(adapter);
 
                     listViewSessions.setOnItemClickListener((parent, view, position, id) -> {
