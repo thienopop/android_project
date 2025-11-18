@@ -183,7 +183,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.login.R;
-import com.example.login.adapter.FragmentsCourseAdapter;
+import com.example.login.adapter.FragmentsCourseAdapter_st;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
 import com.example.login.model.CourseInfo;
@@ -194,19 +194,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowCourseFragment extends Fragment {
+public class ShowCourseFragment_st extends Fragment {
 
     private ListView listViewCourse;
     private TextView txtMessage;
     private String status = "ONGOING"; // Giá trị mặc định
 
-    private Button btnShowPENDING, btnShowSTUDENT_REGISTERED,
+    private Button  btnShowSTUDENT_REGISTERED,
             btnShowONGOING, btnShowCOMPLETED, btnShowCANCELLED;
 
     // Mảng này dùng để quản lý trạng thái selected
     private Button[] allButtons;
 
-    public ShowCourseFragment() {
+    public ShowCourseFragment_st() {
         // Required empty public constructor
     }
 
@@ -215,23 +215,19 @@ public class ShowCourseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_sup_course, container, false);
+        View view = inflater.inflate(R.layout.fragment_sup_course_st, container, false);
 
         listViewCourse = view.findViewById(R.id.listViewCourse);
         txtMessage = view.findViewById(R.id.txtMessage);
 
         // Ánh xạ các Button
-        btnShowPENDING = view.findViewById(R.id.btnShowPENDING);
         btnShowSTUDENT_REGISTERED = view.findViewById(R.id.btnShowSTUDENT_REGISTERED);
         btnShowONGOING = view.findViewById(R.id.btnShowONGOING);
         btnShowCOMPLETED = view.findViewById(R.id.btnShowCOMPLETED);
         btnShowCANCELLED = view.findViewById(R.id.btnShowCANCELLED);
 
         // Gộp các button vào mảng
-        allButtons = new Button[]{btnShowPENDING, btnShowSTUDENT_REGISTERED, btnShowONGOING, btnShowCOMPLETED, btnShowCANCELLED};
-
-        // Gán sự kiện click
-        setupButton(btnShowPENDING, "NEW");
+        allButtons = new Button[]{ btnShowSTUDENT_REGISTERED, btnShowONGOING, btnShowCOMPLETED, btnShowCANCELLED};
         setupButton(btnShowSTUDENT_REGISTERED, "STUDENT_REGISTERED");
         setupButton(btnShowONGOING, "ONGOING");
         setupButton(btnShowCOMPLETED, "COMPLETED");
@@ -256,7 +252,7 @@ public class ShowCourseFragment extends Fragment {
         listViewCourse.setAdapter(null);
 
         ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
-        Call<List<CourseInfo>> call = apiService.getCourseByTutor(status);
+        Call<List<CourseInfo>> call = apiService.getCourseByStudent(status);
 
         call.enqueue(new Callback<List<CourseInfo>>() {
             @Override
@@ -273,7 +269,7 @@ public class ShowCourseFragment extends Fragment {
                     }
 
                     txtMessage.setVisibility(View.GONE);
-                    FragmentsCourseAdapter adapter = new FragmentsCourseAdapter(getContext(), courseList);
+                    FragmentsCourseAdapter_st adapter = new FragmentsCourseAdapter_st(getContext(), courseList);
                     listViewCourse.setAdapter(adapter);
 
                     listViewCourse.setOnItemClickListener((parent, view, position, id) -> {
@@ -329,7 +325,6 @@ public class ShowCourseFragment extends Fragment {
 
     private Button getButtonByStatus(String status) {
         switch (status) {
-            case "PENDING": return btnShowPENDING;
             case "STUDENT_REGISTERED": return btnShowSTUDENT_REGISTERED;
             case "ONGOING": return btnShowONGOING;
             case "COMPLETED": return btnShowCOMPLETED;

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">login</string>
+    <string name="app_name">Tìm kiếm gia sư</string>
 
         <string name="lich_hoc_titel">Lịch Học</string>
         <string name="khoa_hoc_title">Khóa học</string>
@@ -20,7 +20,7 @@
     <string name="timeOfTheLesson">Giờ học cố định trong tuần/ vd: Tối thứ 2, 4, 6... </string>
     <string name="course_course">Thêm khoá học</string>
 
-    <string name="s1"></string>
+    <string name="login">Đăng nhập</string>
     <string name="s2"></string>
     <string name="s3"></string>
     <string name="s5"></string>
