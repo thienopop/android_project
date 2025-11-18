@@ -61,7 +61,7 @@ public ResponseEntity<?> getMyCoursesByStatus(@PathVariable String status) {
 
     // Chuẩn hóa & kiểm tra status
     status = status.toUpperCase();
-    List<String> validStatuses = List.of("PENDING", "STUDENT_REGISTERED", "ONGOING", "COMPLETED", "CANCELLED");
+    List<String> validStatuses = List.of("NEW", "STUDENT_REGISTERED", "ONGOING", "COMPLETED", "CANCELLED");
     if (!validStatuses.contains(status)) {
         return ResponseEntity.badRequest().body(Map.of(
             "error", "Trạng thái không hợp lệ!",
@@ -83,6 +83,57 @@ public ResponseEntity<?> getMyCoursesByStatus(@PathVariable String status) {
 }
 
 
+@GetMapping("/my_courses_student/{status}")
+public ResponseEntity<?> getMyCoursesStudentByStatus(@PathVariable String status) {
+    // 1. Lấy username từ Token
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    
+    // 2. Tìm Student (Cẩn thận lỗi Zero Date ở đây nếu chưa fix config DB)
+    Optional<Student> studentOpt = studentRepository.findByUser_Username(username);
+
+    if (studentOpt.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+            "error", "Không tìm thấy thông tin học viên cho tài khoản: " + username
+        ));
+    }
+
+    // 3. Chuẩn hóa input
+    String normalizedStatus = status.trim().toUpperCase();
+    
+    // Danh sách này PHẢI KHỚP CHÍNH XÁC với dữ liệu trong cột 'status' của bảng 'courses'
+    List<String> validStatuses = List.of("STUDENT_REGISTERED", "ONGOING", "COMPLETED", "CANCELLED");
+    
+    if (!validStatuses.contains(normalizedStatus)) {
+        return ResponseEntity.badRequest().body(Map.of(
+            "error", "Trạng thái '" + status + "' không hợp lệ!",
+            "valid_statuses", validStatuses
+        ));
+    }
+
+    // 4. Gọi Repository (Hàm native query đã fix ở bước trước)
+    List<CourseInfo> courseInfo = courseRepository.findCoursesByStudentIdAndStatus(
+        studentOpt.get().getId(), normalizedStatus
+    );
+    
+    return ResponseEntity.ok(courseInfo);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // ✅ Tạo mới khóa học (Tutor tạo)
     @PostMapping("/create")
     public ResponseEntity<?> createCourse(@RequestBody Course course) {
@@ -95,7 +146,7 @@ public ResponseEntity<?> getMyCoursesByStatus(@PathVariable String status) {
         return ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
     }
         course.setTutor(tutorOpt.get());
-        course.setStatus("PENDING");
+        course.setStatus("NEW");
      
         Course newCourse = courseRepository.save(course);
         //không gửi giữ liệu

@@ -18,32 +18,57 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     List<Course> findByTutorAndStatus(Tutor tutor, String status);
     List<Course> findByStudentAndStatus(Student student, String status);
 
-    @Query("SELECT c.id AS id, c.startTime AS startTime, c.totalSessions AS totalSessions, c.notes AS notes, c.status AS status, s.fullName AS fullName, c.subject AS subject " +
-       "FROM Course c LEFT JOIN Student s ON s.id = c.student.id " +
-       "WHERE c.tutor.id = :tutorId AND c.status = :status")
-List<CourseInfo> findCoursesByTutorIdAndStatus(@Param("tutorId") int tutorId, @Param("status") String status);
+//     @Query("SELECT c.id AS id, c.startTime AS startTime, c.totalSessions AS totalSessions, c.notes AS notes, c.status AS status, s.fullName AS fullName, c.subject AS subject " +
+//        "FROM Course c LEFT JOIN Student s ON s.id = c.student.id " +
+//        "WHERE c.tutor.id = :tutorId AND c.status = :status")
+// List<CourseInfo> findCoursesByTutorIdAndStatus(@Param("tutorId") int tutorId, @Param("status") String status);
 
 
+@Query(value = "SELECT " +
+        "    c.id AS id, " +
+        "    c.start_time AS startTime, " +
+        "    c.total_sessions AS totalSessions, " +
+        "    c.notes AS notes, " +
+        "    c.status AS status, " +
+        "    s.full_name AS fullName, " +
+        "    c.subject AS subject, " +
+        "    COUNT(ss.id) AS sessionCompleted " + // ADDED SPACE HERE
+        "FROM " +
+        "    courses c " +
+        "LEFT JOIN " +
+        "    students s ON c.student_id = s.id " +
+        "LEFT JOIN " +
+        "    sessions ss ON c.id = ss.course_id AND ss.status = 'COMPLETED' " +
+        "WHERE " +
+        "    c.tutor_id = :tutorId " +
+        "AND c.status = :status " +
+        "GROUP BY " +
+        "    c.id, c.start_time, c.total_sessions, c.notes, c.status, s.full_name, c.subject",
+        nativeQuery = true)
+List<CourseInfo> findCoursesByTutorIdAndStatus(@Param("tutorId") Integer tutorId, @Param("status") String status);
 
-    @Query(value = "SELECT " +
-            "    c.id AS id, " +
-            "    c.start_time AS startTime, " +
-            "    c.total_sessions AS totalSessions, " +
-            "    c.notes AS notes, " +
-            "    c.status AS status, " +
-            "    s.full_name AS fullName, " +
-            "    c.subject AS subject, " +
-            "    COUNT(ss.id) AS sessionCompleted" + // Lưu ý: bỏ dấu gạch dưới để khớp với getter trong Java
-            "FROM " +
-            "    courses c " +
-            "LEFT JOIN " +
-            "    students s ON c.student_id = s.id " +
-            "LEFT JOIN " +
-            "    sessions ss ON c.id = ss.course_id AND ss.status = 'COMPLETED' " + // Hoặc 'COMPLETED' tùy bạn
-            "WHERE " +
-            "    c.tutor_id = :tutorId " +
-            "GROUP BY " +
-            "    c.id, c.start_time, c.total_sessions, c.notes, c.status, s.full_name, c.subject",
-            nativeQuery = true)
-    List<CourseInfo> findCoursesWithSessionCount(@Param("tutorId") Integer tutorId);
+
+@Query(value = "SELECT " +
+        "    c.id AS id, " +
+        "    c.start_time AS startTime, " +
+        "    c.total_sessions AS totalSessions, " +
+        "    c.notes AS notes, " +
+        "    c.status AS status, " +
+        "    t.full_name AS fullName, " + // Lấy tên của Tutor (t)
+        "    c.subject AS subject, " +
+        "    COUNT(ss.id) AS sessionCompleted " + // ĐÃ THÊM DẤU CÁCH Ở CUỐI DÒNG NÀY
+        "FROM " +
+        "    courses c " +
+        "LEFT JOIN " +
+        "    tutors t ON c.tutor_id = t.id " + // Join vào bảng tutors dựa trên tutor_id của khóa học
+        "LEFT JOIN " +
+        "    sessions ss ON c.id = ss.course_id AND ss.status = 'COMPLETED' " +
+        "WHERE " +
+        "    c.student_id = :studentId " + // Lọc các khóa học của học viên này
+        "AND c.status = :status " +
+        "GROUP BY " +
+        "    c.id, c.start_time, c.total_sessions, c.notes, c.status, t.full_name, c.subject",
+        nativeQuery = true)
+List<CourseInfo> findCoursesByStudentIdAndStatus(@Param("studentId") Integer studentId, @Param("status") String status);
+
 }
