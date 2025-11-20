@@ -62,11 +62,13 @@ public class LoginActivity extends AppCompatActivity {
 
                         String message = loginResponse.getMessage();  // ✅ Lấy message từ JSON
                         String token = loginResponse.getToken();      // ✅ Lấy token từ JSON
+                        int currentUserId = loginResponse.getCurrentUserId();
                         String role=loginResponse.getRole();
                         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
 
                         // 🔒 Lưu token vào SharedPreferences để dùng sau
                         PrefsHelper.saveToken(LoginActivity.this, token);
+                        PrefsHelper.saveCurrentUserId(LoginActivity.this, currentUserId);
 //cáh lấy token: String token = PrefsHelper.getToken(this);
 //                        Kiểm tra role
                         if (role.equals("STUDENT")) {

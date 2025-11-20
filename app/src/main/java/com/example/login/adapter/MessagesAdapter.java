@@ -1,33 +1,35 @@
 package com.example.login.adapter;
 
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.view.Gravity;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.login.R;
+import com.example.login.api.PrefsHelper;
 import com.example.login.model.Message;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.VH> {
 
+    private Context context;
     private List<Message> messages;
-    private int currentUserId;
-    private OnAttachmentClickListener attachmentClickListener;
 
-    public MessagesAdapter(List<Message> messages, int currentUserId) {
+    public MessagesAdapter(Context context, List<Message> messages) {
+        this.context = context;
         this.messages = messages;
-        this.currentUserId = currentUserId;
     }
 
     public void setMessages(List<Message> data) {
@@ -40,10 +42,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.VH> {
         notifyItemInserted(messages.size() - 1);
     }
 
-    public void setOnAttachmentClickListener(OnAttachmentClickListener l) {
-        this.attachmentClickListener = l;
-    }
-
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,27 +52,34 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.VH> {
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         Message msg = messages.get(position);
-        boolean isCurrentUser = msg.getSenderId() != null && msg.getSenderId().intValue() == currentUserId;
-        boolean hasAttachment = msg.getAttachmentUrl() != null && !msg.getAttachmentUrl().isEmpty();
+        int currentUserId = PrefsHelper.getCurrentUserId(context);
+        boolean isCurrentUser = msg.getSenderId() != null && msg.getSenderId() == currentUserId;
 
         holder.tvMessage.setText(msg.getMessageText());
         holder.tvTimestamp.setText(formatTimestamp(msg.getCreatedAt()));
 
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.messageRow.getLayoutParams();
-        params.gravity = isCurrentUser ? Gravity.END : Gravity.START;
-        holder.messageRow.setLayoutParams(params);
-
-        int bubbleColor = isCurrentUser ? Color.parseColor("#DCF8C6") : Color.parseColor("#E0E0E0");
-        holder.tvMessage.setBackgroundTintList(ColorStateList.valueOf(bubbleColor));
-
-        holder.tvMessage.setTextColor(Color.BLACK);
-
-        if (hasAttachment && attachmentClickListener != null) {
-            holder.tvMessage.setTextColor(Color.DKGRAY);
-            holder.tvMessage.setOnClickListener(v -> attachmentClickListener.onAttachmentClick(msg));
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.tvMessage.getLayoutParams();
+        if (isCurrentUser) {
+            params.startToStart = ConstraintLayout.LayoutParams.UNSET;
+            params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
         } else {
-            holder.tvMessage.setOnClickListener(null);
+            params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
+            params.endToEnd = ConstraintLayout.LayoutParams.UNSET;
         }
+        holder.tvMessage.setLayoutParams(params);
+
+        ConstraintLayout.LayoutParams tsParams = (ConstraintLayout.LayoutParams) holder.tvTimestamp.getLayoutParams();
+        tsParams.startToStart = params.startToStart;
+        tsParams.endToEnd = params.endToEnd;
+        holder.tvTimestamp.setLayoutParams(tsParams);
+
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        int maxWidth = (int) (metrics.widthPixels * 0.8);
+        holder.tvMessage.setMaxWidth(maxWidth);
+
+        int bubbleColor = isCurrentUser ? Color.parseColor("#03A9F4") : Color.parseColor("#E0E0E0");
+        holder.tvMessage.setBackgroundTintList(ColorStateList.valueOf(bubbleColor));
+        holder.tvMessage.setTextColor(Color.BLACK);
     }
 
     @Override
@@ -83,28 +88,26 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.VH> {
     }
 
     static class VH extends RecyclerView.ViewHolder {
-        LinearLayout messageRow;
         TextView tvMessage, tvTimestamp;
 
         VH(@NonNull View itemView) {
             super(itemView);
-            messageRow = itemView.findViewById(R.id.messageRow);
             tvMessage = itemView.findViewById(R.id.tvMessage);
             tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
         }
     }
 
-    public interface OnAttachmentClickListener {
-        void onAttachmentClick(Message message);
-    }
-
     private String formatTimestamp(String iso) {
         if (iso == null || iso.isEmpty()) return "";
         try {
-            LocalDateTime dt = LocalDateTime.parse(iso, DateTimeFormatter.ISO_DATE_TIME);
-            return dt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+            SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+            Date date = input.parse(iso);
+
+            SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+            return output.format(date);
         } catch (Exception e) {
             return iso;
         }
     }
+
 }

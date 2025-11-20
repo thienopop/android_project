@@ -58,9 +58,9 @@ public class PrefsHelper {
         prefs.edit().putString(TOKEN_KEY, token).apply();
     }
 
-    public static void saveUserId(Context context, int userId) {
+    public static void saveCurrentUserId(Context context, int currentUserId) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        prefs.edit().putInt(USER_ID_KEY, userId).apply();
+        prefs.edit().putInt(USER_ID_KEY, currentUserId).apply();
     }
 
     public static String getToken(Context context) {
@@ -68,7 +68,7 @@ public class PrefsHelper {
         return prefs.getString(TOKEN_KEY, null);
     }
 
-    public static int getUserId(Context context) {
+    public static int getCurrentUserId(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return prefs.getInt(USER_ID_KEY, -1);
     }
@@ -78,7 +78,7 @@ public class PrefsHelper {
         prefs.edit().remove(TOKEN_KEY).apply();
     }
 
-    public static void clearUserId(Context context) {
+    public static void clearCurrentUserId(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         prefs.edit().remove(USER_ID_KEY).apply();
     }
