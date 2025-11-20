@@ -18,6 +18,10 @@ public class FagmentsSessionAdapter_st extends ArrayAdapter<SessionInfo> {
         super(context, R.layout.list_item_fragment_sessions_st, sessions);
     }
 
+
+
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());

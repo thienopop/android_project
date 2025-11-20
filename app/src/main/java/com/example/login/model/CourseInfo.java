@@ -12,7 +12,6 @@ public class CourseInfo {
     private String startTime;
     private int sessionCompleted;
 
-
     public CourseInfo(int id, int totalSessions, String fullName, String subject, String status, String notes, String startTime, int sessionCompleted ) {
         this.id = id;
         this.totalSessions= totalSessions;

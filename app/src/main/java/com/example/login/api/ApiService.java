@@ -6,6 +6,7 @@ import com.example.login.model.Tutor;
 import com.example.login.model.Course;
 import com.example.login.model.SessionInfo;
 import com.example.login.model.CourseInfo;
+import com.example.login.model.DetailCourse;
 import com.example.login.model.UploadFileResponse;
 import com.example.login.model.User;
 import com.example.login.model.RegisterLoginResponse;
@@ -25,7 +26,7 @@ import retrofit2.http.Path;
 
 public interface ApiService {
     // chỉnh song
-    @POST("auth/student/register")
+    @POST("auth/register")
     Call<RegisterLoginResponse> registerUser(@Body User user);
     ///student/register
     /// giữa nguyên
@@ -50,6 +51,11 @@ public interface ApiService {
 
     @GET("courses/my_courses/{status}")
     Call<List<CourseInfo>> getCourseByTutor(@Path("status") String status);
+
+//lấy thông tin. khoá hco theo id của tutor
+    @GET("courses/by_tutor/{id}")
+    Call<DetailCourse> getDetailCourseByTutor(@Path("id") int id);
+
     @GET("courses/my_courses_student/{status}")
     Call<List<CourseInfo>> getCourseByStudent(@Path("status") String status);
 

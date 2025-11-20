@@ -3,8 +3,9 @@ package com.example.login;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.*;
+import android.util.Log;
 import android.view.View;
+import android.widget.*;
 
 import com.example.login.api.ApiService;
 import com.example.login.api.PrefsHelper;
@@ -22,23 +23,26 @@ public class RegisterActivity extends AppCompatActivity {
     Button btnRegister;
     TextView tvRegister;
     ApiService apiService;
-    RadioGroup radioRoleGroup;
+    RadioGroup radioGrRole;
+    String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        // Initialize Views
+        radioGrRole = findViewById(R.id.radioGrRole);
         etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnRegister = findViewById(R.id.btnRegister);
         tvRegister = findViewById(R.id.FtvBackLogin);
-//        radioRoleGroup = findViewById(R.id.radioRoleGroup);
 
         apiService = RetrofitClient.getClient(this).create(ApiService.class);
 
         btnRegister.setOnClickListener(v -> registerUser());
+
         tvRegister.setOnClickListener(v -> {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -49,55 +53,104 @@ public class RegisterActivity extends AppCompatActivity {
     private void registerUser() {
         String username = etUsername.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
-        String passwordHash = etPassword.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+        int selectedId = radioGrRole.getCheckedRadioButtonId();
 
-        if (username.isEmpty() || email.isEmpty() || passwordHash.isEmpty()) {
+        // 1. Validate Role Selection
+        if (selectedId == -1) {
+            Toast.makeText(this, "Vui lòng chọn vai trò!", Toast.LENGTH_SHORT).show();
+            return; // STOP execution here
+        }
+
+        // 2. Get Role
+        // Note: It is safer to check IDs (e.g., R.id.rbTutor) than text strings
+        RadioButton selectedRadioButton = findViewById(selectedId);
+        String selectedText = selectedRadioButton.getText().toString();
+
+        if(selectedText.equals("Giáo viên")) {
+            role = "TUTOR";
+        } else {
+            role = "STUDENT";
+        }
+
+        // 3. Validate Inputs
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show();
             return;
-        } else if (passwordHash.length() < 8) {
+        }
+
+        if (password.length() < 8) {
             Toast.makeText(this, "Mật khẩu phải ít nhất 8 ký tự!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 🔸 Tạm thời cố định vai trò (có thể thay bằng radio button sau)
-        String role = "TUTOR";
+        // 4. Show Loading (Optional but recommended)
+        btnRegister.setEnabled(false);
+        btnRegister.setText("Đang xử lý...");
 
-        // ✅ Tạo đối tượng user để gửi request
-        User user = new User(username, email, passwordHash, role);
-
-        // ✅ Gọi API đăng ký
+        // 5. API Call
+        User user = new User(username, email, password, role);
         Call<RegisterLoginResponse> call = apiService.registerUser(user);
+
         call.enqueue(new Callback<RegisterLoginResponse>() {
             @Override
             public void onResponse(Call<RegisterLoginResponse> call, Response<RegisterLoginResponse> response) {
+                // Re-enable button
+                btnRegister.setEnabled(true);
+                btnRegister.setText("Đăng Ký");
+
                 if (response.isSuccessful() && response.body() != null) {
                     RegisterLoginResponse loginResponse = response.body();
                     String message = loginResponse.getMessage();
+
+                    // Check if API returns a token on register.
+                    // If not, you might want to redirect to LoginActivity instead.
                     String token = loginResponse.getToken();
 
-                    Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
 
-                    // 🔒 Lưu token
-                    PrefsHelper.saveToken(RegisterActivity.this, token);
-
-                    // 👉 Chuyển sang MainActivity
-                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    // ⚠️ Khi response.body() là null, cần kiểm tra tránh lỗi NullPointerException
-                    String message = "Đăng ký thất bại. Vui lòng kiểm tra lại thông tin.";
-                    if (response.errorBody() != null) {
-                        message = "Lỗi: " + response.message();
+                    if (token != null) {
+                        PrefsHelper.saveToken(RegisterActivity.this, token);
+                        navigateToDashboard();
+                    } else {
+                        // If API doesn't return token on register, go to login
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
-                    Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
+
+                } else {
+                    String errorMsg = "Đăng ký thất bại.";
+                    try {
+                        if (response.errorBody() != null) {
+                            // Try to read the error message from server
+                            errorMsg = response.errorBody().string();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(RegisterActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<RegisterLoginResponse> call, Throwable t) {
+                btnRegister.setEnabled(true);
+                btnRegister.setText("Đăng Ký");
                 Toast.makeText(RegisterActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("RegisterError", t.getMessage());
             }
         });
+    }
+
+    private void navigateToDashboard() {
+        Intent intent;
+        if ("STUDENT".equals(role)) {
+            intent = new Intent(RegisterActivity.this, StudentDashboardActivity.class);
+        } else {
+            intent = new Intent(RegisterActivity.this, TutorDashboardActivity.class);
+        }
+        startActivity(intent);
+        finishAffinity(); // Clear all previous activities so Back button exits app
     }
 }
