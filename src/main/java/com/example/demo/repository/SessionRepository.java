@@ -57,9 +57,6 @@ List<Session> findSessionsByTutorIdAndStatus(
 );
 
 
-
-
-
 //lấy danh sách session của gia sư theo ngày với thông tin chi tiết
         @Query("SELECT s.id AS id, s.sessionDate AS sessionDate, s.duration AS duration, " +
        "s.notes AS notes, s.status AS status, t.fullName AS fullName, c.subject AS subject " +

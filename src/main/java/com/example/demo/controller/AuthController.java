@@ -2,10 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.config.JwtTokenUtil;
 import com.example.demo.entity.User;
-// import com.example.demo.entity.Tutor;
+import com.example.demo.entity.Tutor;
+import com.example.demo.entity.Student;
+
 
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.TutorRepository;
+import com.example.demo.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,7 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     private TutorRepository tutorRepository;
+    private StudentRepository studentRepository;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -47,96 +51,60 @@ public class AuthController {
         return ResponseEntity.ok(currentUser);
     }
 
-   @PostMapping("/register")
+
+
+ // 1. Ensures User and Tutor/Student are saved together, or not at all
+@PostMapping("/register")
 public ResponseEntity<?> registerUser(@RequestBody User user) {
-    // Kiểm tra username đã tồn tại chưa
+
+    // 2. Check Username (Return JSON)
     if (userRepository.findByUsername(user.getUsername()).isPresent()) {
         return ResponseEntity
                 .badRequest()
-                .body("Username đã được sử dụng!");
+                .body(Map.of("message", "Username đã được sử dụng!"));
     }
 
-    // Kiểm tra email đã tồn tại chưa
+    // 3. Check Email (Return JSON)
     if (userRepository.findByEmail(user.getEmail()).isPresent()) {
         return ResponseEntity
                 .badRequest()
-                .body("Email đã được sử dụng!");
-                
-            //     (Mapof()
-            //         "message", "Email đã được sử dụng!",
-            // "token", null
-            //    ););
+                .body(Map.of("message", "Email đã được sử dụng!"));
     }
-    user.setRole("TUTOR"); // Mặc định role là tutor
 
-    // Mã hoá mật khẩu trước khi lưu
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    try {
+        // 4. Encode Password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-    // Lưu user mới vào database
-    // userRepository.save(user);
-    User savedUser = userRepository.save(user);
+        // 5. Save User
+        User savedUser = userRepository.save(user);
 
-    //  Tutor tutor = new Tutor();
-    // tutor.setUser(savedUser);
-    // tutorRepository.save(tutor); 
+        // 6. Save Role Specific Profile
+        if ("TUTOR".equals(savedUser.getRole())) {
+            Tutor tutor = new Tutor();
+            tutor.setUser_Id(savedUser.getId()); // Ensure your Tutor entity has this setter
+            tutorRepository.save(tutor);
+        } else if ("STUDENT".equals(savedUser.getRole())) {
+            Student student = new Student();
+            student.setUser_Id(savedUser.getId()); // Ensure your Student entity has this setter
+            studentRepository.save(student);
+        }
 
-//mới thêm vào sau trả về token đăng ký
-     // Sinh token
-    String token = jwtTokenUtil.generateToken(savedUser.getUsername());
+        // 7. Generate Token
+        String token = jwtTokenUtil.generateToken(savedUser.getUsername());
 
-    return ResponseEntity.ok(Map.of(
-            "message", "Đăng ký thành công",
-            "token", token
-    ));  
-    // status(HttpStatus.CREATED).body("Đăng ký thành công!");
-    // return ResponseEntity.ok("Đăng ký thành công!");
-}
+        // 8. Return Success JSON
+        return ResponseEntity.ok(Map.of(
+                "message", "Đăng ký thành công",
+                "token", token,
+                "role", savedUser.getRole() // Optional: useful to send back to Android
+        ));
 
-
-
-   @PostMapping("/student/register")
-public ResponseEntity<?> registerStudentUser(@RequestBody User user) {
-    // Kiểm tra username đã tồn tại chưa
-    if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+    } catch (Exception e) {
+        // Catch unexpected database errors
         return ResponseEntity
-                .badRequest()
-                .body("Username đã được sử dụng!");
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("message", "Lỗi hệ thống: " + e.getMessage()));
     }
-
-    // Kiểm tra email đã tồn tại chưa
-    if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-        return ResponseEntity
-                .badRequest()
-                .body("Email đã được sử dụng!");
-                
-            //     (Mapof()
-            //         "message", "Email đã được sử dụng!",
-            // "token", null
-            //    ););
-    }
-    user.setRole("STUDENT"); // Mặc định role là tutor
-
-    // Mã hoá mật khẩu trước khi lưu
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-    // Lưu user mới vào database
-    // userRepository.save(user);
-    User savedUser = userRepository.save(user);
-
-    //  Tutor tutor = new Tutor();
-    // tutor.setUser(savedUser);
-    // tutorRepository.save(tutor); 
-
-//mới thêm vào sau trả về token đăng ký
-     // Sinh token
-    String token = jwtTokenUtil.generateToken(savedUser.getUsername());
-
-    return ResponseEntity.ok(Map.of(
-            "message", "Đăng ký thành công",
-            "token", token
-    ));  
-    // status(HttpStatus.CREATED).body("Đăng ký thành công!");
-    // return ResponseEntity.ok("Đăng ký thành công!");
 }
 
 @PostMapping("/login")
@@ -166,9 +134,11 @@ public ResponseEntity<?> studentLogin(@RequestBody Map<String, String> body) {
     return ResponseEntity.ok(Map.of(
             "message", "Đăng nhập thành công",
             "token", token,
-            "currentUserId", user.getId()
+            "currentUserId", user.getId(),
+            "role",user.getRole()
     ));
 }
+
 
 
 }

@@ -1,8 +1,8 @@
 package com.example.demo.controller;
-import  com.example.demo.entity.entity_design.CourseInfo;
 import com.example.demo.entity.Tutor;
 import com.example.demo.repository.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 
 import com.example.demo.entity.Course;
+import com.example.demo.entity.entity_design.*;
 import com.example.demo.entity.Student;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.StudentRepository;
@@ -45,6 +46,7 @@ public class CourseController {
         Optional<Course> courseOpt = courseRepository.findById(id);
         return courseOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
  // lấy danh sách khóa học của tutor hiện tại theo trạng thái
 // phải chính tutor đó mới xem được
@@ -120,6 +122,28 @@ public ResponseEntity<?> getMyCoursesStudentByStatus(@PathVariable String status
 
 
 
+@GetMapping("/by_tutor/{id}")
+public ResponseEntity<?> getCoursesByTutorAndId(@PathVariable int id) {
+    int courseId = id; // Biến id từ URL được dùng làm Course ID
+    
+    // 4. Gọi Repository với tên hàm đã chuẩn hóa và kiểu trả về là đối tượng đơn
+    DetailCourse course = courseRepository.findDetailCourseById(courseId);
+    
+    // Kiểm tra kết quả
+    if (course == null) {
+        return ResponseEntity.notFound().build();
+    }
+    
+    return ResponseEntity.ok(course);
+}
+// findCoursesByTutorIdAndCouuseId(@Param("courseId") Integer courseId);
+
+
+
+// @GetMapping("/by_tutor/{id}")
+// public ResponseEntity<?> getCoursesByTutorAndId(@PathVariable int id) {
+//     // ...
+// }
 
 
 

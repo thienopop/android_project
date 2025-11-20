@@ -2,7 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.Course;
 import com.example.demo.entity.Tutor;
-import com.example.demo.entity.entity_design.CourseInfo;
+import com.example.demo.entity.entity_design.*;
 import com.example.demo.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -70,5 +70,36 @@ List<CourseInfo> findCoursesByTutorIdAndStatus(@Param("tutorId") Integer tutorId
         "    c.id, c.start_time, c.total_sessions, c.notes, c.status, t.full_name, c.subject",
         nativeQuery = true)
 List<CourseInfo> findCoursesByStudentIdAndStatus(@Param("studentId") Integer studentId, @Param("status") String status);
+
+
+
+
+@Query(value = "SELECT " +
+        "    c.id AS id, " +
+        "    c.start_time AS startDate, " +
+        "    c.total_sessions AS totalSessions, " +
+        "    c.notes AS notes, " +
+         "    c.total_price AS totalPrice, " +
+           "    c.time_of_the_lesson AS timeOfTheLesson, " +
+        "    c.status AS status, " +
+        "    s.full_name AS fullName, " +
+        "    c.subject AS subject, " +
+
+        "    COUNT(ss.id) AS completedSessions " + 
+        "FROM " +
+        "    courses c " +
+        "LEFT JOIN " +
+        "    students s ON c.student_id = s.id " +
+        "LEFT JOIN " +
+        "    sessions ss ON c.id = ss.course_id AND ss.status = 'COMPLETED' " +
+        "WHERE " +
+        "    c.id = :courseId " +
+        "GROUP BY " +
+        "    c.id, c.start_time, c.total_sessions, c.notes, c.status, s.full_name, c.subject",
+        nativeQuery = true)
+DetailCourse findDetailCourseById(@Param("courseId") int courseId);
+// 
+
+
 
 }
