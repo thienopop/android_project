@@ -251,14 +251,12 @@ public ResponseEntity<?> getSessionsByTutorAndDate(
     //lấy session theo course id
     @GetMapping("/by-course-id/{courseId}")
     public ResponseEntity<?> getSessionsByCourseId(@PathVariable Integer courseId) {
-        List<Session> sessions = sessionRepository.findByCourseId(courseId);
+        List<SessionInfo> sessions = sessionRepository.findSessionsByCourseId(courseId);
         if (sessions.isEmpty()) {
             return ResponseEntity.status(404).body("Không có buổi học nào cho courseId = " + courseId);
         }
         return ResponseEntity.ok(sessions);
     }
-
-
 }
 
 
