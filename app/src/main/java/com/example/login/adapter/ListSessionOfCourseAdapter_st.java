@@ -12,11 +12,11 @@ import com.example.login.model.SessionInfo;
 
 import java.util.List;
 
-public class ListSessionOfCourseAdapter extends ArrayAdapter<SessionInfo> {
+public class ListSessionOfCourseAdapter_st extends ArrayAdapter<SessionInfo> {
 
     // Constructor chuẩn
-    public ListSessionOfCourseAdapter(Context context, List<SessionInfo> sessionInfo) {
-        super(context, R.layout.list_session_of_course, sessionInfo);
+    public ListSessionOfCourseAdapter_st(Context context, List<SessionInfo> sessionInfo) {
+        super(context, R.layout.list_session_of_course_st, sessionInfo);
     }
 
     /**

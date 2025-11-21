@@ -131,11 +131,6 @@ public class ShowCourseFragment extends Fragment {
                     intent.putExtra("COURSE_ID_KEY", courseId);
                     startActivity(intent);
 
-//                        Toast.makeText(getContext(),
-
-//                                "Bạn chọn khóa học ID: " + course.getId(),
-//                                Toast.LENGTH_SHORT).show();
-
                     });
 
 

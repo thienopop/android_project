@@ -169,6 +169,7 @@
 package com.example.login.fragments;
 
 // import android.graphics.Color; // <-- ĐÃ XÓA
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -182,8 +183,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.login.DetailCourseActivity_st;
 import com.example.login.R;
 import com.example.login.adapter.FragmentsCourseAdapter_st;
+
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
 import com.example.login.model.CourseInfo;
@@ -272,11 +275,21 @@ public class ShowCourseFragment_st extends Fragment {
                     FragmentsCourseAdapter_st adapter = new FragmentsCourseAdapter_st(getContext(), courseList);
                     listViewCourse.setAdapter(adapter);
 
+//                    listViewCourse.setOnItemClickListener((parent, view, position, id) -> {
+//                        CourseInfo course = courseList.get(position);
+//                        Toast.makeText(getContext(),
+//                                "Bạn chọn khóa học ID: " + course.getId(),
+//                                Toast.LENGTH_SHORT).show();
+//                    });
                     listViewCourse.setOnItemClickListener((parent, view, position, id) -> {
                         CourseInfo course = courseList.get(position);
-                        Toast.makeText(getContext(),
-                                "Bạn chọn khóa học ID: " + course.getId(),
-                                Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(requireContext(), DetailCourseActivity_st.class);
+                        int courseId = course.getId();
+
+                        intent.putExtra("COURSE_ID_KEY", courseId);
+                        startActivity(intent);
+
                     });
                 } else {
                     txtMessage.setText("⚠️ API trả về dữ liệu không hợp lệ!");
