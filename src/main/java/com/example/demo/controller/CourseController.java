@@ -120,10 +120,10 @@ public ResponseEntity<?> getMyCoursesStudentByStatus(@PathVariable String status
     return ResponseEntity.ok(courseInfo);
 }
 
-
+//lấy chi tiết khoá học, tutor lấy
 
 @GetMapping("/by_tutor/{id}")
-public ResponseEntity<?> getCoursesByTutorAndId(@PathVariable int id) {
+public ResponseEntity<?> getCoursesByTutorAndIdCourse(@PathVariable int id) {
     int courseId = id; // Biến id từ URL được dùng làm Course ID
     
     // 4. Gọi Repository với tên hàm đã chuẩn hóa và kiểu trả về là đối tượng đơn
@@ -136,22 +136,24 @@ public ResponseEntity<?> getCoursesByTutorAndId(@PathVariable int id) {
     
     return ResponseEntity.ok(course);
 }
-// findCoursesByTutorIdAndCouuseId(@Param("courseId") Integer courseId);
 
+//lấy thông tin khoá học/ student lấy
+@GetMapping("/by_student/{id}")
+public ResponseEntity<?> getCoursesByStudetnAndIdCourse(@PathVariable int id) {
+    int courseId = id; // Biến id từ URL được dùng làm Course ID
+    
+    // 4. Gọi Repository với tên hàm đã chuẩn hóa và kiểu trả về là đối tượng đơn
+    DetailCourse course = courseRepository.findDetailCourseByIdOfStudent(courseId);
+    
+    // Kiểm tra kết quả
+    if (course == null) {
+        return ResponseEntity.notFound().build();
+    }
+    
+    return ResponseEntity.ok(course);
 
-
-// @GetMapping("/by_tutor/{id}")
-// public ResponseEntity<?> getCoursesByTutorAndId(@PathVariable int id) {
-//     // ...
-// }
-
-
-
-
-
-
-
-
+    
+}
 
 
 

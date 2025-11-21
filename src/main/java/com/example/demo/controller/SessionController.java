@@ -249,6 +249,7 @@ public ResponseEntity<?> getSessionsByTutorAndDate(
 
 
     //lấy session theo course id
+    //tutor lấy 
     @GetMapping("/by-course-id/{courseId}")
     public ResponseEntity<?> getSessionsByCourseId(@PathVariable Integer courseId) {
         List<SessionInfo> sessions = sessionRepository.findSessionsByCourseId(courseId);
@@ -257,6 +258,10 @@ public ResponseEntity<?> getSessionsByTutorAndDate(
         }
         return ResponseEntity.ok(sessions);
     }
+
+
+
+
 }
 
 

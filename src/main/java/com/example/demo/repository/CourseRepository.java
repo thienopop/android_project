@@ -73,7 +73,7 @@ List<CourseInfo> findCoursesByStudentIdAndStatus(@Param("studentId") Integer stu
 
 
 
-
+//Tutor lấy thôgn tin khoá học
 @Query(value = "SELECT " +
         "    c.id AS id, " +
         "    c.start_time AS startDate, " +
@@ -98,6 +98,33 @@ List<CourseInfo> findCoursesByStudentIdAndStatus(@Param("studentId") Integer stu
         "    c.id, c.start_time, c.total_sessions, c.notes, c.status, s.full_name, c.subject",
         nativeQuery = true)
 DetailCourse findDetailCourseById(@Param("courseId") int courseId);
+// 
+
+//Studetn lấy thông tin khoa học
+@Query(value = "SELECT " +
+        "    c.id AS id, " +
+        "    c.start_time AS startDate, " +
+        "    c.total_sessions AS totalSessions, " +
+        "    c.notes AS notes, " +
+         "    c.total_price AS totalPrice, " +
+           "    c.time_of_the_lesson AS timeOfTheLesson, " +
+        "    c.status AS status, " +
+        "    s.full_name AS fullName, " +
+        "    c.subject AS subject, " +
+
+        "    COUNT(ss.id) AS completedSessions " + 
+        "FROM " +
+        "    courses c " +
+        "JOIN " +
+        "    tutors s ON c.tutor_id = s.id " +
+        "LEFT JOIN " +
+        "    sessions ss ON c.id = ss.course_id AND ss.status = 'COMPLETED' " +
+        "WHERE " +
+        "    c.id = :courseId " +
+        "GROUP BY " +
+        "    c.id, c.start_time, c.total_sessions, c.notes, c.status, s.full_name, c.subject",
+        nativeQuery = true)
+DetailCourse findDetailCourseByIdOfStudent(@Param("courseId") int courseId);
 // 
 
 
