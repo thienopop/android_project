@@ -8,51 +8,68 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.login.R;
-import com.example.login.model.DetailCourse;
+import com.example.login.model.SessionInfo;
 
 import java.util.List;
 
-public class ListSessionOfCourseAdapter extends ArrayAdapter<DetailCourse> {
+public class ListSessionOfCourseAdapter extends ArrayAdapter<SessionInfo> {
 
-    public ListSessionOfCourseAdapter(Context context, List<DetailCourse> detailCourse) {
-        super(context, R.layout.list_session_of_course, detailCourse);
+    // Constructor chuẩn
+    public ListSessionOfCourseAdapter(Context context, List<SessionInfo> sessionInfo) {
+        super(context, R.layout.list_session_of_course, sessionInfo);
+    }
+
+    /**
+     * Lớp ViewHolder được sử dụng để lưu trữ các tham chiếu đến các View con,
+     * tránh việc gọi findViewById() nhiều lần.
+     */
+    private static class ViewHolder {
+        TextView txtStatus;
+        TextView txtStartDate;
+        TextView txtDuration;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view = convertView == null ? inflater.inflate(R.layout.list_session_of_course, parent, false) : convertView;
 
-        DetailCourse course = getItem(position);
+        ViewHolder holder;
+        SessionInfo session = getItem(position);
 
+        // 1. Kiểm tra convertView để tái sử dụng View
+        if (convertView == null) {
+            // View chưa được tạo, cần inflate layout và tạo ViewHolder mới
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.list_session_of_course, parent, false);
 
-        TextView text_timeOfTheLesson= view.findViewById(R.id.text_timeOfTheLesson);
-        TextView text_complete_sessions= view.findViewById(R.id.text_complete_sessions);
-        TextView text_notes= view.findViewById(R.id.text_notes);
-        TextView text_status= view.findViewById(R.id.text_status);
-        TextView text_end_date= view.findViewById(R.id.text_end_date);
-        TextView text_start_date= view.findViewById(R.id.text_start_date);
-        TextView text_total_price= view.findViewById(R.id.text_total_price);
-        TextView text_total_sessions= view.findViewById(R.id.text_total_sessions);
-        TextView text_subject= view.findViewById(R.id.text_subject);
-        TextView text_full_name= view.findViewById(R.id.text_full_name);
+            holder = new ViewHolder();
+            // Ánh xạ View và lưu vào holder
+            holder.txtStatus = convertView.findViewById(R.id.txtStatus);
+            holder.txtStartDate = convertView.findViewById(R.id.txtStartDate);
+            holder.txtDuration = convertView.findViewById(R.id.txtDuration);
 
-        if (course != null) {
-            view.setTag(course.getId()); // Gắn ID vào View để tái sử dụng
-            text_complete_sessions.setText( course.getSubject());
-            text_notes.setText(course.getSubject());
-            text_timeOfTheLesson.setText( course.getSubject());
-            text_full_name.setText(course.getSubject());
+            // Gắn holder vào View bằng setTag()
+            convertView.setTag(holder);
+        } else {
+            // View đã tồn tại, lấy ViewHolder từ getTag()
+            holder = (ViewHolder) convertView.getTag();
+        }
 
-            text_end_date.setText(course.getSubject());
-            text_subject.setText( course.getSubject());
-            text_start_date.setText(course.getSubject());
-            text_total_price.setText(course.getSubject());
-            text_total_sessions.setText(course.getSubject());
-            text_total_sessions.setText(course.getSubject());
+        // 2. Gán dữ liệu (Đảm bảo dữ liệu được chuyển thành String)
+        if (session != null) {
 
+            // Gắn ID của session vào View để xử lý sự kiện click ngoài Adapter nếu cần
 
-             }
-        return view;
+            // Gán Ngày Bắt đầu (Giả định là String)
+            holder.txtStartDate.setText(session.getSessionDate());
+
+            // Chuyển Duration (Integer/int) sang String
+            // Có thể thêm đơn vị nếu cần: String.valueOf(session.getDuration()) + " phút"
+            holder.txtDuration.setText(String.valueOf(session.getDuration()));
+
+            // Gán Trạng thái (String)
+            holder.txtStatus.setText(session.getStatus());
+        }
+
+        return convertView;
     }
 }

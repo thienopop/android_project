@@ -1,5 +1,6 @@
 package com.example.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,7 +44,23 @@ public class TutorDashboardActivity extends AppCompatActivity {
         });
 
         // Load Fragment mặc định khi mở Activity
+
+
+
+
+//        Intent intent = getIntent();
+//        int code;
+//
+//        if (intent != null) {
+//
+//            code = intent.getIntExtra("CODE_ID_KEY", -1);
+//        }
+//        else{
+//            bottomNavigationView.setSelectedItemId(R.id.nav_home);
+//        }
+
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
+
     }
 
     // Hàm load Fragment vào FrameLayout

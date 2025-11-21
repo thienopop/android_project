@@ -13,9 +13,18 @@
         android:padding="12dp"
         android:elevation="6dp"
         android:background="#FFFFFF">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-<!--        finish();-->
-
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
@@ -23,7 +32,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:contentDescription="Quay lại"
-            android:padding="16dp"
+            android:layout_marginRight="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back" />
         <TextView
@@ -33,7 +42,15 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"
+        android:orientation="vertical"
+        android:background="@color/light_pink">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -227,7 +244,7 @@
             android:textSize="20sp"
             tools:text="Học viên yêu cầu tập trung vào các bài toán tích phân."/>
     </LinearLayout>
-
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

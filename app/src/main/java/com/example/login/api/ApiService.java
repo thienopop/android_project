@@ -41,6 +41,13 @@ public interface ApiService {
     @GET("sessions/by-student/date/{sessionDate}")
     Call<List<SessionInfo>> getSessionsByTutor(@Path("sessionDate") String sessionDate);
 
+
+//    @GetMapping("/by-course-id/{courseId}")
+    @GET("sessions/by-course-id/{courseId}")
+    Call<List<SessionInfo>> getSessionsByCourseId(@Path("courseId") int id);
+
+
+
     @GET("tutors/me")
     Call<Tutor> getTutorLogin();
 
