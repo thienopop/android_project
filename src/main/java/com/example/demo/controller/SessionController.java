@@ -66,7 +66,8 @@ public class SessionController {
         session.calculateEndTime(); // Tính
         
         Session newSession = sessionRepository.save(session);
-        return ResponseEntity.ok(newSession);
+        // return ResponseEntity.ok(null);
+         return ResponseEntity.ok(newSession);
     }
 
     // 🟠 4. Cập nhật buổi học
@@ -109,6 +110,7 @@ public class SessionController {
         if (sessions.isEmpty()) {
             return ResponseEntity.status(404).body("Không có buổi học nào cho course_id = " + courseId);
         }
+        Collections.reverse(sessions);
         return ResponseEntity.ok(sessions);
     }
 
@@ -135,24 +137,19 @@ public ResponseEntity<?> getSessionsByStudentStatusDate(
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
     System.out.println(">>> Current username: " + username);
 
-    // 🔍 Tìm student theo username
     Optional<Student> studentOpt = studentRepository.findByUser_Username(username);
     if (studentOpt.isEmpty()) {
         return ResponseEntity.status(404).body("Không tìm thấy student cho user: " + username);
     }
     Integer studentId = studentOpt.get().getId();
 
-    // // ✅ Tạo khoảng thời gian đầu-ngày, cuối-ngày
-    // LocalDateTime startOfDay = sessionDate.atStartOfDay();
-    // LocalDateTime endOfDay = sessionDate.atTime(LocalTime.MAX);
-
-    // 🔍 Truy vấn buổi học trong ngày
     List<SessionInfo> sessions = sessionRepository.findSessionsByStudentIdAndDate(
             studentId, startOfDay, endOfDay);
 
     if (sessions.isEmpty()) {
         return ResponseEntity.status(404).body("Không có buổi học nào cho studentId = " + studentId + ", ngày = " + sessionDate);
     }
+     Collections.reverse(sessions);
     return ResponseEntity.ok(sessions);
 }
     // lấy buổi học của tutor đăng nhập , và n diễ ra gày buổi học
