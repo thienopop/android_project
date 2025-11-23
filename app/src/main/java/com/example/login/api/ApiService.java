@@ -13,6 +13,7 @@ import com.example.login.model.RegisterLoginResponse;
 import com.example.login.model.UserWithId;
 
 import java.util.List;
+import com.example.login.model.AddSession;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -33,6 +34,9 @@ public interface ApiService {
     @POST("auth/login")
     Call<RegisterLoginResponse> login(@Body User user);
 
+
+    @POST("session/create")
+    Call<Void> addSession(@Body AddSession addSession);
     @GET("auth/me")
     Call<UserWithId> getCurrentUser();
 
