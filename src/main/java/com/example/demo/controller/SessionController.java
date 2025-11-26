@@ -51,24 +51,38 @@ public class SessionController {
     }
 
     // 🟡 3. Tạo buổi học mới
-    @PostMapping("/create")
-    public ResponseEntity<?> createSession(@RequestBody Session session) {
-        if (session.getCourseId() == null) {
-            return ResponseEntity.badRequest().body("Thiếu course_id!");
-        }
-
-        Optional<Course> courseOpt = courseRepository.findById(session.getCourseId());
-        if (courseOpt.isEmpty()) {
-            return ResponseEntity.status(404).body("Không tìm thấy khóa học có ID = " + session.getCourseId());
-        }
-
-        session.setCourse(courseOpt.get());
-        session.calculateEndTime(); // Tính
-        
-        Session newSession = sessionRepository.save(session);
-        // return ResponseEntity.ok(null);
-         return ResponseEntity.ok(newSession);
+  @PostMapping("/create")
+public ResponseEntity<?> createSession(@RequestBody Session session) {
+    if (session.getCourseId() == null) {
+        return ResponseEntity.badRequest().body("Thiếu course_id!");
     }
+
+    // Dòng 60
+    Optional<Course> courseOpt = courseRepository.findById(session.getCourseId());
+    if (courseOpt.isEmpty()) {
+        return ResponseEntity.status(404).body("Không tìm thấy khóa học có ID = " + session.getCourseId());
+    }
+
+    // Lấy đối tượng Course hợp lệ
+    Course course = courseOpt.get();
+    
+    // 💡 BƯỚC THIẾU: Thiết lập quan hệ Course cho đối tượng Session
+    // Giả sử Entity Session của bạn có phương thức setCourse(Course course)
+    // Hoặc setCourseId(Integer id) nếu bạn sử dụng ID thô
+    
+    // Nếu bạn dùng Entity Course trong Session:
+    session.setCourse(course); 
+    
+    // Nếu bạn chỉ dùng ID thô trong Session, thì Hibernate/JPA phải tự làm
+    // Nhưng để an toàn, hãy đảm bảo ID được thiết lập lại
+    session.setCourseId(course.getId()); 
+    
+    // Dòng 68
+    Session savedSession = sessionRepository.save(session); 
+
+    return ResponseEntity.status(201).body(null);
+}
+
 
     // 🟠 4. Cập nhật buổi học
     @PutMapping("/{id}")
@@ -246,7 +260,8 @@ public ResponseEntity<?> getSessionsByTutorAndDate(
 
 
     //lấy session theo course id
-    //tutor lấy 
+    //  @GET("sessions/by-course-id/{courseId}")
+    // cả studetn và tutor đều lấy
     @GetMapping("/by-course-id/{courseId}")
     public ResponseEntity<?> getSessionsByCourseId(@PathVariable Integer courseId) {
         List<SessionInfo> sessions = sessionRepository.findSessionsByCourseId(courseId);
