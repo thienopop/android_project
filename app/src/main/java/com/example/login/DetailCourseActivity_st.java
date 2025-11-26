@@ -34,7 +34,7 @@ public class DetailCourseActivity_st extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_course);
+        setContentView(R.layout.activity_detail_course_st);
 
         // --- 1. ÁNH XẠ VIEW (FIND VIEWS) ---
         text_timeOfTheLesson = findViewById(R.id.text_timeOfTheLesson);

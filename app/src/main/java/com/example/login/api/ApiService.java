@@ -35,22 +35,26 @@ public interface ApiService {
     Call<RegisterLoginResponse> login(@Body User user);
 
 
-    @POST("session/create")
+    @POST("sessions/create")
     Call<Void> addSession(@Body AddSession addSession);
     @GET("auth/me")
     Call<UserWithId> getCurrentUser();
 
     // API lấy danh sách session theo gia sư và ngày
+
+    @GET("sessions/by-tutor/date/{sessionDate}")
+    Call<List<SessionInfo>> getSessionsByTutor(@Path("sessionDate") String sessionDate);
+
     //đã sửa/by-student/date/{sessionDate}")
     @GET("sessions/by-student/date/{sessionDate}")
-    Call<List<SessionInfo>> getSessionsByTutor(@Path("sessionDate") String sessionDate);
+    Call<List<SessionInfo>> getSessionsByStudent(@Path("sessionDate") String sessionDate);
 
 
 //    @GetMapping("/by-course-id/{courseId}")
     @GET("sessions/by-course-id/{courseId}")
     Call<List<SessionInfo>> getSessionsByCourseId(@Path("courseId") int id);
 
-
+//    http://localhost:8080/api/sessions/by-course-id/1
 
     @GET("tutors/me")
     Call<Tutor> getTutorLogin();

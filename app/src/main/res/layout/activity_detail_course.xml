@@ -1,111 +1,519 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<ScrollView-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    >-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="12dp"-->
+<!--        android:elevation="6dp"-->
+<!--        android:background="#FFFFFF">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+
+<!--            android:textSize="24sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:layout_marginBottom="16dp"/>-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:orientation="horizontal">-->
+<!--        <ImageButton-->
+<!--            android:id="@+id/btn_back"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:contentDescription="Quay lại"-->
+<!--            android:layout_marginRight="16dp"-->
+<!--            android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--            android:src="@drawable/ic_arrow_back" />-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Chi tiết khoá học"-->
+<!--            android:textSize="24sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:layout_marginBottom="16dp"/>-->
+<!--    </LinearLayout>-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="12dp"-->
+<!--        android:orientation="vertical"-->
+<!--        android:background="@color/light_pink">-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal">-->
+<!--        <TextView-->
+
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="20sp"-->
+<!--            android:text="Học viên: " />-->
+<!--        <TextView-->
+<!--            android:id="@+id/text_full_name"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:textSize="20sp"-->
+<!--            tools:text="Nguyễn Văn A"/>-->
+<!--    </LinearLayout>-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+
+<!--        android:orientation="horizontal">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="20sp"-->
+<!--            android:text="Môn học: " />-->
+<!--        <TextView-->
+<!--            android:id="@+id/text_subject"-->
+
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="20sp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            tools:text="Toán Cao cấp"/>-->
+<!--    </LinearLayout>-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="20sp"-->
+<!--            android:text="Tổng số buổi: " />-->
+<!--        <TextView-->
+<!--            android:id="@+id/text_total_sessions"-->
+<!--            android:textSize="20sp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            tools:text="15"/>-->
+<!--    </LinearLayout>-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:text="Số buổi hoàn thành: " />-->
+<!--            <TextView-->
+<!--                android:id="@+id/text_complete_sessions"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:textSize="20sp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="8dp"-->
+<!--                tools:text="7"/>-->
+<!--        </LinearLayout>-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textStyle="bold"-->
+<!--        android:text="Tổng chi phí: " />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/text_total_price"-->
+
+<!--            android:layout_width="match_parent"-->
+<!--            android:textSize="20sp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            tools:text="3,000,000 VND"/>-->
+<!--    </LinearLayout>-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:text="Ngày bắt đầu khóa học: " />-->
+<!--        <TextView-->
+<!--            android:id="@+id/text_start_date"-->
+
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="20sp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            tools:text="2025-11-20"/>-->
+<!--    </LinearLayout>-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textSize="20sp"-->
+<!--        android:orientation="horizontal">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="20sp"-->
+<!--            android:text="Ngày kết thúc khóa học: " />-->
+<!--        <TextView-->
+<!--            android:id="@+id/text_end_date"-->
+
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="20sp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            tools:text="2026-03-20"/>-->
+<!--    </LinearLayout>-->
+
+
+<!--&lt;!&ndash;        timeOfTheLesson&ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="20sp"-->
+<!--                android:text="Thời gian cố định: " />-->
+<!--            <TextView-->
+<!--                android:id="@+id/text_timeOfTheLesson"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:textSize="20sp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="8dp"-->
+<!--                tools:text="Thứ tối 2, 4, 5"/>-->
+<!--        </LinearLayout>-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="20sp"-->
+<!--            android:text="Trạng thái: " />-->
+<!--        <TextView-->
+<!--            android:id="@+id/text_status"-->
+
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="16sp"-->
+
+<!--            android:textColor="@color/design_default_color_primary"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            tools:text="Đang hoạt động"/>-->
+<!--    </LinearLayout>-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="20sp"-->
+<!--            android:text="Ghi chú: " />-->
+<!--        <TextView-->
+<!--            android:id="@+id/text_notes"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="20sp"-->
+<!--            tools:text="Học viên yêu cầu tập trung vào các bài toán tích phân."/>-->
+<!--    </LinearLayout>-->
+
+
+<!--    </LinearLayout>-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+
+<!--        android:orientation="vertical">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="20sp"-->
+<!--            android:text="Danh sách lịch học:" /></LinearLayout>-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="vertical">-->
+<!--            <ImageButton-->
+<!--                android:id="@+id/imShowAddCourse"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentStart="true"-->
+<!--                android:layout_alignParentTop="true"-->
+<!--                android:contentDescription="Add course"-->
+<!--                android:layout_marginRight="16dp"-->
+<!--                android:gravity="center"-->
+<!--                android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--                android:src="@drawable/add_course" />-->
+<!--        </LinearLayout>-->
+
+<!--&lt;!&ndash;        View.VISIBLE → hiện&ndash;&gt;-->
+
+<!--&lt;!&ndash;        View.INVISIBLE → ẩn nhưng vẫn chiếm chỗ&ndash;&gt;-->
+
+<!--&lt;!&ndash;        View.GONE → ẩn và không chiếm chỗ&ndash;&gt;-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/showAddCourse"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:background="#FFFFFF"-->
+<!--            android:visibility="gone"-->
+
+<!--            >-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="20sp"-->
+<!--                android:text="Thêm buổi học:" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/tvDate"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Chọn ngày học"-->
+<!--                android:inputType="number"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:gravity="top|start"-->
+<!--                android:textSize="24sp"-->
+<!--                android:background="@android:drawable/edit_text"/>-->
+<!--            <EditText-->
+<!--                android:id="@+id/tvTime"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Chọn giờ học"-->
+<!--                android:inputType="number"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:gravity="top|start"-->
+<!--                android:textSize="24sp"-->
+<!--                android:background="@android:drawable/edit_text"/>-->
+<!--            <EditText-->
+<!--                android:id="@+id/edtDuration"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Thời lượng/ phút"-->
+<!--                android:inputType="number"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:gravity="top|start"-->
+<!--                android:textSize="24sp"-->
+<!--                android:background="@android:drawable/edit_text" />-->
+<!--            <EditText-->
+<!--                android:id="@+id/edtNotes"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="@string/notes"-->
+<!--                android:inputType="textMultiLine"-->
+<!--                android:minLines="4"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:gravity="top|start"-->
+<!--                android:textSize="24sp"-->
+<!--                android:background="@android:drawable/edit_text" />-->
+
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:weightSum="2">-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/btCancelAddSession"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="48dp"-->
+<!--                    android:layout_margin="8dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="Huỷ"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:backgroundTint="@color/blue"-->
+<!--                    android:gravity="center" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/btAddSession"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="48dp"-->
+<!--                    android:layout_margin="8dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="Thêm"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:backgroundTint="@color/blue"-->
+<!--                    android:gravity="center" />-->
+
+<!--            </LinearLayout>-->
+
+
+
+<!--        </LinearLayout>-->
+
+
+
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_margin="8dp"-->
+<!--        android:padding="12dp"-->
+<!--        android:elevation="6dp"-->
+<!--        android:background="#FFFFFF">-->
+<!--        <ListView-->
+
+<!--            android:id="@+id/listViewSessions"-->
+
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            />-->
+<!--    </LinearLayout>-->
+<!--    </LinearLayout>-->
+
+
+<!--</ScrollView>-->
+
+
+
+
+
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp"
-        android:elevation="6dp"
-        android:background="#FFFFFF">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+    android:fillViewport="true"> <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:elevation="6dp"
+    android:background="#FFFFFF">
 
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
         <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:contentDescription="Quay lại"
-            android:layout_marginRight="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_back" />
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Quay lại"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_arrow_back" />
+
+
+
+
+
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Chi tiết khoá học"
             android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:textStyle="bold"/>
     </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:padding="12dp"
         android:orientation="vertical"
         android:background="@color/light_pink">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="Học viên: " />
-        <TextView
-            android:id="@+id/text_full_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:textSize="20sp"
-            tools:text="Nguyễn Văn A"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="Môn học: " />
-        <TextView
-            android:id="@+id/text_subject"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginBottom="8dp"
-            tools:text="Toán Cao cấp"/>
-    </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="Tổng số buổi: " />
-        <TextView
-            android:id="@+id/text_total_sessions"
-            android:textSize="20sp"
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="Giáo viên: " />
+            <TextView
+                android:id="@+id/text_full_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textSize="20sp"
+                tools:text="Nguyễn Văn A"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            tools:text="15"/>
-    </LinearLayout>
+
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="Môn học: " />
+            <TextView
+                android:id="@+id/text_subject"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"
+                tools:text="Toán Cao cấp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="Tổng số buổi: " />
+            <TextView
+                android:id="@+id/text_total_sessions"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                tools:text="15"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -124,68 +532,68 @@
                 android:layout_marginBottom="8dp"
                 tools:text="7"/>
         </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-        android:text="Tổng chi phí: " />
-
-        <TextView
-            android:id="@+id/text_total_price"
-
-            android:layout_width="match_parent"
-            android:textSize="20sp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            tools:text="3,000,000 VND"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="Ngày bắt đầu khóa học: " />
-        <TextView
-            android:id="@+id/text_start_date"
-
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginBottom="8dp"
-            tools:text="2025-11-20"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="Ngày kết thúc khóa học: " />
-        <TextView
-            android:id="@+id/text_end_date"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Tổng chi phí: " />
 
+            <TextView
+                android:id="@+id/text_total_price"
+
+                android:layout_width="match_parent"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                tools:text="3,000,000 VND"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Ngày bắt đầu khóa học: " />
+            <TextView
+                android:id="@+id/text_start_date"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"
+                tools:text="2025-11-20"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:layout_marginBottom="8dp"
-            tools:text="2026-03-20"/>
-    </LinearLayout>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="Ngày kết thúc khóa học: " />
+            <TextView
+                android:id="@+id/text_end_date"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"
+                tools:text="2026-03-20"/>
+        </LinearLayout>
 
 
-<!--        timeOfTheLesson-->
+        <!--        timeOfTheLesson-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -204,200 +612,188 @@
                 android:layout_marginBottom="8dp"
                 tools:text="Thứ tối 2, 4, 5"/>
         </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="Trạng thái: " />
-        <TextView
-            android:id="@+id/text_status"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-
-            android:textColor="@color/design_default_color_primary"
-            android:layout_marginBottom="8dp"
-            tools:text="Đang hoạt động"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="Ghi chú: " />
-        <TextView
-            android:id="@+id/text_notes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            tools:text="Học viên yêu cầu tập trung vào các bài toán tích phân."/>
-    </LinearLayout>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="Danh sách lịch học:" /></LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageButton
-                android:id="@+id/imShowAddCourse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:contentDescription="Add course"
-                android:layout_marginRight="16dp"
-                android:gravity="center"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/add_course" />
-        </LinearLayout>
-
-<!--        View.VISIBLE → hiện-->
-
-<!--        View.INVISIBLE → ẩn nhưng vẫn chiếm chỗ-->
-
-<!--        View.GONE → ẩn và không chiếm chỗ-->
-
-        <LinearLayout
-            android:id="@+id/showAddCourse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#FFFFFF"
-            android:visibility="gone"
-
-            >
+            android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:text="Thêm buổi học:" />
+                android:text="Trạng thái: " />
+            <TextView
+                android:id="@+id/text_status"
 
-            <EditText
-                android:id="@+id/tvDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Chọn ngày học"
-                android:inputType="number"
-                android:layout_marginTop="20dp"
-                android:gravity="top|start"
-                android:textSize="24sp"
-                android:background="@android:drawable/edit_text"/>
-            <EditText
-                android:id="@+id/tvTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Chọn giờ học"
-                android:inputType="number"
-                android:layout_marginTop="20dp"
-                android:gravity="top|start"
-                android:textSize="24sp"
-                android:background="@android:drawable/edit_text"/>
-            <EditText
-                android:id="@+id/edtDuration"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Thời lượng/ phút"
-                android:inputType="number"
-                android:layout_marginTop="20dp"
-                android:gravity="top|start"
-                android:textSize="24sp"
-                android:background="@android:drawable/edit_text" />
-            <EditText
-                android:id="@+id/edtNotes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/notes"
-                android:inputType="textMultiLine"
-                android:minLines="4"
-                android:layout_marginTop="20dp"
-                android:gravity="top|start"
-                android:textSize="24sp"
-                android:background="@android:drawable/edit_text" />
+                android:textSize="16sp"
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="16dp"
-                android:weightSum="2">
-
-                <Button
-                    android:id="@+id/btCancelAddSession"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:text="Huỷ"
-                    android:textSize="18sp"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/blue"
-                    android:gravity="center" />
-
-                <Button
-                    android:id="@+id/btAddSession"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:text="Thêm"
-                    android:textSize="18sp"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/blue"
-                    android:gravity="center" />
-
-            </LinearLayout>
-
-
-
+                android:textColor="@color/design_default_color_primary"
+                android:layout_marginBottom="8dp"
+                tools:text="Đang hoạt động"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="Ghi chú: " />
+            <TextView
+                android:id="@+id/text_notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                tools:text="Học viên yêu cầu tập trung vào các bài toán tích phân."/>
+        </LinearLayout>
+    </LinearLayout>
 
-
-
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="Danh sách lịch học:"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="4dp"/>
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="8dp"
-        android:padding="12dp"
-        android:elevation="6dp"
-        android:background="#FFFFFF">
-        <ListView
+        android:background="#FFFFFF"
+        android:gravity="center">
 
-            android:id="@+id/listViewSessions"
+        <ImageButton
+            android:id="@+id/imShowAddCourse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="Add course"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/add_course" />
 
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+
     </LinearLayout>
-    </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/showAddCourse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:text="Thêm buổi học:" />
+
+                <EditText
+                    android:id="@+id/tvDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Chọn ngày học"
+                    android:inputType="number"
+                    android:layout_marginTop="20dp"
+                    android:gravity="top|start"
+                    android:textSize="24sp"
+                    android:background="@android:drawable/edit_text"/>
+                <EditText
+                    android:id="@+id/tvTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Chọn giờ học"
+                    android:inputType="number"
+                    android:layout_marginTop="20dp"
+                    android:gravity="top|start"
+                    android:textSize="24sp"
+                    android:background="@android:drawable/edit_text"/>
+                <EditText
+                    android:id="@+id/edtDuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Thời lượng/ phút"
+                    android:inputType="number"
+                    android:layout_marginTop="20dp"
+                    android:gravity="top|start"
+                    android:textSize="24sp"
+                    android:background="@android:drawable/edit_text" />
+                <EditText
+                    android:id="@+id/edtNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/notes"
+                    android:inputType="textMultiLine"
+                    android:minLines="4"
+                    android:layout_marginTop="20dp"
+                    android:gravity="top|start"
+                    android:textSize="24sp"
+                    android:background="@android:drawable/edit_text" />
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:weightSum="2">
+
+                    <Button
+                        android:id="@+id/btCancelAddSession"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:text="Huỷ"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:backgroundTint="@color/blue"
+                        android:gravity="center" />
+
+                    <Button
+                        android:id="@+id/btAddSession"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:text="Thêm"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:backgroundTint="@color/blue"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="8dp"
+    android:padding="12dp"
+    android:elevation="6dp"
+    android:background="#FFFFFF">
+
+    <ListView
+        android:id="@+id/listViewSessions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="true"/>
+
+
+</LinearLayout>
+</LinearLayout>
 </ScrollView>

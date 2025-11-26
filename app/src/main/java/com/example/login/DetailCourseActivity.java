@@ -293,16 +293,16 @@ public class DetailCourseActivity extends AppCompatActivity {
         String month = dateParts[1];
         String year = dateParts[2];
 
-        // Format: yyyy-MM-dd HH:mm:ss
-        String dateTime = year + "-" + month + "-" + day + " " + timeStr + ":00";
-
-        // ===== Tạo object gửi API =====
+//      Thêm cả giây (2025-11-02T09:00:00)
+        String dateTime = year + "-" + month + "-" + day + "T" + timeStr + ":00";
+// Kết quả: "2025-11-02T09:00:00"
+        // Tạo object gửi api
         AddSession addSession = new AddSession(duration, notes, dateTime, courseId);
 
         ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
         Call<Void> call = apiService.addSession(addSession);
 
-        // ===== Gửi API =====
+        // gọi api
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

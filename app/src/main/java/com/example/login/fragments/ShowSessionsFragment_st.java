@@ -120,7 +120,7 @@ public class ShowSessionsFragment_st extends Fragment {
         }
 
         ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
-        Call<List<SessionInfo>> call = apiService.getSessionsByTutor(date);
+        Call<List<SessionInfo>> call = apiService.getSessionsByStudent(date);
 
         call.enqueue(new Callback<List<SessionInfo>>() {
             @Override
