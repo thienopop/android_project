@@ -10,14 +10,22 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-       >
+        android:orientation="vertical">
+        <TextView
+            android:text="Thêm khoá học"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/edtSubject"
             android:hint="@string/subject"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:inputType="text"
+            android:textStyle="bold"
            android:textSize="24sp"
             android:layout_marginTop="10dp"
             android:background="@android:drawable/edit_text" />
@@ -28,6 +36,7 @@
             android:layout_height="70dp"
             android:inputType="number"
             android:textSize="24sp"
+            android:textStyle="bold"
             android:layout_marginTop="20dp"
             android:background="@android:drawable/edit_text" />
         <EditText
@@ -36,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:inputType="number"
+            android:textStyle="bold"
             android:textSize="24sp"
             android:layout_marginTop="20dp"
             android:background="@android:drawable/edit_text" />
@@ -47,6 +57,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/timeOfTheLesson"
             android:inputType="textMultiLine"
+            android:textStyle="bold"
             android:minLines="3"
             android:layout_marginTop="20dp"
             android:gravity="top|start"
@@ -60,6 +71,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/notes"
             android:inputType="textMultiLine"
+            android:textStyle="bold"
             android:minLines="4"
             android:layout_marginTop="20dp"
             android:gravity="top|start"
@@ -80,6 +92,7 @@
             android:layout_marginTop="40dp"
             android:gravity="center"
             android:textSize="24sp"
+            android:textStyle="bold"
             android:backgroundTint="@color/blue"
             android:text="@string/course_course"
             />

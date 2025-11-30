@@ -460,21 +460,41 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-                android:layout_width="wrap_content"
+            <!-- Khối Text -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:text="Giáo viên: " />
-            <TextView
-                android:id="@+id/text_full_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:textSize="20sp"
-                tools:text="Nguyễn Văn A"/>
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:text="Giáo viên: " />
+
+                <TextView
+                    android:id="@+id/text_full_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="8dp"
+                    tools:text="Nguyễn Văn A" />
+            </LinearLayout>
+
+            <!-- Nút Back -->
+            <ImageButton
+                android:id="@+id/im_message"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_message"
+                android:contentDescription="Quay lại" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

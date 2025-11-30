@@ -1,5 +1,6 @@
 package com.example.login.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.login.DetailCourseActivity;
 import com.example.login.R;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
+import com.example.login.model.CourseInfo;
 import com.example.login.model.Course;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -79,22 +84,31 @@ public class CreateCourseFragment extends Fragment {
 
             // SỬA LỖI 1: Phải là Call<Void>
             // (Giả sử ApiService.AddCourse đã trả về Call<Void>)
-            Call<Void> call = apiService.AddCourse(newCourse);
+            Call<CourseInfo> call = apiService.AddCourse(newCourse);
 
             // Xử lý Callback<Void>
-            call.enqueue(new Callback<Void>() {
+            call.enqueue(new Callback<CourseInfo>() {
                 @Override
                 // SỬA LỖI 2: Tham số phải là Call<Void>
-                public void onResponse(Call<Void> call, Response<Void> response) {
+                public void onResponse(Call<CourseInfo> call, Response<CourseInfo> response) {
 
                     // SỬA LỖI 4: Xóa kiểm tra response.body()
                     if (response.isSuccessful()) {
 
                         Toast.makeText(getContext(), "Thêm khoá học thành công!", Toast.LENGTH_SHORT).show();
 
+//                        chuyển đến thêm khoá học
+                        CourseInfo course = response.body();
+                        Intent intent = new Intent(requireContext(), DetailCourseActivity.class);
+                        int courseId = course.getId();
+
+                        intent.putExtra("COURSE_ID_KEY", courseId);
+                        startActivity(intent);
+
                         if (getActivity() != null) {
                             getActivity().getSupportFragmentManager().popBackStack();
                         }
+
 
                     } else {
                         // Server trả về lỗi (4xx, 5xx)
@@ -104,7 +118,7 @@ public class CreateCourseFragment extends Fragment {
 
                 @Override
                 // SỬA LỖI 3: Tham số phải là Call<Void>
-                public void onFailure(Call<Void> call, Throwable t) {
+                public void onFailure(Call<CourseInfo> call, Throwable t) {
                     // Lỗi mạng hoặc kết nối
                     // SỬA LỖI 5: Xóa setText không cần thiết
                     Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();

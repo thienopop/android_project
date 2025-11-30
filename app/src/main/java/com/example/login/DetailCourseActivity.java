@@ -65,7 +65,7 @@ public class DetailCourseActivity extends AppCompatActivity {
 
     // Khai báo biến
     LinearLayout showAddCourse;
-    ImageButton btnBack,imShowAddCourse;
+    ImageButton btnBack,imShowAddCourse,im_message;
     ListView listViewSessions;
     TextView text_timeOfTheLesson, text_complete_sessions, text_notes, text_status,
             text_end_date, text_start_date, text_total_price, text_total_sessions,
@@ -105,6 +105,11 @@ public class DetailCourseActivity extends AppCompatActivity {
         btAddSession=findViewById(R.id.btAddSession);
         imShowAddCourse=findViewById(R.id.imShowAddCourse);
         showAddCourse=findViewById(R.id.showAddCourse);
+
+        im_message=findViewById(R.id.im_message);
+
+
+
         btAddSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,6 +226,7 @@ public class DetailCourseActivity extends AppCompatActivity {
     private void displayCourseDetails(DetailCourse course) {
         if (course == null) return;
 
+        im_message.setTag(course.getId());
         text_timeOfTheLesson.setText(course.getTimeOfTheLesson());
         text_subject.setText(course.getSubject());
 
