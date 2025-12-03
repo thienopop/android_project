@@ -7,6 +7,7 @@ public class DetailCourse  {
 
     // 2. Tên đầy đủ của học viên hoặc giáo viên
     private String fullName;
+    private int userId;
 //    text_complete_sessions
     // 3. Môn học
     private String subject;
@@ -42,9 +43,10 @@ public class DetailCourse  {
     }
 
 
-    public DetailCourse (int id, String fullName, String subject, int totalSessions, int  completedSessions, double totalPrice, String timeOfTheLesson, String startTime, String endTime, String createdAt, String startDate, String endDate, String status, String notes) {
+    public DetailCourse (int id, String fullName, int userId, String subject, int totalSessions, int  completedSessions, double totalPrice, String timeOfTheLesson, String startTime, String endTime, String createdAt, String startDate, String endDate, String status, String notes) {
         this.id = id;
         this.fullName = fullName;
+        this.userId=userId;
         this.subject = subject;
         this.totalSessions = totalSessions;
         this.totalPrice = totalPrice;
@@ -79,8 +81,19 @@ this.completedSessions= completedSessions;
         return fullName;
     }
 
+
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public int getUserId()
+    {
+        return userId;
+    }
+    public void setUserId(int userId)
+    {
+        this.userId=userId;
     }
 
     public String getSubject() {

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="16dp"
+    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Quay lại"
+                android:layout_marginEnd="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sửa khoá học"
+                android:textSize="24sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <EditText
+            android:id="@+id/edtSubject"
+            android:hint="@string/subject"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:inputType="text"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_marginTop="10dp"
+            android:background="@android:drawable/edit_text" />
+        <EditText
+            android:id="@+id/edtTotalSessions"
+            android:hint="@string/totalSessions"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:inputType="number"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:background="@android:drawable/edit_text" />
+        <EditText
+            android:id="@+id/edtTotalPrice"
+            android:hint="@string/totalPrice"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:inputType="number"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_marginTop="20dp"
+            android:background="@android:drawable/edit_text" />
+
+        <EditText
+            android:id="@+id/edtTimeOfTheLesson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/timeOfTheLesson"
+            android:inputType="textMultiLine"
+            android:textStyle="bold"
+            android:minLines="3"
+            android:layout_marginTop="20dp"
+            android:gravity="top|start"
+            android:textSize="24sp"
+            android:background="@android:drawable/edit_text" />
+
+        <EditText
+            android:id="@+id/edtNotes"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/notes"
+            android:inputType="textMultiLine"
+            android:textStyle="bold"
+            android:minLines="4"
+            android:layout_marginTop="20dp"
+            android:gravity="top|start"
+            android:textSize="24sp"
+            android:background="@android:drawable/edit_text" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"
+            android:padding="8dp">
+            <Button
+
+                android:id="@+id/btnCancel"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+
+                android:gravity="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/blue"
+                android:text="Huỷ"
+                />
+            <Button
+                android:id="@+id/btnUpdateCourse"
+
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/blue"
+                android:text="Cập nhật"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+
+
+    <!--    {-->
+    <!--    "subject": "Lập trình Java Spring Boot",-->
+    <!--    "totalSessions": 10,-->
+    <!--    "totalPrice": 1500000.00,-->
+    <!--    "timeOfTheLesson": "Tối thứ 2, 4, 6",-->
+    <!--    "startTime": "2025-11-01T19:00:00",-->
+    <!--    "endTime": "2025-11-01T21:00:00",-->
+    <!--    "startDate": "2025-11-01",-->
+    <!--    "endDate": "2025-12-15",-->
+    <!--    "status": "PENDING",-->
+    <!--    "notes": "Học online qua Zoom, mỗi buổi 2 tiếng"-->
+    <!--    }-->

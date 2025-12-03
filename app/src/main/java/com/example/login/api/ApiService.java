@@ -40,6 +40,10 @@ public interface ApiService {
     @GET("auth/me")
     Call<UserWithId> getCurrentUser();
 
+
+    @GET("sessions/courseId")
+    Call<Integer> findCourseIdBySessionId(@Body int sessionId);
+
     // API lấy danh sách session theo gia sư và ngày
 
     @GET("sessions/by-tutor/date/{sessionDate}")
@@ -82,6 +86,10 @@ public interface ApiService {
 
     @GET("chats/my_chats")
     Call<List<ChatWithUserDetail>> getMyChats();
+
+
+    @GET("chats/chat_id")
+    Call<ChatWithUserDetail> getMyChatsId(int user_id);
 
     @GET("chats/{chatId}/messages")
     Call<List<Message>> getChatMessages(@Path("chatId") int chatId);

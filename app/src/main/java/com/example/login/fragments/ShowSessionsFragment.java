@@ -2,6 +2,7 @@ package com.example.login.fragments;
 
 // Import đã được dọn dẹp và thêm các thứ cần thiết
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,9 +16,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.login.DetailCourseActivity;
 import com.example.login.R;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
+import com.example.login.model.CourseIdCallback;
+import com.example.login.model.CourseInfo;
 import com.example.login.model.SessionInfo;
 import com.example.login.adapter.FagmentsSessionTodayAdapter;
 
@@ -136,7 +140,15 @@ public class ShowSessionsFragment extends Fragment {
 
                     listViewSessions.setOnItemClickListener((parent, view, position, id) -> {
                         SessionInfo ss = sessionList.get(position);
-                        Toast.makeText(getContext(), "Bạn chọn session ID: " + ss.getId(), Toast.LENGTH_SHORT).show();
+                        int sessionId= ss.getId();
+                        loadCourseId(sessionId, courseId -> {
+
+                            Intent intent = new Intent(requireContext(), DetailCourseActivity.class);
+
+                            intent.putExtra("COURSE_ID_KEY", courseId);
+                            startActivity(intent);
+
+                        });
                     });
                 } else {
                     // Xóa list cũ nếu không có dữ liệu mới
@@ -157,5 +169,32 @@ public class ShowSessionsFragment extends Fragment {
     // Hàm này giờ chỉ làm 1 việc: Cập nhật EditText
     private void updateLabel() {
         editTextDate.setText(uiSdf.format(myCalendar.getTime()));
+    }
+
+    private void loadCourseId(int sessionId, CourseIdCallback callback) {
+
+        ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
+        Call<Integer> call = apiService.findCourseIdBySessionId(sessionId);
+
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(@NonNull Call<Integer> call, @NonNull Response<Integer> response) {
+                if (!isAdded()) return;
+
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onResult(response.body());
+                } else {
+                    callback.onResult(0);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Integer> call, @NonNull Throwable t) {
+                if (!isAdded()) return;
+
+                Toast.makeText(getContext(), "❌ Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                callback.onResult(0);
+            }
+        });
     }
 }

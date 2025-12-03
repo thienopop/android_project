@@ -16,6 +16,8 @@ import android.widget.*;
 import com.example.login.api.ApiService;
 import com.example.login.api.PrefsHelper;
 import com.example.login.api.RetrofitClient;
+import com.example.login.model.ChatWithUserDetail;
+import com.example.login.model.CourseInfo;
 import com.example.login.model.User;
 import com.example.login.model.RegisterLoginResponse;
 import retrofit2.Call;
@@ -110,6 +112,30 @@ public class DetailCourseActivity extends AppCompatActivity {
 
 
 
+        im_message.setOnClickListener(v -> {
+
+            String value = v.getTag().toString();
+
+            // Chuyển String → int
+            int idChat = Integer.parseInt(value);
+            String fragment_name="FRAGMENT_CHAT";
+            Intent intent = new Intent(DetailCourseActivity.this, TutorDashboardActivity.class);
+            intent.putExtra("FRAGMENT_NAME", fragment_name);
+            intent.putExtra("CHAT_ID", idChat);
+
+            startActivity(intent);
+        });
+
+
+//
+//        CourseInfo course = courseList.get(position);
+//
+//        Intent intent = new Intent(requireContext(), DetailCourseActivity.class);
+//        int courseId = course.getId();
+//
+//        intent.putExtra("COURSE_ID_KEY", courseId);
+//        startActivity(intent);
+//
         btAddSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,7 +252,6 @@ public class DetailCourseActivity extends AppCompatActivity {
     private void displayCourseDetails(DetailCourse course) {
         if (course == null) return;
 
-        im_message.setTag(course.getId());
         text_timeOfTheLesson.setText(course.getTimeOfTheLesson());
         text_subject.setText(course.getSubject());
 
@@ -235,6 +260,8 @@ public class DetailCourseActivity extends AppCompatActivity {
 
         String formattedPrice = String.format("%,.0f VND", course.getTotalPrice());
         text_total_price.setText(formattedPrice);
+        im_message.setTag(course.getUserId());
+
 
         text_full_name.setText(course.getFullName());
         text_end_date.setText(course.getEndDate());
@@ -357,4 +384,27 @@ public class DetailCourseActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+//
+//    private void loadChats() {
+//        ApiService api = RetrofitClient.getClient(this).create(ApiService.class);
+//        api.getMyChats().enqueue(new Callback<List<ChatWithUserDetail>>() {
+//            @Override
+//            public void onResponse(Call<List<ChatWithUserDetail>> call, Response<List<ChatWithUserDetail>> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    adapter.setItems(response.body());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<ChatWithUserDetail>> call, Throwable t) {
+//            }
+//        });
+//    }
+
+
+
+
 }

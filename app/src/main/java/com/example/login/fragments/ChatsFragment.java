@@ -96,4 +96,5 @@ public class ChatsFragment extends Fragment implements ChatsAdapter.OnItemClickL
                     .commit();
         }
     }
+    
 }
