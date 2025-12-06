@@ -99,6 +99,8 @@ public interface ApiService {
     Call<UploadFileResponse> uploadFile(@Part MultipartBody.Part file);
     @POST("courses/create")
     Call<CourseInfo> AddCourse(@Body Course course);
+    @POST("courses/update")
+    Call<CourseInfo> UpdateCourse(@Body Course course);
 
     @GET("files/download/{filename}")
     Call<ResponseBody> downloadFile(@Path("filename") String filename);

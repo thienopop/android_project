@@ -71,7 +71,7 @@ public class DetailCourseActivity extends AppCompatActivity {
     ListView listViewSessions;
     TextView text_timeOfTheLesson, text_complete_sessions, text_notes, text_status,
             text_end_date, text_start_date, text_total_price, text_total_sessions,
-            text_subject, text_full_name;
+            text_subject, text_full_name ,update_course;
 
     EditText tvDate, edtNotes,edtDuration;
     EditText tvTime;
@@ -110,7 +110,16 @@ public class DetailCourseActivity extends AppCompatActivity {
 
         im_message=findViewById(R.id.im_message);
 
+       update_course=findViewById(R.id.update_course);
 
+
+//chuyển đến trang cập nhật khoá hcoj
+        update_course.setOnClickListener(v -> {
+
+            Intent intent = new Intent(DetailCourseActivity.this, UpdateCourseActivity.class);
+            intent.putExtra("COURSE_ID", courseId);
+            startActivity(intent);
+        });
 
         im_message.setOnClickListener(v -> {
 

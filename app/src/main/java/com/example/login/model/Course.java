@@ -29,8 +29,6 @@ public  Course( String subject, String notes, String timeOfTheLesson, double tot
     this.timeOfTheLesson=timeOfTheLesson;
     this.totalPrice=totalPrice;
     this.totalSessions=totalSessions;
-
-
 }
     // Getters và Setters
     public int getId() { return id; }
@@ -38,7 +36,6 @@ public  Course( String subject, String notes, String timeOfTheLesson, double tot
 
     public String getSubject() { return subject; }
     public void setSubject(String subject) { this.subject = subject; }
-
     public int getTotalSessions() { return totalSessions; }
     public void setTotalSessions(int totalSessions) { this.totalSessions = totalSessions; }
 
