@@ -18,6 +18,8 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     List<Course> findByTutorAndStatus(Tutor tutor, String status);
     List<Course> findByStudentAndStatus(Student student, String status);
 
+//     int findCourseIdBySessonId(int sessionId);
+
 //     @Query("SELECT c.id AS id, c.startTime AS startTime, c.totalSessions AS totalSessions, c.notes AS notes, c.status AS status, s.fullName AS fullName, c.subject AS subject " +
 //        "FROM Course c LEFT JOIN Student s ON s.id = c.student.id " +
 //        "WHERE c.tutor.id = :tutorId AND c.status = :status")
@@ -83,6 +85,7 @@ List<CourseInfo> findCoursesByStudentIdAndStatus(@Param("studentId") Integer stu
            "    c.time_of_the_lesson AS timeOfTheLesson, " +
         "    c.status AS status, " +
         "    s.full_name AS fullName, " +
+        "    s.user_id AS userId, " +
         "    c.subject AS subject, " +
 
         "    COUNT(ss.id) AS completedSessions " + 
@@ -110,6 +113,8 @@ DetailCourse findDetailCourseById(@Param("courseId") int courseId);
            "    c.time_of_the_lesson AS timeOfTheLesson, " +
         "    c.status AS status, " +
         "    s.full_name AS fullName, " +
+         "    s.user_id AS userId, " +
+
         "    c.subject AS subject, " +
 
         "    COUNT(ss.id) AS completedSessions " + 
@@ -127,6 +132,14 @@ DetailCourse findDetailCourseById(@Param("courseId") int courseId);
 DetailCourse findDetailCourseByIdOfStudent(@Param("courseId") int courseId);
 // 
 
+@Query(value = """
+        SELECT c.id
+        FROM courses c
+        JOIN sessions s ON c.id = s.course_id
+        WHERE s.id = :sessionId
+        """,
+        nativeQuery = true)
+int findCourseIdBySessionId(@Param("sessionId") int sessionId);
 
 
 }

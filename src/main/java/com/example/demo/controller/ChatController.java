@@ -45,4 +45,6 @@ public class ChatController {
         List<ChatWithUserDetail> result = chatRepository.findChatsWithUserDetails(currentUser.getId());
         return ResponseEntity.ok(result);
     }
+
+    
 }

@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 import com.example.demo.entity.Tutor;
 import com.example.demo.repository.TutorRepository;
+
+import org.aspectj.weaver.ast.Call;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -41,11 +43,43 @@ public class CourseController {
     // chức năng cho tutor
     // ✅ Xem chi tiết 1 khóa học theo id/ cả student và tutor đều xem được
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable int id) {
-        Optional<Course> courseOpt = courseRepository.findById(id);
-        return courseOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    // @GetMapping("/{id}")
+    // public ResponseEntity<Course> getCourseById(@PathVariable int id) {
+    //     Optional<Course> courseOpt = courseRepository.findById(id);
+    //     return courseOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    // }
+
+
+
+    public Course getCourseById(int id) {
+    return courseRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Course not found"));
+}
+
+
+// Lấy courseId bằng sessionId
+@GetMapping("/courses_id/{session_id}")
+public ResponseEntity<?> getCourseIdBySessionId(@PathVariable int session_id) {
+   if(session_id<=0)
+   {
+    return ResponseEntity.status(404).body(Map.of(
+            "error", "SessionId không hợp lệ " +session_id
+        ));
+   }
+
+   int course_id=0;
+   course_id=courseRepository.findCourseIdBySessionId(session_id);
+
+
+  if (course_id<=0) {
+        return ResponseEntity.status(404).body(Map.of(
+            "error", "Không tìm thấy tutor cho user: " 
+        ));
     }
+   return ResponseEntity.ok(course_id);
+}
+
+
 
 
  // lấy danh sách khóa học của tutor hiện tại theo trạng thái
@@ -175,30 +209,33 @@ public ResponseEntity<?> getCoursesByStudetnAndIdCourse(@PathVariable int id) {
         course.setStatus("NEW");
      
         Course newCourse = courseRepository.save(course);
+        int courseId=newCourse.getId();
         //không gửi giữ liệu
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(courseId);
     }
+
+
+
+    //   @POST("courses/update")
+    // Call<CourseInfo> UpdateCourse(@Body Course course);
+
+
 
     // ✅ Cập nhật khóa học
     @PutMapping("/update")
     public ResponseEntity<?> updateCourse( @RequestBody Course updatedCourse) {
         Optional<Course> courseOpt = courseRepository.findById(updatedCourse.getId());
         if (courseOpt.isEmpty()) return ResponseEntity.notFound().build();
-
         Course course = courseOpt.get();
         course.setSubject(updatedCourse.getSubject());
         course.setTotalSessions(updatedCourse.getTotalSessions());
         course.setTotalPrice(updatedCourse.getTotalPrice());
         course.setTimeOfTheLesson(updatedCourse.getTimeOfTheLesson());
-        course.setStartTime(updatedCourse.getStartTime());
-        course.setEndTime(updatedCourse.getEndTime());
-        course.setStartDate(updatedCourse.getStartDate());
-        course.setEndDate(updatedCourse.getEndDate());
-        course.setStatus(updatedCourse.getStatus());
         course.setNotes(updatedCourse.getNotes());
         courseRepository.save(course);
         return ResponseEntity.ok(course);
     }
+
 
     // ✅ Xóa khóa học
     @DeleteMapping("delete/{id}")
@@ -247,6 +284,11 @@ public ResponseEntity<?> getCoursesByStudetnAndIdCourse(@PathVariable int id) {
                 "status", course.getStatus()
         ));
     }
+
+
+
+
+
 
     //xác nhận bắt đầu khoá học (tutor xác nhận)
     @PutMapping("/confirm_start/{id}")

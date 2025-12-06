@@ -4,7 +4,8 @@ import java.time.LocalDateTime;
 
 public interface CourseInfo {
     Long getId();
-     LocalDateTime  getStartTime();
+    
+    LocalDateTime  getStartTime();
     Integer getTotalSessions();
     String getNotes();
     String getStatus();

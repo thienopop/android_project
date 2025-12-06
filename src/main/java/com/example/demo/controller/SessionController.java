@@ -12,6 +12,7 @@ import com.example.demo.repository.StudentRepository;
 import com.example.demo.entity.Course;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -230,6 +231,25 @@ public ResponseEntity<?> getSessionsByTutorAndDate(
 
         return ResponseEntity.ok(sessions);
     }
+
+
+
+
+//lấy tất cả buổi học 
+    public  List<Session>  getAllSessions(LocalDate date) {
+// List<Session> findByDate(
+//         @Param("startOfDay") LocalDateTime startOfDay,
+//         @Param("endOfDay") LocalDateTime endOfDay);
+  // ✅ Tạo khoảng thời gian trong ngày (00:00:00 → 23:59:59)
+    LocalDateTime startOfDay = date.atStartOfDay();
+    LocalDateTime endOfDay = date.atTime(23, 59, 59);
+
+        // 🔍 Truy vấn buổi học t
+     List<Session> sessions = sessionRepository.findByDate(startOfDay,endOfDay);
+     return sessions;
+    }
+
+
 
     //lấy buổi học của student đăng nhập , và theo trạng thái buổi học
     @GetMapping("/by-student/status/{status}")

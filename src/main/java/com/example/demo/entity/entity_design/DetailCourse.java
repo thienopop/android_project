@@ -4,6 +4,7 @@ public interface DetailCourse {
 
     Integer getId();//
  String getFullName();//
+ int getUserId();
  String getSubject();//
  int getTotalSessions();//
  double getTotalPrice();//

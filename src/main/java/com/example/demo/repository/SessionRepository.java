@@ -14,6 +14,13 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
     List<Session> findByCourseId(Integer courseId);
     List<Session> findByStatus(String status);
 
+@Query("SELECT s FROM Session s " +
+       "WHERE s.sessionDate BETWEEN :startOfDay AND :endOfDay")
+List<Session> findByDate(
+        @Param("startOfDay") LocalDateTime startOfDay,
+        @Param("endOfDay") LocalDateTime endOfDay
+);
+
 
 //     // lấy danh sách session của học viên theo ngày
 // @Query("SELECT s FROM Session s " +
@@ -100,7 +107,6 @@ List<SessionInfo> findSessionsByStudentIdAndDate(
         @Param("studentId") Integer studentId,
         @Param("startOfDay") LocalDateTime startOfDay,
         @Param("endOfDay") LocalDateTime endOfDay);
-
 
 
 }

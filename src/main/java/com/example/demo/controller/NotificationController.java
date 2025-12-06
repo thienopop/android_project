@@ -51,6 +51,8 @@ public class NotificationController {
 
     }
 
+
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateNotification(@PathVariable Integer id, @RequestBody Notification notification) {
         Optional<Notification> existingNotificationOpt = notificationRepository.findById(id);
@@ -63,5 +65,10 @@ public class NotificationController {
         existingNotification.setReadAt(readAt);
         Notification updatedNotification = notificationRepository.save(existingNotification);
         return ResponseEntity.ok(updatedNotification);
+    
     }
+
+
+
+
 }
