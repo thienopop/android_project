@@ -50,10 +50,11 @@ public class CourseController {
     // }
 
 
-
-    public Course getCourseById(int id) {
-    return courseRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Course not found"));
+@GetMapping("/{id}")
+public Course getCourseById(@PathVariable("id") int id) {
+    Optional<Course> courseOpt = courseRepository.findById(id);
+    if (courseOpt.isEmpty()) return null;
+    return courseOpt.get();
 }
 
 
