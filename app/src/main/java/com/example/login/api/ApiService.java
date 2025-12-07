@@ -8,6 +8,7 @@ import com.example.login.model.SessionInfo;
 import com.example.login.model.CourseInfo;
 import com.example.login.model.DetailCourse;
 import com.example.login.model.UploadFileResponse;
+import com.example.login.model.Notification;
 import com.example.login.model.User;
 import com.example.login.model.RegisterLoginResponse;
 import com.example.login.model.UserWithId;
@@ -39,6 +40,8 @@ public interface ApiService {
     Call<Void> addSession(@Body AddSession addSession);
     @GET("auth/me")
     Call<UserWithId> getCurrentUser();
+    @GET("notifications/by-user")
+    Call<List<Notification>> getNotificationByUser();
 
 
     @GET("sessions/courseId")

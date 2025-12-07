@@ -1,16 +1,49 @@
 package com.example.login.fragments;
 
 import android.os.Bundle;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.example.login.adapter.FagmentsSessionTodayAdapter;
+import com.example.login.api.ApiService;
+import com.example.login.api.RetrofitClient;
+import com.example.login.fragments.HomeFragment;
+import com.example.login.fragments.ChatboxFragment;
+import com.example.login.fragments.ChatsFragment;
+import com.example.login.fragments.ProfileFragment;
+import com.example.login.fragments.CreateCourseFragment;
+
+import com.example.login.model.ChatWithUserDetail;
+import com.example.login.model.CourseInfo;
+import com.example.login.TutorDashboardActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.login.R;
 import com.example.login.adapter.FagmentsSessionTodayAdapter;
@@ -34,6 +67,8 @@ public class ProfileFragment extends Fragment {
     private TextView tvNgaySinh;
     private TextView tvBio;
     private TextView tvKinhNghiem;
+    private ImageView imMotification;
+//    private TutorDashboardActivity
 
     @Nullable
     @Override
@@ -54,9 +89,28 @@ public class ProfileFragment extends Fragment {
         tvNgaySinh = view.findViewById(R.id.tvNgaySinh);
         tvBio = view.findViewById(R.id.tvBio);
         tvKinhNghiem = view.findViewById(R.id.tvKinhNghiem);
+        imMotification= view.findViewById(R.id.imMotification);
+
 
         // Gọi API
         loadProfileData();
+        TutorDashboardActivity tutorDashboard =new TutorDashboardActivity();
+        imMotification.setOnClickListener(v -> {
+            FragmentManager fm = requireActivity().getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.main_container, new NotificationFragment());
+            ft.addToBackStack(null);
+            ft.commit();
+        });
+//
+//        imMotification.setOnClickListener(v -> {
+//            ((TutorDashboardActivity) requireActivity())
+//                    .loadFragment(new NotificationFragment());
+//        });
+
+
+
+
     }
 
     private void loadProfileData() {
@@ -129,8 +183,22 @@ public class ProfileFragment extends Fragment {
 //                Toast.makeText(getContext(), "❌ Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
 //                tvTutorName.setText(t.getMessage());
 //            }
-//        });
+//        });`
 //    }
+private void loadChildFragment(Fragment fragment) {
+    FragmentManager fm = getChildFragmentManager();
+    FragmentTransaction ft = fm.beginTransaction();
+
+    // .replace() sẽ tự động gỡ fragment cũ ra và thêm fragment mới vào
+    ft.replace(R.id.main_container, fragment);
+
+    // (Tùy chọn) Thêm vào back stack của trình quản lý con
+    // ft.addToBackStack(null);
+
+    ft.commit();
+}
+
+
 
 
 }

@@ -1,10 +1,15 @@
 package com.example.login.fragments;
 
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,9 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.login.DetailCourseActivity;
 import com.example.login.R;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
+import com.example.login.model.CourseIdCallback;
+import com.example.login.model.Notification;
 import com.example.login.model.Tutor;
 
 import retrofit2.Call;
@@ -35,126 +43,93 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.login.R;
-import com.example.login.adapter.FagmentsSessionTodayAdapter;
+import com.example.login.adapter. ListNotificationAdapter;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
 import com.example.login.model.SessionInfo;
 import com.example.login.model.Tutor;
 
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NotificationFragment extends Fragment {
+public class NotificationFragment   extends Fragment {
 
-        private TextView tvTutorName;
-        private TextView tvSdt;
-        private TextView tvDiaChi;
-        private TextView tvNgaySinh;
-        private TextView tvBio;
-        private TextView tvKinhNghiem;
+    private ListView listViewNotification;
 
-        @Nullable
-        @Override
-        public View onCreateView(@NonNull LayoutInflater inflater,
-                                 @Nullable ViewGroup container,
-                                 @Nullable Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_profile, container, false);
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.notification_fragment, container, false);
+        listViewNotification = view.findViewById(R.id.listViewNotification);
+
+        loadNotification();
+
+        return view; // 👈 BẮT BUỘC PHẢI CÓ
+    }
+
+
+    private void loadNotification() {
+        // Kiểm tra context trước khi gọi API
+        if (getContext() == null) {
+            return;
         }
 
-        @Override
-        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
+        ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
+        Call<List<Notification>> call = apiService.getNotificationByUser();
 
-            // Ánh xạ View
-            tvTutorName = view.findViewById(R.id.tvTutorName);
-            tvSdt = view.findViewById(R.id.tvSdt);
-            tvDiaChi = view.findViewById(R.id.tvDiaChi);
-            tvNgaySinh = view.findViewById(R.id.tvNgaySinh);
-            tvBio = view.findViewById(R.id.tvBio);
-            tvKinhNghiem = view.findViewById(R.id.tvKinhNghiem);
+        call.enqueue(new Callback<List<Notification>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Notification>> call, @NonNull Response<List<Notification>> response) {
+                if (!isAdded()) return; // Đảm bảo fragment vẫn còn attached
 
-            // Gọi API
-            loadProfileData();
-        }
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    List<Notification> notification = response.body();
+//                    txtMessage.setText("");
+                    ListNotificationAdapter adapter = new ListNotificationAdapter(getContext(), notification);
+                    listViewNotification.setAdapter(adapter);
 
-        private void loadProfileData() {
-            ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
-            Call<Tutor> call = apiService.getTutorLogin();
-
-            call.enqueue(new Callback<Tutor>() {
-                @Override
-                public void onResponse(Call<Tutor> call, Response<Tutor> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        Tutor tutor = response.body();
-                        updateUI(tutor);
-                    } else {
-                        Log.e("API_ERROR", "Response error: " + response.message());
-                        Toast.makeText(getContext(), "⚠️ Không thể tải thông tin. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
-                    }
+                    listViewNotification.setOnItemClickListener((parent, view, position, id) -> {
+                        Notification ss = notification.get(position);
+//                        int sessionId= ss.getId();
+//                        loadCourseId(sessionId, courseId -> {
+//
+//                            Intent intent = new Intent(requireContext(), DetailCourseActivity.class);
+//
+//                            intent.putExtra("COURSE_ID_KEY", courseId);
+//                            startActivity(intent);
+//
+//                        });
+                    });
+                } else {
+                    // Xóa list cũ nếu không có dữ liệu mới
+                    listViewNotification.setAdapter(null);
+//                    txtMessage.setText("Không có lịch học cho ngày :" + date);
+//                    Toast.makeText(getContext(), "Không có lịch học cho ngày " + date, Toast.LENGTH_SHORT).show();
                 }
-
-                @Override
-                public void onFailure(Call<Tutor> call, Throwable t) {
-
-                    Log.e("API_FAILURE", "Error: " + t.getMessage());
-                    Toast.makeText(getContext(), "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
-        // Cập nhật thông tin lên UI
-        private void updateUI(Tutor tutor) {
-            tvTutorName.setText(safeText(tutor.getFullName()));
-            tvSdt.setText(safeText(tutor.getPhone()));
-            tvDiaChi.setText(safeText(tutor.getAddress()));
-
-            if (tutor.getDateOfBirth() != null) {
-                String formattedDob = tutor.getDateOfBirth().toString();
-                tvNgaySinh.setText(formattedDob);
-            } else {
-                tvNgaySinh.setText("Chưa cập nhật");
             }
 
-            tvBio.setText(safeText(tutor.getBio()));
-            tvKinhNghiem.setText(
-                    tutor.getExperienceYears() != null ? tutor.getExperienceYears() + " năm" : "Chưa cập nhật"
-            );
-        }
-
-        private String safeText(String input) {
-            return (input != null && !input.isEmpty()) ? input : "Chưa cập nhật";
-        }
-
-//
-//    private void  loadProfileData() {
-//        ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
-//
-//        Call<Tutor> call = apiService.getTutorLogin();
-//
-//        call.enqueue(new Callback<Tutor>() {
-//            @Override
-//            public void onResponse(Call<Tutor> call, Response<Tutor> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    Tutor tutor = response.body();
-//                    Toast.makeText(getContext(), "✅ Load OK: ", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(getContext(), "⚠️ API trả về rỗng hoặc lỗi " + response.code(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Tutor> call, Throwable t) {
-//                Toast.makeText(getContext(), "❌ Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//                tvTutorName.setText(t.getMessage());
-//            }
-//        });
-//    }
-
-
+            @Override
+            public void onFailure(@NonNull Call<List<Notification>> call, @NonNull Throwable t) {
+                if (!isAdded()) return;
+                Toast.makeText(getContext(), "❌ Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
+}

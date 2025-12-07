@@ -96,7 +96,7 @@ public class TutorDashboardActivity extends AppCompatActivity {
     }
 
     // Hàm load Fragment vào FrameLayout
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, fragment)
                 .commit();
