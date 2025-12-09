@@ -2,6 +2,9 @@ package com.example.login.api;
 
 import com.example.login.model.ChatWithUserDetail;
 import com.example.login.model.Message;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+
 import com.example.login.model.Tutor;
 import com.example.login.model.Course;
 import com.example.login.model.SessionInfo;
@@ -42,6 +45,23 @@ public interface ApiService {
     Call<UserWithId> getCurrentUser();
     @GET("notifications/by-user")
     Call<List<Notification>> getNotificationByUser();
+    @GET("notifications/byId/{Id}")
+    Call<Notification> getNotificationById(@Body int Id);
+
+//    @POST("notifications/update/isread/{id}")
+//    Call<Void> updateIsReadNotificationById(@Path("id") int Id);
+
+    @PUT("notifications/update/isread/{id}")
+    Call<Void> updateIsReadNotificationById(@Path("id") int id);
+//    @PutMapping("/updateCourseStatus/{id}")
+
+    @PUT("courses/updateCourseStatus/{id}")
+    Call<Void> updateCourseStatus(@Path("id") int id,@Body String status);
+
+
+//
+//    @PUT("notifications/update/isread/{id}")
+//    Call<Void> updateIsReadNotificationById(@Path("id") int id);
 
 
     @GET("sessions/courseId")

@@ -83,6 +83,8 @@ public class ShowCourseFragment extends Fragment {
         setupButton(btnShowCOMPLETED, "COMPLETED");
         setupButton(btnShowCANCELLED, "CANCELLED");
 
+//        "NEW", "STUDENT_REGISTERED", "ONGOING", "COMPLETED", "CANCELLED");
+
         // Phục hồi trạng thái
         if (savedInstanceState != null) {
             status = savedInstanceState.getString("status", "ONGOING");

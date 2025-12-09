@@ -1,14 +1,12 @@
 package com.example.login.fragments;
 
-import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.app.Dialog;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,55 +15,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.login.DetailCourseActivity;
 import com.example.login.R;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
-import com.example.login.model.CourseIdCallback;
 import com.example.login.model.Notification;
-import com.example.login.model.Tutor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-
-
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.example.login.R;
 import com.example.login.adapter. ListNotificationAdapter;
-import com.example.login.api.ApiService;
-import com.example.login.api.RetrofitClient;
-import com.example.login.model.SessionInfo;
-import com.example.login.model.Tutor;
 
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class NotificationFragment   extends Fragment {
 
     private ListView listViewNotification;
+    private Notification itemNotification;
 
 
     @Nullable
@@ -104,17 +71,23 @@ public class NotificationFragment   extends Fragment {
                     listViewNotification.setAdapter(adapter);
 
                     listViewNotification.setOnItemClickListener((parent, view, position, id) -> {
-                        Notification ss = notification.get(position);
-//                        int sessionId= ss.getId();
-//                        loadCourseId(sessionId, courseId -> {
+                        int notiId = (int) view.getTag(R.id.backGround);
+                        Toast.makeText(getContext(), "Bạn đã chọn " + notiId, Toast.LENGTH_SHORT).show();
+//                        loadNoti(notiId);
+                        Notification noti=loadNotification( notification, notiId);
+                        openPopup(noti);
+//                        cập nhật trạng thái đã đọc
+                        if(noti.getIsRead()!=true)
+                        {
+                            updateIsRead(noti.getId());
+
+                        }
+
+
 //
-//                            Intent intent = new Intent(requireContext(), DetailCourseActivity.class);
-//
-//                            intent.putExtra("COURSE_ID_KEY", courseId);
-//                            startActivity(intent);
-//
-//                        });
+
                     });
+
                 } else {
                     // Xóa list cũ nếu không có dữ liệu mới
                     listViewNotification.setAdapter(null);
@@ -130,6 +103,93 @@ public class NotificationFragment   extends Fragment {
             }
         });
     }
+
+
+//
+//    public void loadNoti(int noti_id) {
+//
+//        ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
+//        Call<Notification> call = apiService.getNotificationById(noti_id);
+////            Call<Notification> getNotificationById(@Body int Id);
+//        call.enqueue(new Callback<Notification>() {
+//            @Override
+//            public void onResponse(@NonNull Call<Notification> call, @NonNull Response<Notification> response) {
+//                if (!isAdded()) return;
+//
+//                if (response.isSuccessful() && response.body() != null) {
+//
+//                    itemNotification = response.body();
+//
+//                    // 👉 Mở popup NGAY TẠI ĐÂY
+//                    openPopup(itemNotification);
+//
+//                } else {
+//                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<Notification> call, @NonNull Throwable t) {
+//                if (!isAdded()) return;
+//                Toast.makeText(getContext(), "Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+
+    private Notification loadNotification(List<Notification> notifications, int id) {
+        for (Notification noti : notifications) {
+            if (noti.getId() == id) {
+                return noti; // tìm thấy thì trả về luôn
+            }
+        }
+        return null; // không tìm thấy
+    }
+
+
+    private void openPopup(Notification noti) {
+
+        Dialog dialog = new Dialog(requireContext());
+        dialog.setContentView(R.layout.show_detail_notification_card);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCancelable(true);
+
+        TextView txtPopupTitle = dialog.findViewById(R.id.txtPopupTitle);
+        TextView txtPopupMessage = dialog.findViewById(R.id.txtPopupMessage);
+
+        txtPopupTitle.setText(noti.getTitle());
+        txtPopupMessage.setText(noti.getMessage());
+
+        Button btnClose = dialog.findViewById(R.id.btnClose);
+        btnClose.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+
+
+    }
+
+
+
+
+    public void updateIsRead(int noti_id) {
+
+        ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
+        Call<Void> call = apiService.updateIsReadNotificationById(noti_id);
+//            Call<Notification> getNotificationById(@PATH int Id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (!isAdded()) return;
+
+            }
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                if (!isAdded()) return;
+                Toast.makeText(getContext(), "Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 
 
 }

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,16 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.VH> {
     private List<ChatWithUserDetail> items;
     private List<ChatWithUserDetail> original;
     private OnItemClickListener listener;
+
+
+//    CardView card = findViewById(R.id.cardView);
+//    // từ resource color
+//    int color = ContextCompat.getColor(this, R.color.my_card_color);
+//card.setCardBackgroundColor(color);
+//
+//// hoặc dùng mã hex trực tiếp
+//card.setCardBackgroundColor(Color.parseColor("#FF5722"));
+
 
     public ChatsAdapter(List<ChatWithUserDetail> items) {
         this.items = items;
@@ -89,6 +100,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.VH> {
             tvUsername = itemView.findViewById(R.id.tvChatUsername);
             tvUnreadDot = itemView.findViewById(R.id.tvChatUnreadDot);
             ivAvatar = itemView.findViewById(R.id.ivChatAvatar);
+
         }
     }
 

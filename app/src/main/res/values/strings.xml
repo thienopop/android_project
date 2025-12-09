@@ -4,10 +4,10 @@
         <string name="lich_hoc_titel">Lịch Học</string>
         <string name="khoa_hoc_title">Khóa học</string>
     <string name="ongoing_title">Đang dạy</string>
-    <string name="pending_title">Chưa xác nhận</string>
+    <string name="pending_title">Mới</string>
     <string name="cancelled_title">Huỹ</string>
     <string name="completed_title">Hoàn thành</string>
-    <string name="register_title">Chờ đăng ký</string>
+    <string name="register_title">Chờ xác nhận</string>
     <string name="log_out">Đăng xuất</string>
     <string name="notification">Thông báo</string>
     <string name="edit_profile">Chỉnh sửa thông tin</string>
@@ -21,7 +21,10 @@
     <string name="course_course">Thêm khoá học</string>
 
     <string name="login">Đăng nhập</string>
-    <string name="s2"></string>
+    <string name="close">Đóng</string>
+    <string name="cancel">Huỷ</string>
+
+    <string name="confirm">Xác nhận</string>
     <string name="s3"></string>
     <string name="s5"></string>
     <string name="s6"></string>

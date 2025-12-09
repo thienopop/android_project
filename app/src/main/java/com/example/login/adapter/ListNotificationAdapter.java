@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.graphics.Color;
 
 import com.example.login.R;
 import com.example.login.model.Notification;
@@ -39,6 +41,7 @@ public class ListNotificationAdapter extends ArrayAdapter<Notification> {
      */
     private static class ViewHolder {
         TextView txtNotificationDate,txtmessage,txtIsReaded,txtTitle;
+        LinearLayout backGround;
 
 //        android:id="@+id/txtNotificationDate"    android:id="@+id/txtmessage" android:id="@+id/txtIsReaded" android:id="@+id/txtTitle"
     }
@@ -59,6 +62,7 @@ public class ListNotificationAdapter extends ArrayAdapter<Notification> {
             holder.txtIsReaded = convertView.findViewById(R.id.txtIsReaded);
             holder.txtmessage = convertView.findViewById(R.id.txtmessage);
             holder.txtNotificationDate = convertView.findViewById(R.id.txtNotificationDate);
+            holder.backGround= convertView.findViewById(R.id.backGround);
             // Gắn holder vào View bằng setTag()
             convertView.setTag(holder);
         } else {
@@ -69,7 +73,9 @@ public class ListNotificationAdapter extends ArrayAdapter<Notification> {
         if (notification != null) {
 
             // Gắn ID của session vào View để xử lý sự kiện click ngoài Adapter nếu cần
+            convertView.setTag(R.id.backGround, notification.getId());
 
+            // Gắn ID vào View để tái sử dụng
             // Gán Ngày Bắt đầu (Giả định là String)
             holder.txtTitle.setText("Title : "+notification.getTitle());
 
@@ -78,9 +84,14 @@ public class ListNotificationAdapter extends ArrayAdapter<Notification> {
             if(notification.getIsRead()==true)
             {
                 holder.txtIsReaded .setText("Đã đọc");
+                holder.backGround.setBackgroundColor(Color.parseColor("#FFE4EC"));
+
             }
             else{
                 holder.txtIsReaded .setText("Chưa đọc");
+                holder.backGround.setBackgroundColor(Color.parseColor("#FFB6C1"));
+
+
             }
             // Gán Trạng thái (String)
             holder.txtmessage.setText("Message: "+notification.getMessage());
@@ -88,7 +99,6 @@ public class ListNotificationAdapter extends ArrayAdapter<Notification> {
             holder.txtNotificationDate.setText(": "+notification.getCreatedAt());
 
         }
-
         return convertView;
     }
 }

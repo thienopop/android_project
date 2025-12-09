@@ -30,16 +30,6 @@
                 android:background="@drawable/button_background_selector"
                 android:text="@string/pending_title"
                 android:textColor="@color/button_text_color_selector" />
-
-            <Button
-                android:id="@+id/btnShowONGOING"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="@string/ongoing_title"
-                android:background="@drawable/button_background_selector"
-                android:textColor="@color/button_text_color_selector"/>
-
             <Button
                 android:id="@+id/btnShowSTUDENT_REGISTERED"
                 android:layout_width="wrap_content"
@@ -48,6 +38,16 @@
                 android:text="@string/register_title"
                 android:background="@drawable/button_background_selector"
                 android:textColor="@color/button_text_color_selector"/>
+
+
+            <Button
+                android:id="@+id/btnShowONGOING"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/button_background_selector"
+                android:text="@string/ongoing_title"
+                android:textColor="@color/button_text_color_selector" />
 
             <Button
                 android:id="@+id/btnShowCOMPLETED"

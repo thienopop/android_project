@@ -1,5 +1,6 @@
 package com.example.login;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.example.login.api.PrefsHelper;
 import com.example.login.api.RetrofitClient;
 import com.example.login.model.ChatWithUserDetail;
 import com.example.login.model.CourseInfo;
+import com.example.login.model.Notification;
 import com.example.login.model.User;
 import com.example.login.model.RegisterLoginResponse;
 import retrofit2.Call;
@@ -63,6 +65,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.Path;
 
 public class DetailCourseActivity extends AppCompatActivity {
 
@@ -78,7 +81,7 @@ public class DetailCourseActivity extends AppCompatActivity {
     EditText tvTime;
     Button btCancelAddSession;
     Button btAddSession;
-    int courseId=0;
+    int courseId=-1;
 
 
 
@@ -112,6 +115,20 @@ public class DetailCourseActivity extends AppCompatActivity {
         im_message=findViewById(R.id.im_message);
 
        update_course=findViewById(R.id.update_course);
+
+//        updateCourseStatus(String status) {
+
+
+
+
+
+        text_status.setOnClickListener(v -> {
+            updateCourseStatus(text_status.getText().toString());
+
+        });
+
+
+
 
 
 //chuyển đến trang cập nhật khoá hcoj
@@ -413,6 +430,77 @@ public class DetailCourseActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
+
+
+    private void updateCourseStatus(String status) {
+
+        String nextStatus="";
+        String text="";
+        if(status.equals("STUDENT_REGISTERED"))
+        {
+            text="Bắt đầu khoá học";
+            nextStatus="ONGOING";
+        }else if (status.equals("ONGOING"))
+        {
+            text="Hoàn thành khoá học";
+            nextStatus="COMPLETED";
+        }
+
+
+//            "NEW", "STUDENT_REGISTERED", "ONGOING", "COMPLETED", "CANCELLED");
+//        Dialog dialog = new Dialog(requireContext()
+            //        );
+        Dialog dialog = new Dialog(DetailCourseActivity.this);
+
+        dialog.setContentView(R.layout.show_to_update_status_course_cart);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCancelable(true);
+
+// Ánh xạ view
+        TextView txtConten = dialog.findViewById(R.id.txtConten);
+        Button btnCancel = dialog.findViewById(R.id.btnCancel);
+        Button btnConfirm = dialog.findViewById(R.id.btnConfirm);
+
+// Set dữ liệu
+        txtConten.setText(text);
+
+// Sự kiện nút Cancel
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        final String finalStatus = nextStatus;
+// Sự kiện nút Confirm
+        btnConfirm.setOnClickListener(v -> {
+
+            updateCsourseStatus(finalStatus);
+            dialog.dismiss();
+        });
+
+// Hiện dialog CUỐI CÙNG
+        dialog.show();
+
+    }
+
+    private void updateCsourseStatus(String status) {
+
+        ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
+        Call<Void> call = apiService.updateCourseStatus(courseId, status);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+
+                if (response.isSuccessful()) {
+                    Toast.makeText(DetailCourseActivity.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DetailCourseActivity.this, "Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Toast.makeText(DetailCourseActivity.this, "Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
 
