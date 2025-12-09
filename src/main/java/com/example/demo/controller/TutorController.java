@@ -25,7 +25,6 @@ public class TutorController {
         return tutorRepository.findAll();
     }
 
-    // Lấy tutor theo ID
     @GetMapping("/{id}")
     public ResponseEntity<Tutor> getTutorById(@PathVariable int id) {
         Optional<Tutor> tutorOpt = tutorRepository.findById(id);

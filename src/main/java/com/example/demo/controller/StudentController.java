@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.entity.Student;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.UserRepository;
+
+import org.aspectj.weaver.ast.Call;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,10 @@ public class StudentController {
     // ✅ Lấy hồ sơ học viên theo ID
    //lấy thông tin tutor của user hiện tại
 // chính student đăng nhập để lấy thông tin của mình
+
+
+    // @GET("students/me")
+    // Call<Student> getStudentLogin();
  @GetMapping("/me")
 public ResponseEntity<?> getMyStudentProfile() {
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
