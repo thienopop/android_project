@@ -1,6 +1,4 @@
 package com.example.login.model;
-
-
 public class SessionInfo {
     private int id;
     private int duration;

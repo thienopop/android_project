@@ -1,9 +1,12 @@
 package com.example.login.fragments;
 
+import android.app.Dialog;
 import android.os.Bundle;
-
+import com.example.login.api.PrefsHelper;
+import com.example.login.LoginActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import com.example.login.api.PrefsHelper;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +25,7 @@ import com.example.login.fragments.CreateCourseFragment;
 import com.example.login.model.ChatWithUserDetail;
 import com.example.login.model.CourseInfo;
 import com.example.login.TutorDashboardActivity;
+import com.example.login.model.Notification;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
@@ -68,6 +72,13 @@ public class ProfileFragment extends Fragment {
     private TextView tvBio;
     private TextView tvKinhNghiem;
     private ImageView imMotification;
+    private TextView tvLogOut;
+
+//
+//    android:id="@+id/btnlogOut"
+//            // 🔒 Lưu token vào SharedPreferences để dùng sau
+//            PrefsHelper.saveToken(LoginActivity.this, token);
+//            PrefsHelper.saveCurrentUserId(LoginActivity.this, currentUserId);
 //    private TutorDashboardActivity
 
     @Nullable
@@ -90,6 +101,7 @@ public class ProfileFragment extends Fragment {
         tvBio = view.findViewById(R.id.tvBio);
         tvKinhNghiem = view.findViewById(R.id.tvKinhNghiem);
         imMotification= view.findViewById(R.id.imMotification);
+        tvLogOut =view.findViewById(R.id.tvLogOut);
 
 
         // Gọi API
@@ -102,6 +114,22 @@ public class ProfileFragment extends Fragment {
             ft.addToBackStack(null);
             ft.commit();
         });
+
+        tvLogOut.setOnClickListener(v -> {
+            ConfirmLogOut();
+//            FragmentManager fm = requireActivity().getSupportFragmentManager();
+//            FragmentTransaction ft = fm.beginTransaction();
+//            ft.replace(R.id.main_container, new NotificationFragment());
+//            ft.addToBackStack(null);
+//            ft.commit();
+        });
+
+
+
+
+
+
+
 //
 //        imMotification.setOnClickListener(v -> {
 //            ((TutorDashboardActivity) requireActivity())
@@ -200,5 +228,38 @@ private void loadChildFragment(Fragment fragment) {
 
 
 
+    private void ConfirmLogOut() {
+        Dialog dialog = new Dialog(requireContext());
+        dialog.setContentView(R.layout.confirm_logout_card);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCancelable(true);
+
+        Button btnCancel = dialog.findViewById(R.id.btnCancel);
+        Button btnConfirm = dialog.findViewById(R.id.btnConfirm);
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        btnConfirm.setOnClickListener(v -> {
+            dialog.dismiss();   // Đóng dialog trước
+            LogOut();           // Gọi hàm logout
+        });
+        dialog.show();
+    }
+
+    private void LogOut() {
+
+        // Xoá token & userId
+        PrefsHelper.clearCurrentUserId(requireContext());
+        PrefsHelper.clearToken(requireContext());
+
+        // Chuyển về màn Login
+        Intent intent = new Intent(requireActivity(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+        requireActivity().finish();
+    }
 
 }

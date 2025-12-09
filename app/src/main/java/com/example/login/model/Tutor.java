@@ -28,29 +28,6 @@ public class Tutor {
 
 
 
-//    private LocalDateTime createdAt ;
-//    private LocalDateTime updatedAt;
-
-    // ===== Constructors =====
-
-    // ===== Getters & Setters =====
-//    public LocalDateTime getUpdatedAt()
-//    {
-//        return updatedAt;
-//    }
-//    public void  setUpdatedAt( LocalDateTime localdate)
-//    {
-//        updatedAt= localdate;
-//    }
-//    public LocalDateTime getCreatedAt()
-//    {
-//        return createdAt;
-//    }
-//    public void  setCreatedAt( LocalDateTime localdate)
-//    {
-//        createdAt= localdate;
-//    }
-
     public int getId() {
         return id;
     }

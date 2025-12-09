@@ -6,6 +6,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 import com.example.login.model.Tutor;
+import com.example.login.model.Student;
 import com.example.login.model.Course;
 import com.example.login.model.SessionInfo;
 import com.example.login.model.CourseInfo;
@@ -86,6 +87,10 @@ public interface ApiService {
     @GET("tutors/me")
     Call<Tutor> getTutorLogin();
 
+    @GET("students/me")
+    Call<Student> getStudentLogin();
+
+
 //    @GET("courses/my_courses/{status}")
 //    Call<List<CourseInfo>> getCourseByTutor(@Path("status") String status);
     ////    http://localhost:8080/api/courses/my_courses?status=STUDENT_REGISTER
@@ -127,4 +132,7 @@ public interface ApiService {
 
     @GET("files/download/{filename}")
     Call<ResponseBody> downloadFile(@Path("filename") String filename);
+
+
+
 }

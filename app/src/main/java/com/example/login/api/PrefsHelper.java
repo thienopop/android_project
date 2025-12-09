@@ -82,4 +82,8 @@ public class PrefsHelper {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         prefs.edit().remove(USER_ID_KEY).apply();
     }
+
+
+
+
 }

@@ -2,9 +2,7 @@ package com.example.login;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -12,60 +10,30 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.widget.*;
+
 import com.example.login.api.ApiService;
-import com.example.login.api.PrefsHelper;
 import com.example.login.api.RetrofitClient;
-import com.example.login.model.ChatWithUserDetail;
-import com.example.login.model.CourseInfo;
-import com.example.login.model.Notification;
-import com.example.login.model.User;
-import com.example.login.model.RegisterLoginResponse;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import androidx.annotation.NonNull;
 
 
-import com.example.login.R;
-import com.example.login.api.ApiService;
-import com.example.login.api.RetrofitClient;
-import com.example.login.model.Course;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.Button;
+
 import com.example.login.model.AddSession;
 import java.util.Calendar;
 import com.example.login.adapter.ListSessionOfCourseAdapter;
-import com.example.login.api.ApiService;
-import com.example.login.api.RetrofitClient;
 import com.example.login.model.DetailCourse;
 import com.example.login.model.SessionInfo;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.http.Body;
-import retrofit2.http.Path;
 
 public class DetailCourseActivity extends AppCompatActivity {
 
@@ -452,7 +420,7 @@ public class DetailCourseActivity extends AppCompatActivity {
             //        );
         Dialog dialog = new Dialog(DetailCourseActivity.this);
 
-        dialog.setContentView(R.layout.show_to_update_status_course_cart);
+        dialog.setContentView(R.layout.show_to_update_status_course_card);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setCancelable(true);
 
