@@ -82,7 +82,6 @@ public ResponseEntity<?> getCourseIdBySessionId(@PathVariable int session_id) {
 
 
 
-
  // lấy danh sách khóa học của tutor hiện tại theo trạng thái
 // phải chính tutor đó mới xem được
 @GetMapping("/my_courses/{status}")
@@ -399,8 +398,8 @@ public ResponseEntity<?> getMyCoursesAsStudent( @PathVariable String status) {
 
 }
 // huỷ đăng ký khoá học (student hủy) với điều kiện chưa bắt đầu khoá học
-@PutMapping("/cancel_registration_by_student/{id}")
-public ResponseEntity<?> cancelCourseRegistrationByStudent(@PathVariable int id) {
+@PutMapping("/updateCourseStatus/{id}")
+public ResponseEntity<?> updateCourseStatus(@PathVariable int id,@RequestBody String status ) {
         Optional<Course> courseOpt = courseRepository.findById(id);
         if (courseOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -408,12 +407,18 @@ public ResponseEntity<?> cancelCourseRegistrationByStudent(@PathVariable int id)
                             id));
         }
         Course course = courseOpt.get();
-        if(course.getStatus() != "STUDENT_REGISTERED") {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("error", "không thể huỷ hoá học"));
-        }
-        course.setStatus("PENDING");
+        course.setStatus(status);
         Course this_course =courseRepository.save(course);
         return ResponseEntity.ok(this_course);
     }
+
+
+
+
+
+
+
+
+
+
 }

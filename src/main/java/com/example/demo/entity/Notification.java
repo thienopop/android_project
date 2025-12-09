@@ -43,3 +43,6 @@ public class Notification extends BaseEntity {
     @Column(name = "read_at")
     private LocalDateTime readAt;
 }
+
+
+
