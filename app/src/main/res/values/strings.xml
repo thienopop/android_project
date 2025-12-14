@@ -25,15 +25,27 @@
     <string name="cancel">Huỷ</string>
 
     <string name="confirm">Xác nhận</string>
-    <string name="s3"></string>
-    <string name="s5"></string>
-    <string name="s6"></string>
-    <string name="s7"></string>
-    <string name="s8"></string>
-    <string name="s9"></string>
-    <string name="s11"></string>
+    <string name="status">Status</string>
+    <string name="duration">Duration</string>
+    <string name="date">Date</string>
+    <string name="title">Loại: </string>
+    <string name="message">Nội dung:</string>
+    <string name="noti">Thông báo</string>
+    <string name="s1311"></string>
+    <string name="s121"></string>
+    <string name="s131"></string>
+    <string name="s141"></string>
+    <string name="s11331"></string>
     <string name="s12"></string>
     <string name="s13"></string>
+    <string name="s142"></string>
+    <string name="s211"></string>
+    <string name="s122"></string>
+    <string name="s123"></string>
+    <string name="s214"></string>
+    <string name="s1341"></string>
+    <string name="s1452"></string>
+    <string name="s153"></string>
     <string name="s14"></string>
 
 

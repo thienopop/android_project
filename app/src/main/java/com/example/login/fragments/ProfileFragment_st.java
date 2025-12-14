@@ -1,5 +1,4 @@
 package com.example.login.fragments;
-
 import android.app.Dialog;
 import android.os.Bundle;
 import com.example.login.api.PrefsHelper;
@@ -10,32 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
-import com.example.login.StudentDashboardActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import android.widget.ImageView;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.example.login.R;
 import com.example.login.model.Student;
-import com.example.login.model.Student;
-
 public class ProfileFragment_st extends Fragment {
-
     private TextView tvStudentName;
     private TextView tvSdt;
     private TextView tvDiaChi;
@@ -44,7 +32,6 @@ public class ProfileFragment_st extends Fragment {
     private TextView tvKinhNghiem;
     private ImageView imMotification;
     private TextView tvLogOut;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -52,11 +39,9 @@ public class ProfileFragment_st extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_profile_st, container, false);
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         // Ánh xạ View
         tvStudentName = view.findViewById(R.id.tvStudentName);
         tvSdt = view.findViewById(R.id.tvSdt);
@@ -64,13 +49,10 @@ public class ProfileFragment_st extends Fragment {
         tvNgaySinh = view.findViewById(R.id.tvNgaySinh);
         tvBio = view.findViewById(R.id.tvBio);
         tvKinhNghiem = view.findViewById(R.id.tvKinhNghiem);
-
         imMotification = view.findViewById(R.id.imMotification);
         tvLogOut = view.findViewById(R.id.tvLogOut);
-
         // Load dữ liệu
         loadProfileData();
-
         imMotification.setOnClickListener(v -> {
             FragmentManager fm = requireActivity().getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
@@ -78,10 +60,8 @@ public class ProfileFragment_st extends Fragment {
             ft.addToBackStack(null);
             ft.commit();
         });
-
         tvLogOut.setOnClickListener(v -> ConfirmLogOut());
     }
-
     private void loadProfileData() {
         ApiService apiService = RetrofitClient.getClient(requireContext()).create(ApiService.class);
         Call<Student> call = apiService.getStudentLogin();
