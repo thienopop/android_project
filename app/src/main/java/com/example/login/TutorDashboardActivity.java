@@ -39,12 +39,6 @@ public class TutorDashboardActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-
-
-
-
-
-
         // Gắn sự kiện click vào các mục trong Bottom Navigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {

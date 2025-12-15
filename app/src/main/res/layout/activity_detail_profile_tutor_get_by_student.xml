@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F4F8">
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/btn_back"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:contentDescription="Quay lại"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--        android:src="@drawable/ic_arrow_back" />-->
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"
+        android:padding="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="left">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Quay lại"
+                android:layout_marginEnd="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/tutor_avatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_profile"
+            android:contentDescription="Ảnh đại diện gia sư"
+            android:gravity="center"/>
+
+        <TextView
+
+            android:id="@+id/tvTutorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"  android:text="Trịnh Xuân Thiện"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imChat"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:padding="12dp"
+                        android:background="@drawable/icon_background_shape"
+                        android:src="@drawable/ic_message" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/chat"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"
+            android:padding="8dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:text="SDT: "
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvSdt"
+                    android:text="0889002058"
+                    android:textSize="18sp"
+
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="Địa chỉ: "
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvDiaChi"
+                    android:text="Thôn 5 xã cư ni huyện eakar"
+                    android:textSize="18sp"
+
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="Ngày sinh: "
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvNgaySinh"
+                    android:text="2044/2/2"
+                    android:textSize="18sp"
+
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="Bio: "
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvBio"
+                    android:text="từng lười học"
+                    android:textSize="18sp"
+
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="Kinh nghiêm: "
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvKinhNghiem"
+                    android:text="8 năm"
+                    android:textSize="18sp"
+
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/average_rating"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/average_rating"
+                    android:text="5*"
+                    android:textSize="18sp"
+
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"  android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

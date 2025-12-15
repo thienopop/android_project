@@ -45,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             // ✅ Tạo user gửi đi
             User user = new User();
             user.setUsername(username);
@@ -78,8 +77,13 @@ public class LoginActivity extends AppCompatActivity {
                             finish(); // Prevents user from going back to Login using the Back button
                         }
                         //chuyển qua giao diện tutor.
-                        else{
+                        else if (role.equals("TUTOR")) {
                             Intent intent = new Intent(LoginActivity.this, TutorDashboardActivity.class);
+                            startActivity(intent);
+                            finish(); // Prevents user from going back to Login using the Back button
+                        }
+                        else {
+                            Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                             startActivity(intent);
                             finish(); // Prevents user from going back to Login using the Back button
                         }
