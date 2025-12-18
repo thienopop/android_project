@@ -371,7 +371,7 @@ public ResponseEntity<?> registerCourse(@PathVariable int id) {
 //lấy dnh sách khóa học đang chờ đăng ký cho student
 @GetMapping("/available_courses")
 public ResponseEntity<?> getAvailableCoursesForStudent() {
-    List<Course> availableCourses = courseRepository.findByStatus("PENDING");
+    List<CourseWithTutorDetail> availableCourses = courseRepository.findAllAvailableCoursesWithTutorDetails();
     if(availableCourses.isEmpty()) {
         return ResponseEntity.ok(Map.of(
             "message", "Hiện không có khóa học nào đang chờ đăng ký."

@@ -59,13 +59,13 @@ public class Seeder implements CommandLineRunner {
 
         Tutor tutor1 = tutorSeeder.createTutor(user1, "Nguyễn Văn An", "0901234567", "123 Đường Lê Lợi, TP.HCM",
                 LocalDate.of(1985, 5, 15), "Gia sư Toán với hơn 10 năm kinh nghiệm dạy kèm học sinh cấp 3",
-                10, 300000.0, true, 150, 4.8, "anh1.jpg");
+                10, 300000.0, true, 150, 4.8, "profile_image_1000000000000.jpg");
         Tutor tutor2 = tutorSeeder.createTutor(user2, "Trần Thị Bình", "0907654321", "456 Nguyễn Trãi, Hà Nội",
                 LocalDate.of(1990, 8, 22), "Chuyên dạy Lý - Hóa, giúp học sinh hiểu sâu bản chất",
-                7, 250000.0, true, 120, 4.7, "anh2.jpg");
+                7, 250000.0, true, 120, 4.7, "profile_image_1000000000000.jpg");
         Tutor tutor3 = tutorSeeder.createTutor(user3, "Lê Hoàng Minh", "0903456789", "789 Võ Văn Kiệt, Đà Nẵng",
                 LocalDate.of(1988, 3, 10), "Gia sư tiếng Anh, luyện thi đại học và IELTS",
-                8, 350000.0, false, 80, 4.5, "anh3.jpg");
+                8, 350000.0, true, 80, 4.5, "profile_image_1000000000000.jpg");
 
         Student student1 = studentSeeder.createStudent(user4, "Phạm Thu Hà", "0911234567", "321 Lý Thường Kiệt, TP.HCM",
                 LocalDate.of(2008, 6, 20), "Lớp 10", "Yêu thích các môn Khoa học Tự nhiên");
@@ -120,7 +120,7 @@ public class Seeder implements CommandLineRunner {
                 LocalDateTime.of(2025, 11, 20, 20, 30),
                 LocalDate.of(2025, 11, 20),
                 LocalDate.of(2025, 12, 20),
-                "STUDENT_REGISTERED",
+                "NEW",
                 "Khoá học mở, đang chờ học viên đăng ký"
         );
         courseSeeder.createCourse(
@@ -130,7 +130,7 @@ public class Seeder implements CommandLineRunner {
                 LocalDateTime.of(2025, 11, 21, 20, 30),
                 LocalDate.of(2025, 11, 21),
                 LocalDate.of(2025, 12, 21),
-                "STUDENT_REGISTERED",
+                "NEW",
                 "Khoá học mở, đang chờ học viên đăng ký"
         );
         courseSeeder.createCourse(
@@ -140,8 +140,38 @@ public class Seeder implements CommandLineRunner {
                 LocalDateTime.of(2025, 11, 22, 18, 30),
                 LocalDate.of(2025, 11, 22),
                 LocalDate.of(2025, 12, 22),
-                "STUDENT_REGISTERED",
+                "NEW",
                 "Khoá học mở, đang chờ học viên đăng ký"
+        );
+        courseSeeder.createCourse(
+                tutor1, student3, "Toán ôn thi học kỳ", 6, 1_800_000.0,
+                "Thứ 3,5 18h-19h30",
+                LocalDateTime.of(2025, 11, 25, 18, 0),
+                LocalDateTime.of(2025, 11, 25, 19, 30),
+                LocalDate.of(2025, 11, 25),
+                LocalDate.of(2025, 12, 25),
+                "STUDENT_REGISTERED",
+                "Học viên đã đăng ký, đang chờ gia sư xác nhận"
+        );
+        courseSeeder.createCourse(
+                tutor2, student1, "Lý cơ bản cho học sinh lớp 10", 8, 2_200_000.0,
+                "Thứ 2,4 17h-18h30",
+                LocalDateTime.of(2025, 11, 26, 17, 0),
+                LocalDateTime.of(2025, 11, 26, 18, 30),
+                LocalDate.of(2025, 11, 26),
+                LocalDate.of(2025, 12, 26),
+                "STUDENT_REGISTERED",
+                "Khoá học đã có học viên đăng ký, chờ gia sư duyệt"
+        );
+        courseSeeder.createCourse(
+                tutor3, student2, "Tiếng Anh củng cố ngữ pháp", 10, 2_500_000.0,
+                "Thứ 6,7 18h-19h30",
+                LocalDateTime.of(2025, 11, 27, 18, 0),
+                LocalDateTime.of(2025, 11, 27, 19, 30),
+                LocalDate.of(2025, 11, 27),
+                LocalDate.of(2025, 12, 27),
+                "STUDENT_REGISTERED",
+                "Học viên đã gửi yêu cầu tham gia khoá học"
         );
 
         sessionSeeder.createSession(course1, LocalDateTime.of(2025, 11, 10, 18, 0), 90, "SCHEDULED", "Buổi 1: Ôn tập kiến thức cơ bản");

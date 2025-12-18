@@ -25,6 +25,11 @@ public class TutorController {
         return tutorRepository.findAll();
     }
 
+    @GetMapping("/verified")
+    public List<Tutor> getVerifiedTutors() {
+        return tutorRepository.findByVerified(true);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Tutor> getTutorById(@PathVariable int id) {
         Optional<Tutor> tutorOpt = tutorRepository.findById(id);

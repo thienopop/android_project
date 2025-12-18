@@ -89,7 +89,7 @@ List<CourseInfo> findCoursesByStudentIdAndStatus(@Param("studentId") Integer stu
         "    s.user_id AS userId, " +
         "    c.subject AS subject, " +
 
-        "    COUNT(ss.id) AS completedSessions " + 
+        "    COUNT(ss.id) AS completedSessions " +
         "FROM " +
         "    courses c " +
         "LEFT JOIN " +
@@ -118,7 +118,7 @@ DetailCourse findDetailCourseById(@Param("courseId") int courseId);
 
         "    c.subject AS subject, " +
 
-        "    COUNT(ss.id) AS completedSessions " + 
+        "    COUNT(ss.id) AS completedSessions " +
         "FROM " +
         "    courses c " +
         "JOIN " +
@@ -142,5 +142,39 @@ DetailCourse findDetailCourseByIdOfStudent(@Param("courseId") int courseId);
         nativeQuery = true)
 int findCourseIdBySessionId(@Param("sessionId") int sessionId);
 
-
+    @Query("""
+        SELECT new com.example.demo.entity.entity_design.CourseWithTutorDetail(
+            c.id,
+            c.createdAt,
+            c.updatedAt,
+            c.tutor_Id,
+            c.student_Id,
+            c.subject,
+            c.totalSessions,
+            c.totalPrice,
+            c.timeOfTheLesson,
+            c.startTime,
+            c.endTime,
+            c.startDate,
+            c.endDate,
+            c.status,
+            c.notes,
+            t.user_Id,
+            t.fullName,
+            t.phone,
+            t.address,
+            t.dateOfBirth,
+            t.bio,
+            t.experienceYears,
+            t.hourlyRate,
+            t.verified,
+            t.totalSessions as tutorTotalSessions,
+            t.averageRating,
+            t.profileImage
+        )
+        FROM Course c
+        JOIN c.tutor t
+        WHERE c.status = 'NEW'
+        """)
+    List<CourseWithTutorDetail> findAllAvailableCoursesWithTutorDetails();
 }
