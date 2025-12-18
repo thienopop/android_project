@@ -44,7 +44,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     // Retrofit for REST API calls
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     // Converter GSON for automatic JSON <-> Java object mapping

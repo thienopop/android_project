@@ -1,0 +1,141 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:elevation="6dp"
+    android:background="#FFFFFF">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16.dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@drawable/bg_rounded"
+
+
+                            android:padding="20.dp"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Overview"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="#2E3E5C"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16.dp"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:id="@+id/tx_new_tutor"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="15"
+                                        android:textSize="24sp"
+                                        android:textStyle="bold"
+                                        android:textColor="@android:color/black"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="New Tutors Today"
+                                        android:textSize="12sp"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:id="@+id/tx_new_course"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="8"
+                                        android:textSize="24sp"
+                                        android:textStyle="bold"
+                                        android:textColor="@android:color/black"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="New Classes Created"
+                                        android:textSize="12sp"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_rounded"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:padding="20.dp">
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Revenue"-->
+<!--                                android:textSize="18sp"-->
+<!--                                android:textStyle="bold"-->
+<!--                                android:textColor="#2E3E5C"/>-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginTop="8.dp"-->
+<!--                                android:text="Commission Earned: $1,250"-->
+<!--                                android:textColor="#00796B"-->
+<!--                                android:textStyle="bold"/>-->
+
+<!--                            <View-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="120.dp"-->
+<!--                                android:layout_marginTop="12.dp"-->
+<!--                                android:background="#E0F2F1"/>-->
+<!--                            <com.github.mikephil.charting.charts.BarChart-->
+<!--                                android:id="@+id/barChart"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="300dp"/>-->
+                            <com.github.mikephil.charting.charts.PieChart
+                                android:id="@+id/pieChart"
+                                android:layout_width="match_parent"
+                                android:layout_height="300dp"/>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8.dp"
+                                android:text="The statistical chart shows the completion rate of the lesson for the day"
+                                android:textColor="#00796B"
+                                android:layout_gravity="center"
+                                android:textStyle="bold"/>
+
+                        </LinearLayout>
+
+                </LinearLayout>
+
+</LinearLayout>
+
+</ScrollView>

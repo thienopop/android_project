@@ -18,7 +18,9 @@
         android:usesCleartextTraffic="true"> <!-- Cho phép kết nối HTTP -->
 
         <activity
-            android:name=".LoginActivity"
+
+        android:name=".AdminDashboardActivity"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +35,8 @@
         <activity android:name=".DetailCourseActivity"/>
         <activity android:name=".DetailCourseActivity_st"/>
         <activity android:name=".UpdateCourseActivity"/>
-        <activity android:name=".AdminDashboardActivity"/>
+<!--        <activity android:name=".AdminDashboardActivity"/>-->
+        <!--            android:name=".LoginActivity"-->
     </application>
 
 </manifest>

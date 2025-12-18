@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_dash"
+        android:icon="@drawable/ic_dashboard"
+        android:title="Dashboard" />
+    <item
+        android:id="@+id/nav_verify"
+        android:icon="@drawable/ic_verify"
+        android:title="Verify" />
+    <item
+        android:id="@+id/nav_manage"
+        android:icon="@drawable/ic_group"
+        android:title="Management" />
+    <item
+        android:id="@+id/nav_complaints"
+        android:icon="@drawable/ic_report"
+        android:title="Complaints" />
+    <item
+        android:id="@+id/nav_setting"
+        android:icon="@drawable/ic_settings"
+        android:title="Setting" />
+</menu>
+
+
+<!--    <?xml version="1.0" encoding="utf-8"?>-->
+<!--<menu xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--<item-->
+<!--    android:id="@+id/nav_dash"-->
+<!--    android:icon="@drawable/ic_dashboard"-->
+<!--    android:title="Dashboard" />-->
+<!--<item-->
+<!--    android:id="@+id/nav_verify"-->
+<!--    android:icon="@drawable/ic_verify"-->
+<!--    android:title="Verify" />-->
+<!--<item-->
+<!--    android:id="@+id/nav_manage"-->
+<!--    android:icon="@drawable/ic_group"-->
+<!--    android:title="Management" />-->
+<!--<item-->
+<!--    android:id="@+id/nav_complaints"-->
+<!--    android:icon="@drawable/ic_report"-->
+<!--    android:title="Complaints" />-->
+<!--</menu>-->

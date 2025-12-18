@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish(); // Prevents user from going back to Login using the Back button
                         }
-                        else {
+                        else if (role.equals("ADMIN")) {
                             Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                             startActivity(intent);
                             finish(); // Prevents user from going back to Login using the Back button
