@@ -1,6 +1,7 @@
 package com.example.login.api;
 
 import com.example.login.model.ChatWithUserDetail;
+import com.example.login.model.CourseWithTutorDetail;
 import com.example.login.model.Message;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -133,6 +134,9 @@ public interface ApiService {
     @GET("files/download/{filename}")
     Call<ResponseBody> downloadFile(@Path("filename") String filename);
 
+    @GET("tutors/verified")
+    Call<List<Tutor>> getVerifiedTutors();
 
-
+    @GET("courses/available_courses")
+    Call<List<CourseWithTutorDetail>> getAvailableCoursesForStudent();
 }

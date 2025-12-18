@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.login.fragments.ExploreFragment_st;
 import com.example.login.fragments.SessionFragment_st;
 import com.example.login.fragments.ChatsFragment_st;
 import com.example.login.fragments.ProfileFragment_st;
@@ -20,13 +21,12 @@ public class StudentDashboardActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        // Gắn sự kiện click vào các mục trong Bottom Navigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.nav_home) {
+            if (item.getItemId() == R.id.nav_sessions) {
                 loadFragment(new SessionFragment_st());
                 return true;
-            } else if (item.getItemId() == R.id.nav_sessions) {
-                loadFragment(new SessionFragment_st());
+            } else if (item.getItemId() == R.id.nav_explore){
+                loadFragment(new ExploreFragment_st());
                 return true;
             } else if (item.getItemId() == R.id.nav_chats) {
                 loadFragment(new ChatsFragment_st());
@@ -38,14 +38,10 @@ public class StudentDashboardActivity extends AppCompatActivity {
             return false;
         });
 
-        // Load Fragment mặc định khi mở Activity
-        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+        bottomNavigationView.setSelectedItemId(R.id.nav_sessions);
     }
 
-    // Hàm load Fragment vào FrameLayout
     private void loadFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_container, fragment)
-                .commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
     }
 }

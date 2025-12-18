@@ -8,10 +8,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
     // URL dùng để chạy trên thiết bị giả lập Android
-    private static final String BASE_URL_EMULATOR = "http://10.0.2.2:8080/api/";
+    private static final String BASE_URL_EMULATOR = "http://10.0.2.2:8080/";
     // URL dùng để chạy trên thiết bị Android thật
-    private static final String BASE_URL_PHYSICAL_DEVICE = "http://localhost:8080/api/";
-    private static final String BASE_URL = BASE_URL_EMULATOR;
+    private static final String BASE_URL_PHYSICAL_DEVICE = "http://localhost:8080/";
+    private static final String BASE_URL = BASE_URL_PHYSICAL_DEVICE;
     private static Retrofit retrofit;
 
     public static Retrofit getClient(Context context) {
@@ -21,7 +21,7 @@ public class RetrofitClient {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(BASE_URL + "api/")
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
@@ -41,4 +41,10 @@ public class RetrofitClient {
         }
     }
 
+    public static String getFileUrl(String filename) {
+        if (filename == null || filename.isEmpty()) {
+            return null;
+        }
+        return BASE_URL + "uploads/" + filename;
+    }
 }
