@@ -121,7 +121,7 @@ public class Seeder implements CommandLineRunner {
                 LocalDate.of(2025, 11, 20),
                 LocalDate.of(2025, 12, 20),
                 "NEW",
-                "Khoá học mở, đang chờ học viên đăng ký"
+                "Lớp toán chuyên đề hình học"
         );
         courseSeeder.createCourse(
                 tutor2, null, "Lý – Hóa tổng hợp", 0, 1_800_000.0,
@@ -131,7 +131,7 @@ public class Seeder implements CommandLineRunner {
                 LocalDate.of(2025, 11, 21),
                 LocalDate.of(2025, 12, 21),
                 "NEW",
-                "Khoá học mở, đang chờ học viên đăng ký"
+                "Lớp học tổng hợp Lý và Hóa dành cho học sinh cấp 2"
         );
         courseSeeder.createCourse(
                 tutor3, null, "Tiếng Anh giao tiếp cơ bản", 0, 1_500_000.0,
@@ -141,7 +141,7 @@ public class Seeder implements CommandLineRunner {
                 LocalDate.of(2025, 11, 22),
                 LocalDate.of(2025, 12, 22),
                 "NEW",
-                "Khoá học mở, đang chờ học viên đăng ký"
+                "Lớp học tiếng Anh giao tiếp cơ bản cho người mới bắt đầu"
         );
         courseSeeder.createCourse(
                 tutor1, student3, "Toán ôn thi học kỳ", 6, 1_800_000.0,
@@ -151,7 +151,7 @@ public class Seeder implements CommandLineRunner {
                 LocalDate.of(2025, 11, 25),
                 LocalDate.of(2025, 12, 25),
                 "STUDENT_REGISTERED",
-                "Học viên đã đăng ký, đang chờ gia sư xác nhận"
+                "Lớp toán ôn thi"
         );
         courseSeeder.createCourse(
                 tutor2, student1, "Lý cơ bản cho học sinh lớp 10", 8, 2_200_000.0,
@@ -161,7 +161,7 @@ public class Seeder implements CommandLineRunner {
                 LocalDate.of(2025, 11, 26),
                 LocalDate.of(2025, 12, 26),
                 "STUDENT_REGISTERED",
-                "Khoá học đã có học viên đăng ký, chờ gia sư duyệt"
+                "Lớp học Lý cơ bản dành cho học sinh lớp 10"
         );
         courseSeeder.createCourse(
                 tutor3, student2, "Tiếng Anh củng cố ngữ pháp", 10, 2_500_000.0,
@@ -171,7 +171,7 @@ public class Seeder implements CommandLineRunner {
                 LocalDate.of(2025, 11, 27),
                 LocalDate.of(2025, 12, 27),
                 "STUDENT_REGISTERED",
-                "Học viên đã gửi yêu cầu tham gia khoá học"
+                "Lớp học củng cố ngữ pháp tiếng Anh"
         );
 
         sessionSeeder.createSession(course1, LocalDateTime.of(2025, 11, 10, 18, 0), 90, "SCHEDULED", "Buổi 1: Ôn tập kiến thức cơ bản");

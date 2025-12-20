@@ -412,13 +412,14 @@ public ResponseEntity<?> updateCourseStatus(@PathVariable int id,@RequestBody St
         return ResponseEntity.ok(this_course);
     }
 
-
-
-
-
-
-
-
-
-
+    @GetMapping("/by_tutor_id/{tutor_id}")
+    public ResponseEntity<?> getCoursesByTutorId(@PathVariable int tutor_id) {
+        List<Course> courses = courseRepository.findByTutor_Id(tutor_id);
+        if (courses.isEmpty()) {
+            return ResponseEntity.ok(Map.of(
+                    "message", "Không có khóa học nào cho tutor ID: " + tutor_id
+            ));
+        }
+        return ResponseEntity.ok(courses);
+    }
 }
