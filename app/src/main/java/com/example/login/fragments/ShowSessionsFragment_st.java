@@ -140,7 +140,7 @@ public class ShowSessionsFragment_st extends Fragment {
                 } else {
                     // Xóa list cũ nếu không có dữ liệu mới
                     listViewSessions.setAdapter(null);
-                    txtMessage.setText("Không có lịch dạy cho ngày :" + date);
+                    txtMessage.setText("Không có lịch học cho ngày: " + date);
 //                    Toast.makeText(getContext(), "Không có lịch học cho ngày " + date, Toast.LENGTH_SHORT).show();
                 }
             }
