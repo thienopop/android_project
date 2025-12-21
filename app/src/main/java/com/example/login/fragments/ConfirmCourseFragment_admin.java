@@ -12,23 +12,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.login.DetailCourseActivity;
 import com.example.login.R;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
-import com.example.login.model.CourseInfo;
 import com.example.login.model.Course;
-
-import java.util.List;
+import com.example.login.model.CourseInfo;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateCourseFragment extends Fragment {
+public class ConfirmCourseFragment_admin  extends Fragment {
 
     private EditText edtSubject, edtNotes, edtTimeOfTheLesson, edtTotalPrice, edtTotalSessions;
     private Button btnAddCourse;
@@ -39,15 +35,14 @@ public class CreateCourseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_create_course, container, false);
+        return inflater.inflate(R.layout.confirm_course_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 1. Khởi tạo ApiService
-        apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
+
 
         // 2. Khởi tạo các View
         edtSubject = view.findViewById(R.id.edtSubject);
@@ -128,18 +123,4 @@ public class CreateCourseFragment extends Fragment {
             });
         });
     }
-
-    private void loadChildFragment(Fragment fragment) {
-        FragmentManager fm = getChildFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-
-        // .replace() sẽ tự động gỡ fragment cũ ra và thêm fragment mới vào
-        ft.replace(R.id.child_fragment_container, fragment);
-
-        // (Tùy chọn) Thêm vào back stack của trình quản lý con
-        // ft.addToBackStack(null);
-
-        ft.commit();
-    }
-
 }

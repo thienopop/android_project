@@ -103,12 +103,9 @@ public interface ApiService {
 //lấy thông tin. khoá hco theo id của tutor
     @GET("courses/by_tutor/{id}")
     Call<DetailCourse> getDetailCourseByTutor(@Path("id") int id);
-
+//    getDetailCourseByTutor(id);
     @GET("courses/by_student/{id}")
     Call<DetailCourse> getDetailCourseByStudent(@Path("id") int id);
-
-
-
 //    @GetMapping("/by_student/{id}")
     @GET("courses/my_courses_student/{status}")
     Call<List<CourseInfo>> getCourseByStudent(@Path("status") String status);

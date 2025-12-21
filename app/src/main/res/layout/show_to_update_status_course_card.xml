@@ -38,8 +38,6 @@
             android:id="@+id/btnConfirm"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-
-
             android:backgroundTint="@color/blue"
             android:text="@string/cancel"/>
         <Button
@@ -52,6 +50,5 @@
             android:text="@string/confirm"/>
 
     </LinearLayout>
-
     </LinearLayout>
 </androidx.cardview.widget.CardView>
