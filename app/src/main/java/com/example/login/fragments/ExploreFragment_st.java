@@ -3,7 +3,6 @@ package com.example.login.fragments;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,6 @@ import retrofit2.Response;
 
 public class ExploreFragment_st extends Fragment {
     private static final String TAG = "ExploreFragment_st";
-
     private LinearLayout layoutFilter;
     private ImageView btnFilter;
     private EditText searchCourse;
@@ -50,7 +48,6 @@ public class ExploreFragment_st extends Fragment {
     private Button btnApplyFilter;
     private LinearLayout layoutTopTutors;
     private LinearLayout layoutCourses;
-
     private ApiService apiService;
     private List<Tutor> allTutors = new ArrayList<>();
     private List<CourseWithTutorDetail> allCourses = new ArrayList<>();
@@ -58,19 +55,15 @@ public class ExploreFragment_st extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_explore_st, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         initViews(view);
         apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
-
         setupListeners();
         loadData();
     }
@@ -93,10 +86,10 @@ public class ExploreFragment_st extends Fragment {
 
     private void setupListeners() {
         btnFilter.setOnClickListener(v -> toggleFilterVisibility());
-
         searchCourse.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -104,14 +97,13 @@ public class ExploreFragment_st extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
-
         btnApplyFilter.setOnClickListener(v -> {
             applyFilters();
             toggleFilterVisibility();
         });
-
         btnClearFilter.setOnClickListener(v -> clearFilters());
     }
 
@@ -126,18 +118,13 @@ public class ExploreFragment_st extends Fragment {
             public void onResponse(Call<List<Tutor>> call, Response<List<Tutor>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     allTutors = response.body();
-                    Log.d(TAG, "Loaded " + allTutors.size() + " tutors");
                     displayTopTutors();
-                } else {
-                    Log.e(TAG, "Error loading tutors: " + response.code());
-                    Toast.makeText(getContext(), "Lỗi tải danh sách gia sư: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Tutor>> call, Throwable t) {
-                Log.e(TAG, "Failed to load tutors", t);
-                Toast.makeText(getContext(), "Lỗi tải danh sách gia sư: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Lỗi tải gia sư", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -149,47 +136,92 @@ public class ExploreFragment_st extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     allCourses = response.body();
                     filteredCourses = new ArrayList<>(allCourses);
-                    Log.d(TAG, "Loaded " + allCourses.size() + " courses");
                     displayCourses();
-                } else {
-                    Log.e(TAG, "Error loading courses: " + response.code());
-                    try {
-                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
-                        Log.e(TAG, "Error body: " + errorBody);
-                    } catch (Exception e) {
-                        Log.e(TAG, "Cannot read error body", e);
-                    }
-                    Toast.makeText(getContext(), "Lỗi tải danh sách khóa học: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<CourseWithTutorDetail>> call, Throwable t) {
-                Log.e(TAG, "Failed to load courses", t);
-                Toast.makeText(getContext(), "Lỗi tải danh sách khóa học: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Lỗi tải khóa học", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void displayTopTutors() {
         layoutTopTutors.removeAllViews();
-
         List<Tutor> topTutors = getTopTutors();
-
         for (Tutor tutor : topTutors) {
-            View tutorView = createTutorView(tutor);
+            View tutorView = getLayoutInflater().inflate(R.layout.item_tutor_fragment_explore_st, layoutTopTutors, false);
+            bindTutorView(tutorView, tutor);
+            tutorView.setOnClickListener(v -> navigateToTutorDetail(tutor.getId()));
             layoutTopTutors.addView(tutorView);
         }
     }
 
+    private void bindTutorView(View view, Tutor tutor) {
+        ImageView imgTutor = view.findViewById(R.id.imgTutor);
+        TextView txtName = view.findViewById(R.id.txtTutorName);
+        TextView txtRating = view.findViewById(R.id.txtTutorRating);
+        TextView txtAddress = view.findViewById(R.id.txtTutorAddress);
+
+        txtName.setText(tutor.getFullName() != null ? tutor.getFullName() : "N/A");
+        txtRating.setText("Đánh giá: " + (tutor.getAverageRating() != null ? String.format("%.1f", tutor.getAverageRating()) : "N/A"));
+        txtAddress.setText(tutor.getAddress() != null ? tutor.getAddress() : "N/A");
+
+        String imageUrl = RetrofitClient.getFileUrl(tutor.getProfileImage());
+        if (imageUrl != null) {
+            Glide.with(this).load(imageUrl).placeholder(R.drawable.ic_account_box).error(R.drawable.ic_account_box).into(imgTutor);
+        } else {
+            imgTutor.setImageResource(R.drawable.ic_account_box);
+        }
+    }
+
+    private void displayCourses() {
+        layoutCourses.removeAllViews();
+        if (filteredCourses.isEmpty()) {
+            TextView emptyView = new TextView(getContext());
+            emptyView.setText("Không có khóa học nào");
+            emptyView.setPadding(dpToPx(12), dpToPx(12), dpToPx(12), dpToPx(12));
+            layoutCourses.addView(emptyView);
+            return;
+        }
+        for (CourseWithTutorDetail course : filteredCourses) {
+            View courseView = getLayoutInflater().inflate(R.layout.item_course_fragment_explore_st, layoutCourses, false);
+            bindCourseView(courseView, course);
+            courseView.setOnClickListener(v -> navigateToCourseDetail(course.getId()));
+            layoutCourses.addView(courseView);
+        }
+    }
+
+    private void bindCourseView(View view, CourseWithTutorDetail course) {
+        TextView txtSubject = view.findViewById(R.id.txtCourseSubject);
+        TextView txtPrice = view.findViewById(R.id.txtCoursePrice);
+        TextView txtTime = view.findViewById(R.id.txtCourseTime);
+        TextView txtTutor = view.findViewById(R.id.txtCourseTutor);
+
+        txtSubject.setText(course.getSubject() != null ? course.getSubject() : "N/A");
+        txtPrice.setText("Học phí: " + (course.getTotalPrice() != null ? formatCurrency(course.getTotalPrice()) : "N/A"));
+        txtTime.setText("Thời gian: " + (course.getTimeOfTheLesson() != null ? course.getTimeOfTheLesson() : "N/A"));
+        txtTutor.setText("Gia sư: " + (course.getFullName() != null ? course.getFullName() : "N/A"));
+    }
+
+    private void navigateToTutorDetail(int tutorId) {
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.main_container, TutorDetailFragment_st.newInstance(tutorId))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void navigateToCourseDetail(int courseId) {
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.main_container, CourseDetailFragment_st.newInstance(courseId))
+                .addToBackStack(null)
+                .commit();
+    }
+
     private List<Tutor> getTopTutors() {
         List<Tutor> sortedTutors = new ArrayList<>(allTutors);
-        sortedTutors.sort((t1, t2) -> {
-            double score1 = calculateTutorScore(t1);
-            double score2 = calculateTutorScore(t2);
-            return Double.compare(score2, score1);
-        });
-
+        sortedTutors.sort((t1, t2) -> Double.compare(calculateTutorScore(t2), calculateTutorScore(t1)));
         return sortedTutors.size() > 3 ? sortedTutors.subList(0, 3) : sortedTutors;
     }
 
@@ -199,149 +231,40 @@ public class ExploreFragment_st extends Fragment {
         return sessions * rating;
     }
 
-    private View createTutorView(Tutor tutor) {
-        LinearLayout tutorLayout = new LinearLayout(getContext());
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                1
-        );
-        tutorLayout.setLayoutParams(params);
-        tutorLayout.setOrientation(LinearLayout.VERTICAL);
-        tutorLayout.setPadding(8, 8, 8, 8);
-
-        ImageView imageView = new ImageView(getContext());
-        LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                dpToPx(90)
-        );
-        imageView.setLayoutParams(imageParams);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-        String imageUrl = RetrofitClient.getFileUrl(tutor.getProfileImage());
-        Log.d(TAG, "Loading image from: " + imageUrl);
-
-        if (imageUrl != null) {
-            Glide.with(this)
-                    .load(imageUrl)
-                    .placeholder(R.drawable.tutor_image)
-                    .error(R.drawable.tutor_image)
-                    .into(imageView);
-        } else {
-            imageView.setImageResource(R.drawable.tutor_image);
-        }
-
-        TextView nameView = new TextView(getContext());
-        nameView.setText(tutor.getFullName() != null ? tutor.getFullName() : "N/A");
-
-        TextView ratingView = new TextView(getContext());
-        ratingView.setText("Đánh giá: " + (tutor.getAverageRating() != null ?
-                String.format("%.1f", tutor.getAverageRating()) : "N/A"));
-
-        TextView addressView = new TextView(getContext());
-        addressView.setText(tutor.getAddress() != null ? tutor.getAddress() : "N/A");
-
-        tutorLayout.addView(imageView);
-        tutorLayout.addView(nameView);
-        tutorLayout.addView(ratingView);
-        tutorLayout.addView(addressView);
-
-        return tutorLayout;
-    }
-
-    private void displayCourses() {
-        layoutCourses.removeAllViews();
-
-        if (filteredCourses.isEmpty()) {
-            TextView emptyView = new TextView(getContext());
-            emptyView.setText("Không có khóa học nào");
-            emptyView.setPadding(dpToPx(12), dpToPx(12), dpToPx(12), dpToPx(12));
-            layoutCourses.addView(emptyView);
-            return;
-        }
-
-        for (CourseWithTutorDetail course : filteredCourses) {
-            View courseView = createCourseView(course);
-            layoutCourses.addView(courseView);
-        }
-    }
-
-    private View createCourseView(CourseWithTutorDetail course) {
-        LinearLayout courseLayout = new LinearLayout(getContext());
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.setMargins(0, 0, 0, dpToPx(12));
-        courseLayout.setLayoutParams(params);
-        courseLayout.setOrientation(LinearLayout.VERTICAL);
-        courseLayout.setBackgroundColor(0xFFEEEEEE);
-        courseLayout.setPadding(dpToPx(12), dpToPx(12), dpToPx(12), dpToPx(12));
-
-        TextView titleView = new TextView(getContext());
-        titleView.setText(course.getSubject() != null ? course.getSubject() : "N/A");
-
-        TextView priceView = new TextView(getContext());
-        String formattedPrice = course.getTotalPrice() != null ?
-                formatCurrency(course.getTotalPrice()) : "N/A";
-        priceView.setText("Học phí: " + formattedPrice);
-
-        TextView timeView = new TextView(getContext());
-        timeView.setText("Thời gian: " + (course.getTimeOfTheLesson() != null ?
-                course.getTimeOfTheLesson() : "N/A"));
-
-        TextView tutorView = new TextView(getContext());
-        tutorView.setText("Gia sư: " + (course.getFullName() != null ?
-                course.getFullName() : "N/A"));
-
-        courseLayout.addView(titleView);
-        courseLayout.addView(priceView);
-        courseLayout.addView(timeView);
-        courseLayout.addView(tutorView);
-
-        return courseLayout;
-    }
-
     private void applyFilters() {
         filteredCourses.clear();
-
         String searchText = searchCourse.getText().toString().toLowerCase().trim();
         String addressText = filterAddress.getText().toString().toLowerCase().trim();
         String subjectText = filterSubject.getText().toString().toLowerCase().trim();
-
         Double ratingFrom = parseDouble(filterRatingFrom.getText().toString());
         Double ratingTo = parseDouble(filterRatingTo.getText().toString());
         Double priceFrom = parseDouble(filterPriceFrom.getText().toString());
         Double priceTo = parseDouble(filterPriceTo.getText().toString());
 
         for (CourseWithTutorDetail course : allCourses) {
-            boolean matchSearch = searchText.isEmpty() ||
-                    (course.getSubject() != null && course.getSubject().toLowerCase().contains(searchText));
-
-            boolean matchAddress = addressText.isEmpty() ||
-                    (course.getAddress() != null && course.getAddress().toLowerCase().contains(addressText));
-
-            boolean matchSubject = subjectText.isEmpty() ||
-                    (course.getSubject() != null && course.getSubject().toLowerCase().contains(subjectText));
-
-            boolean matchRating = true;
-            if (course.getAverageRating() != null) {
-                if (ratingFrom != null && course.getAverageRating() < ratingFrom) matchRating = false;
-                if (ratingTo != null && course.getAverageRating() > ratingTo) matchRating = false;
-            }
-
-            boolean matchPrice = true;
-            if (course.getTotalPrice() != null) {
-                if (priceFrom != null && course.getTotalPrice() < priceFrom) matchPrice = false;
-                if (priceTo != null && course.getTotalPrice() > priceTo) matchPrice = false;
-            }
-
-            if (matchSearch && matchAddress && matchSubject && matchRating && matchPrice) {
+            if (matchesFilters(course, searchText, addressText, subjectText, ratingFrom, ratingTo, priceFrom, priceTo)) {
                 filteredCourses.add(course);
             }
         }
-
         displayCourses();
+    }
+
+    private boolean matchesFilters(CourseWithTutorDetail course, String searchText, String addressText, String subjectText, Double ratingFrom, Double ratingTo, Double priceFrom, Double priceTo) {
+        if (!searchText.isEmpty() && (course.getSubject() == null || !course.getSubject().toLowerCase().contains(searchText)))
+            return false;
+        if (!addressText.isEmpty() && (course.getAddress() == null || !course.getAddress().toLowerCase().contains(addressText)))
+            return false;
+        if (!subjectText.isEmpty() && (course.getSubject() == null || !course.getSubject().toLowerCase().contains(subjectText)))
+            return false;
+        if (course.getAverageRating() != null) {
+            if (ratingFrom != null && course.getAverageRating() < ratingFrom) return false;
+            if (ratingTo != null && course.getAverageRating() > ratingTo) return false;
+        }
+        if (course.getTotalPrice() != null) {
+            if (priceFrom != null && course.getTotalPrice() < priceFrom) return false;
+            if (priceTo != null && course.getTotalPrice() > priceTo) return false;
+        }
+        return true;
     }
 
     private void clearFilters() {
@@ -352,17 +275,12 @@ public class ExploreFragment_st extends Fragment {
         filterRatingTo.setText("");
         filterPriceFrom.setText("");
         filterPriceTo.setText("");
-
         filteredCourses = new ArrayList<>(allCourses);
         displayCourses();
     }
 
     private void toggleFilterVisibility() {
-        if (layoutFilter.getVisibility() == View.GONE) {
-            layoutFilter.setVisibility(View.VISIBLE);
-        } else {
-            layoutFilter.setVisibility(View.GONE);
-        }
+        layoutFilter.setVisibility(layoutFilter.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
     }
 
     private Double parseDouble(String text) {
@@ -374,12 +292,10 @@ public class ExploreFragment_st extends Fragment {
     }
 
     private String formatCurrency(double amount) {
-        NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
-        return formatter.format(amount) + "đ";
+        return NumberFormat.getInstance(new Locale("vi", "VN")).format(amount) + "đ";
     }
 
     private int dpToPx(int dp) {
-        float density = getResources().getDisplayMetrics().density;
-        return Math.round(dp * density);
+        return Math.round(dp * getResources().getDisplayMetrics().density);
     }
 }

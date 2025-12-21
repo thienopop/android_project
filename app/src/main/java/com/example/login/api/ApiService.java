@@ -136,4 +136,13 @@ public interface ApiService {
 
     @GET("courses/available_courses")
     Call<List<CourseWithTutorDetail>> getAvailableCoursesForStudent();
+
+    @PUT("courses/register_course_by_student/{courseId}")
+    Call<Void> registerCourse(@Path("courseId") int courseId);
+
+    @GET("tutors/{tutorId}")
+    Call<Tutor> getTutorById(@Path("tutorId") int tutorId);
+
+    @GET("courses/by_tutor_id/{tutorId}")
+    Call<List<DetailCourse>> getCoursesByTutorId(@Path("tutorId") int tutorId);
 }

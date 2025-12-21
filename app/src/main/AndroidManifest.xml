@@ -19,7 +19,7 @@
 
         <activity
 
-        android:name=".AdminDashboardActivity"
+        android:name=".LoginActivity"
 
             android:exported="true">
             <intent-filter>

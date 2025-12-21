@@ -5,7 +5,7 @@
         <string name="khoa_hoc_title">Khóa học</string>
     <string name="ongoing_title">Đang dạy</string>
     <string name="pending_title">Mới</string>
-    <string name="cancelled_title">Huỹ</string>
+    <string name="cancelled_title">Huỷ</string>
     <string name="completed_title">Hoàn thành</string>
     <string name="register_title">Chờ xác nhận</string>
     <string name="log_out">Đăng xuất</string>
