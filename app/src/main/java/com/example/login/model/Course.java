@@ -1,7 +1,5 @@
 package com.example.login.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 
 public class Course {
@@ -15,11 +13,11 @@ public class Course {
     private double totalPrice;
     private String timeOfTheLesson;
 
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private LocalDate createdAt;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String startTime;
+    private String endTime;
+    private String createdAt;
+    private String startDate;
+    private String endDate;
     private String status;
     private String notes;
 public  Course( String subject, String notes, String timeOfTheLesson, double totalPrice, int totalSessions)
@@ -45,20 +43,20 @@ public  Course( String subject, String notes, String timeOfTheLesson, double tot
     public String getTimeOfTheLesson() { return timeOfTheLesson; }
     public void setTimeOfTheLesson(String timeOfTheLesson) { this.timeOfTheLesson = timeOfTheLesson; }
 
-    public LocalDateTime getStartTime() { return startTime; }
-    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
+    public String getStartTime() { return startTime; }
+    public void setStartTime(String startTime) { this.startTime = startTime; }
 
-    public LocalDateTime getEndTime() { return endTime; }
-    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
+    public String getEndTime() { return endTime; }
+    public void setEndTime(String endTime) { this.endTime = endTime; }
 
-    public LocalDate getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDate createdAt) { this.createdAt = createdAt; }
+    public String getCreatedAt() { return createdAt; }
+    public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
 
-    public LocalDate getStartDate() { return startDate; }
-    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
+    public String getStartDate() { return startDate; }
+    public void setStartDate(String startDate) { this.startDate = startDate; }
 
-    public LocalDate getEndDate() { return endDate; }
-    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
+    public String getEndDate() { return endDate; }
+    public void setEndDate(String endDate) { this.endDate = endDate; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }

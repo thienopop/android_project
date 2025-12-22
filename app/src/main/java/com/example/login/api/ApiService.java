@@ -144,5 +144,5 @@ public interface ApiService {
     Call<Tutor> getTutorById(@Path("tutorId") int tutorId);
 
     @GET("courses/by_tutor_id/{tutorId}")
-    Call<List<DetailCourse>> getCoursesByTutorId(@Path("tutorId") int tutorId);
+    Call<List<Course>> getCoursesByTutorId(@Path("tutorId") int tutorId);
 }

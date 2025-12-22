@@ -188,7 +188,7 @@ public class ExploreFragment_st extends Fragment {
         for (CourseWithTutorDetail course : filteredCourses) {
             View courseView = getLayoutInflater().inflate(R.layout.item_course_fragment_explore_st, layoutCourses, false);
             bindCourseView(courseView, course);
-            courseView.setOnClickListener(v -> navigateToCourseDetail(course.getId()));
+            courseView.setOnClickListener(v -> navigateToCourseDetail(course.getId(), course.getTutor_Id()));
             layoutCourses.addView(courseView);
         }
     }
@@ -212,9 +212,9 @@ public class ExploreFragment_st extends Fragment {
                 .commit();
     }
 
-    private void navigateToCourseDetail(int courseId) {
+    private void navigateToCourseDetail(int courseId, int tutorId) {
         getParentFragmentManager().beginTransaction()
-                .replace(R.id.main_container, CourseDetailFragment_st.newInstance(courseId))
+                .replace(R.id.main_container, CourseDetailFragment_st.newInstance(courseId, tutorId))
                 .addToBackStack(null)
                 .commit();
     }

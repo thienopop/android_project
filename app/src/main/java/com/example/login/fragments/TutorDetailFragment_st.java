@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.login.R;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
-import com.example.login.model.DetailCourse;
+import com.example.login.model.Course;
 import com.example.login.model.Tutor;
 
 import java.text.NumberFormat;
@@ -49,7 +49,7 @@ public class TutorDetailFragment_st extends Fragment {
     private LinearLayout layoutCourses;
     private ImageButton btnBack;
 
-    private List<DetailCourse> newCourses = new ArrayList<>();
+    private List<Course> newCourses = new ArrayList<>();
 
     public static TutorDetailFragment_st newInstance(int tutorId) {
         TutorDetailFragment_st fragment = new TutorDetailFragment_st();
@@ -123,9 +123,9 @@ public class TutorDetailFragment_st extends Fragment {
     }
 
     private void loadTutorCourses() {
-        apiService.getCoursesByTutorId(tutorId).enqueue(new Callback<List<DetailCourse>>() {
+        apiService.getCoursesByTutorId(tutorId).enqueue(new Callback<List<Course>>() {
             @Override
-            public void onResponse(Call<List<DetailCourse>> call, Response<List<DetailCourse>> response) {
+            public void onResponse(Call<List<Course>> call, Response<List<Course>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     filterAndDisplayCourses(response.body());
                 } else {
@@ -134,7 +134,7 @@ public class TutorDetailFragment_st extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<DetailCourse>> call, Throwable t) {
+            public void onFailure(Call<List<Course>> call, Throwable t) {
                 Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -158,10 +158,10 @@ public class TutorDetailFragment_st extends Fragment {
         }
     }
 
-    private void filterAndDisplayCourses(List<DetailCourse> courses) {
+    private void filterAndDisplayCourses(List<Course> courses) {
         newCourses.clear();
 
-        for (DetailCourse course : courses) {
+        for (Course course : courses) {
             if ("NEW".equals(course.getStatus())) {
                 newCourses.add(course);
             }
@@ -181,7 +181,7 @@ public class TutorDetailFragment_st extends Fragment {
             return;
         }
 
-        for (DetailCourse course : newCourses) {
+        for (Course course : newCourses) {
             View courseView = getLayoutInflater().inflate(R.layout.item_course_fragment_tutor_detail_st, layoutCourses, false);
             bindCourseView(courseView, course);
             courseView.setOnClickListener(v -> navigateToCourseDetail(course.getId()));
@@ -189,7 +189,7 @@ public class TutorDetailFragment_st extends Fragment {
         }
     }
 
-    private void bindCourseView(View view, DetailCourse course) {
+    private void bindCourseView(View view, Course course) {
         TextView txtSubject = view.findViewById(R.id.txtCourseSubject);
         TextView txtPrice = view.findViewById(R.id.txtCoursePrice);
         TextView txtTime = view.findViewById(R.id.txtCourseTime);
@@ -201,7 +201,7 @@ public class TutorDetailFragment_st extends Fragment {
 
     private void navigateToCourseDetail(int courseId) {
         getParentFragmentManager().beginTransaction()
-                .replace(R.id.main_container, CourseDetailFragment_st.newInstance(courseId))
+                .replace(R.id.main_container, CourseDetailFragment_st.newInstance(courseId, tutorId))
                 .addToBackStack(null)
                 .commit();
     }

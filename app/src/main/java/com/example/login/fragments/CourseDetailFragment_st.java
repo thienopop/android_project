@@ -30,6 +30,7 @@ import retrofit2.Response;
 public class CourseDetailFragment_st extends Fragment {
 
     private static final String ARG_COURSE_ID = "course_id";
+    private static final String ARG_TUTOR_ID = "tutor_id";
 
     private ApiService apiService;
     private int courseId;
@@ -49,10 +50,11 @@ public class CourseDetailFragment_st extends Fragment {
     private Button btnViewTutorProfile;
     private ImageButton btnBack;
 
-    public static CourseDetailFragment_st newInstance(int courseId) {
+    public static CourseDetailFragment_st newInstance(int courseId, int tutorId) {
         CourseDetailFragment_st fragment = new CourseDetailFragment_st();
         Bundle args = new Bundle();
         args.putInt(ARG_COURSE_ID, courseId);
+        args.putInt(ARG_TUTOR_ID, tutorId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,6 +75,7 @@ public class CourseDetailFragment_st extends Fragment {
 
         if (getArguments() != null) {
             courseId = getArguments().getInt(ARG_COURSE_ID);
+            tutorId = getArguments().getInt(ARG_TUTOR_ID);
             loadCourseDetail();
         }
 
@@ -130,8 +133,6 @@ public class CourseDetailFragment_st extends Fragment {
     }
 
     private void displayCourseDetail(DetailCourse course) {
-        tutorId = course.getUserId();
-
         textFullName.setText(course.getFullName() != null ? course.getFullName() : "N/A");
         textSubject.setText(course.getSubject() != null ? course.getSubject() : "N/A");
         textTotalSessions.setText(String.valueOf(course.getTotalSessions()));
