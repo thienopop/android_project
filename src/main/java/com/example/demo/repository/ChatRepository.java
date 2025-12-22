@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ChatRepository extends JpaRepository<Chat, Integer> {
     @Query("SELECT new com.example.demo.entity.entity_design.ChatWithUserDetail(" +
@@ -28,4 +29,10 @@ public interface ChatRepository extends JpaRepository<Chat, Integer> {
             "ORDER BY (SELECT MAX(m.createdAt) FROM Message m WHERE m.chat = c) DESC")
     List<ChatWithUserDetail> findChatsWithUserDetails(@Param("userId") Integer userId);
 
+    @Query("""
+            SELECT c FROM Chat c WHERE
+            (c.user1.id = :user1Id AND c.user2.id = :user2Id) OR 
+            (c.user1.id = :user2Id AND c.user2.id = :user1Id)
+            """)
+    Optional<Chat> findChatBetweenUsers(@Param("user1Id") Integer user1Id, @Param("user2Id") Integer user2Id);
 }
