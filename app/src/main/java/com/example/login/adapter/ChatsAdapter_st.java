@@ -49,9 +49,6 @@ public class ChatsAdapter_st extends RecyclerView.Adapter<ChatsAdapter_st.VH> {
         ChatWithUserDetail item = items.get(position);
         holder.tvName.setText(item.getFullName() == null ? "(no name)" : item.getFullName());
         holder.tvUsername.setText(item.getUsername() == null ? "" : item.getUsername());
-        holder.tvUnreadDot.setVisibility(
-                Boolean.TRUE.equals(item.getHasUnreadMessages()) ? View.VISIBLE : View.GONE
-        );
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onItemClick(item);
         });
@@ -80,14 +77,13 @@ public class ChatsAdapter_st extends RecyclerView.Adapter<ChatsAdapter_st.VH> {
     }
 
     static class VH extends RecyclerView.ViewHolder {
-        TextView tvName, tvUsername, tvUnreadDot;
+        TextView tvName, tvUsername;
         ImageView ivAvatar;
 
         VH(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvChatName);
             tvUsername = itemView.findViewById(R.id.tvChatUsername);
-            tvUnreadDot = itemView.findViewById(R.id.tvChatUnreadDot);
             ivAvatar = itemView.findViewById(R.id.ivChatAvatar);
         }
     }

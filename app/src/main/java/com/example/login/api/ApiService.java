@@ -1,5 +1,6 @@
 package com.example.login.api;
 
+import com.example.login.model.Chat;
 import com.example.login.model.ChatWithUserDetail;
 import com.example.login.model.CourseWithTutorDetail;
 import com.example.login.model.Message;
@@ -19,6 +20,8 @@ import com.example.login.model.RegisterLoginResponse;
 import com.example.login.model.UserWithId;
 
 import java.util.List;
+import java.util.Map;
+
 import com.example.login.model.AddSession;
 
 import okhttp3.MultipartBody;
@@ -145,4 +148,10 @@ public interface ApiService {
 
     @GET("courses/by_tutor_id/{tutorId}")
     Call<List<Course>> getCoursesByTutorId(@Path("tutorId") int tutorId);
+
+    @GET("chats/between/{user1Id}/{user2Id}")
+    Call<Chat> getChatBetweenUsers(@Path("user1Id") int user1Id, @Path("user2Id") int user2Id);
+
+    @POST("chats/create_with_first_message")
+    Call<Chat> createChatWithFirstMessage(@Body Map<String, Object> payload); // Payload: { senderId: 9, receiverId: 10, messageContent: "Hello" }
 }

@@ -1,9 +1,11 @@
 package com.example.login.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,31 +14,34 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.login.R;
 import com.example.login.api.ApiService;
+import com.example.login.api.PrefsHelper;
 import com.example.login.api.RetrofitClient;
+import com.example.login.model.Chat;
 import com.example.login.model.Course;
 import com.example.login.model.Tutor;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TutorDetailFragment_st extends Fragment {
-
-    private static final String ARG_TUTOR_ID = "tutor_id";
-
     private ApiService apiService;
+    private static final String ARG_TUTOR_ID = "tutor_id";
+    private int userId;
     private int tutorId;
-
     private ImageView imgTutor;
     private TextView textFullName;
     private TextView textAverageRating;
@@ -48,7 +53,7 @@ public class TutorDetailFragment_st extends Fragment {
     private TextView textBio;
     private LinearLayout layoutCourses;
     private ImageButton btnBack;
-
+    private ImageButton imMessage;
     private List<Course> newCourses = new ArrayList<>();
 
     public static TutorDetailFragment_st newInstance(int tutorId) {
@@ -94,6 +99,7 @@ public class TutorDetailFragment_st extends Fragment {
         textBio = view.findViewById(R.id.text_bio);
         layoutCourses = view.findViewById(R.id.layoutCourses);
         btnBack = view.findViewById(R.id.btn_back);
+        imMessage = view.findViewById(R.id.im_message);
     }
 
     private void setupListeners() {
@@ -102,6 +108,82 @@ public class TutorDetailFragment_st extends Fragment {
                 getParentFragmentManager().popBackStack();
             }
         });
+        imMessage.setOnClickListener(v -> checkChatAndProceed());
+    }
+
+    private void checkChatAndProceed() {
+        int currentUserId = PrefsHelper.getCurrentUserId(getContext());
+        apiService.getChatBetweenUsers(currentUserId, userId).enqueue(new Callback<Chat>() {
+            @Override
+            public void onResponse(Call<Chat> call, Response<Chat> response) {
+                if (response.code() == 404) {
+                    showMessageDialog();
+                } else if (response.isSuccessful() && response.body() != null) {
+                    navigateToChatbox(response.body());
+                } else {
+                    Toast.makeText(getContext(), "Không thể kiểm tra trò chuyện", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Chat> call, Throwable t) {
+                Toast.makeText(getContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showMessageDialog() {
+        EditText input = new EditText(getContext());
+        input.setHint("Nhập tin nhắn");
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                .setTitle("Gửi tin nhắn đầu tiên")
+                .setView(input)
+                .setPositiveButton("Gửi", (d, w) -> {
+                    String message = input.getText().toString().trim();
+                    if (!message.isEmpty()) {
+                        sendFirstMessage(message);
+                    } else {
+                        Toast.makeText(getContext(), "Tin nhắn không được để trống", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Hủy", null)
+                .create();
+        dialog.show();
+    }
+
+    private void sendFirstMessage(String message) {
+        int currentUserId = PrefsHelper.getCurrentUserId(getContext());
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("senderId", currentUserId);
+        payload.put("receiverId", userId);
+        payload.put("message", message);
+        apiService.createChatWithFirstMessage(payload).enqueue(new Callback<Chat>() {
+            @Override
+            public void onResponse(Call<Chat> call, Response<Chat> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("body", response.body().toString());
+                    navigateToChatbox(response.body());
+                } else {
+                    Toast.makeText(getContext(), "Không thể tạo trò chuyện", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Chat> call, Throwable t) {
+                Toast.makeText(getContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void navigateToChatbox(Chat chat) {
+
+        int otherUserId = chat.getUser1Id().equals(PrefsHelper.getCurrentUserId(getContext()))
+                ? chat.getUser2Id() : chat.getUser1Id();
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.main_container, ChatboxFragment_st.newInstance(
+                        chat.getId(), otherUserId, textFullName.getText().toString(), textFullName.getText().toString()))
+                .addToBackStack(null)
+                .commit();
     }
 
     private void loadTutorDetail() {
@@ -109,6 +191,7 @@ public class TutorDetailFragment_st extends Fragment {
             @Override
             public void onResponse(Call<Tutor> call, Response<Tutor> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    userId = response.body().getUser_Id();
                     displayTutorDetail(response.body());
                 } else {
                     Toast.makeText(getContext(), "Không thể tải thông tin gia sư", Toast.LENGTH_SHORT).show();
