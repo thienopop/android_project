@@ -10,7 +10,7 @@ import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.TutorRepository;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.entity.Course;
-
+import com.example.demo.entity.entity_design.SessionStatusCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -293,7 +293,16 @@ public ResponseEntity<?> getSessionsByTutorAndDate(
 
 
 
+  @GetMapping("/count_session_all_status")
+public ResponseEntity<?> countSessionAllStatus() {
+    LocalDate date=LocalDate.now();
+  LocalDateTime startOfDay = date.atStartOfDay();
+    LocalDateTime endOfDay = date.atTime(23, 59, 59);
+    // 🔐 Lấy username từ token
+    List<SessionStatusCount> sessions = sessionRepository.countSessionByStatus( startOfDay, endOfDay);
 
+    return ResponseEntity.ok(sessions);
+}
 }
 
 

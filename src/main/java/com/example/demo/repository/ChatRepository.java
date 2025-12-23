@@ -29,10 +29,19 @@ public interface ChatRepository extends JpaRepository<Chat, Integer> {
             "ORDER BY (SELECT MAX(m.createdAt) FROM Message m WHERE m.chat = c) DESC")
     List<ChatWithUserDetail> findChatsWithUserDetails(@Param("userId") Integer userId);
 
+<<<<<<< HEAD
     @Query("""
             SELECT c FROM Chat c WHERE
             (c.user1.id = :user1Id AND c.user2.id = :user2Id) OR 
             (c.user1.id = :user2Id AND c.user2.id = :user1Id)
             """)
     Optional<Chat> findChatBetweenUsers(@Param("user1Id") Integer user1Id, @Param("user2Id") Integer user2Id);
+=======
+
+@Query(value = "SELECT * FROM chats WHERE (user1_id = :user1 AND user2_id = :user2) OR (user1_id = :user2 AND user2_id = :user1)",
+ nativeQuery = true)
+Chat findChatBetweenUsers(@Param("user1") int user1, @Param("user2") int user2);
+
+
+>>>>>>> 0573834 (add api cofirm course)
 }

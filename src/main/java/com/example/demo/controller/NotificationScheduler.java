@@ -107,7 +107,8 @@ public class NotificationScheduler {
 //         }
 //     }
 
- @Scheduled(cron = "0 0 0 * * *")
+//  @Scheduled(cron = "0 0 0 * * *")
+ @Scheduled(fixedRate = 10000)
 public void generateAutoNotification() {
 
     getList();

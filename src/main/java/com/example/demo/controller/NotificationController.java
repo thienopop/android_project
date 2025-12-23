@@ -94,7 +94,7 @@ public class NotificationController {
         Notification savedNotification = notificationRepository.save(notification);
         return ResponseEntity.ok(savedNotification);
 
-    }    
+    } 
     @PutMapping("update/isread/{id}")
     public ResponseEntity<?> updateReadNotification(@PathVariable Integer id) {
         Optional<Notification> existingNotificationOpt = notificationRepository.findById(id);
