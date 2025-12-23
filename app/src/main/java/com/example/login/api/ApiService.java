@@ -15,6 +15,7 @@ import com.example.login.model.CourseInfo;
 import com.example.login.model.DetailCourse;
 import com.example.login.model.UploadFileResponse;
 import com.example.login.model.Notification;
+import com.example.login.model.SessionStatusCount;
 import com.example.login.model.User;
 import com.example.login.model.RegisterLoginResponse;
 import com.example.login.model.UserWithId;
@@ -43,6 +44,8 @@ public interface ApiService {
     @POST("auth/login")
     Call<RegisterLoginResponse> login(@Body User user);
 
+    @GET("courses/count_courses_by_status/{status}")
+    Call<Integer> countCourseByStaus(@Path("status") String status);
 
     @POST("sessions/create")
     Call<Void> addSession(@Body AddSession addSession);
@@ -58,6 +61,11 @@ public interface ApiService {
 
     @PUT("notifications/update/isread/{id}")
     Call<Void> updateIsReadNotificationById(@Path("id") int id);
+    @PUT("notifications/create")
+    Call<Void> createNotificationById(@Body Notification noti);
+
+
+
 //    @PutMapping("/updateCourseStatus/{id}")
 
     @PUT("courses/updateCourseStatus/{id}")
@@ -91,19 +99,34 @@ public interface ApiService {
     @GET("tutors/me")
     Call<Tutor> getTutorLogin();
 
-    @GET("students/me")
-    Call<Student> getStudentLogin();
+    @GET("tutors/count_new_tutor")
+    Call<Integer> countNewTutor();
 
+    @GET("students/me")
+    Call<Student> getStudentLogin(
+    );
+    @GET("courses/userIdTutorByCourse/{courseId}")
+    Call<Integer> getUserIdTutorByCourse(@Path("courseId") int courseId);
 
 //    @GET("courses/my_courses/{status}")
 //    Call<List<CourseInfo>> getCourseByTutor(@Path("status") String status);
     ////    http://localhost:8080/api/courses/my_courses?status=STUDENT_REGISTER
 //
 
+
+//    ")
+    @GET("sessions/count_session_all_status")
+    Call<List<SessionStatusCount>> countSessionAllStatus();
+
+
     @GET("courses/my_courses/{status}")
     Call<List<CourseInfo>> getCourseByTutor(@Path("status") String status);
 
-//lấy thông tin. khoá hco theo id của tutor
+    @GET("courses/by_all_admin/{status}")
+    Call<List<CourseInfo>> getCourseByAdmin(@Path("status") String status);
+
+
+    //lấy thông tin. khoá hco theo id của tutor
     @GET("courses/by_tutor/{id}")
     Call<DetailCourse> getDetailCourseByTutor(@Path("id") int id);
 //    getDetailCourseByTutor(id);

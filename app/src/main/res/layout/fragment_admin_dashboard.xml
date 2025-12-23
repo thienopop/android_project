@@ -45,7 +45,8 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:id="@+id/ln_showNewTutor">
                                     <TextView
                                         android:id="@+id/tx_new_tutor"
                                         android:layout_width="wrap_content"
@@ -65,7 +66,8 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:id="@+id/ln_showNewCourse">
                                     <TextView
                                         android:id="@+id/tx_new_course"
                                         android:layout_width="wrap_content"

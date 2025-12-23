@@ -2,8 +2,10 @@ package com.example.login.fragments;
 
 
 // Android
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import java.util.List;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.login.ForgotPasswordActivity;
+import com.example.login.ManagermentConfirmCourse_admin;
+import com.example.login.model.CourseIdCallback;
+import com.example.login.model.DetailCourse;
+import com.example.login.model.SessionStatusCount;
+import com.example.login.model.SessionStatusCount;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -22,6 +30,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import android.widget.LinearLayout;
+
 
 // App
 import com.example.login.R;
@@ -45,11 +55,14 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Path;
 
 public class AdminDashboardFragment extends Fragment {
     private TextView numberOfNewCourse, numberOfNewTutor;
-    private int numberNewCourse=0;
-    private int numberNewTutor=0;
+
+    LinearLayout ln_showNewTutor,ln_showNewCourse;
+    private int numberNewCourse=10;
+    private int numberNewTutor=10;
     private  PieChart pieChart ;
     private  BarChart barChart;
     @Nullable
@@ -64,17 +77,42 @@ public class AdminDashboardFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Ánh xạ View
-        numberOfNewCourse = view.findViewById(R.id.tx_new_tutor);
-        numberOfNewTutor = view.findViewById(R.id.tx_new_course);
+  numberOfNewTutor = view.findViewById(R.id.tx_new_tutor);
+        numberOfNewCourse  = view.findViewById(R.id.tx_new_course);
+
+        ln_showNewTutor  = view.findViewById(R.id. ln_showNewTutor);
+        ln_showNewCourse  = view.findViewById(R.id. ln_showNewCourse);
+
 //        loadNumberOfNewTutor();
 //        loadNumberOfNewCourse();
-        numberOfNewCourse.setText(String.valueOf(numberNewCourse));
-        numberOfNewTutor.setText(String.valueOf(numberNewTutor));
+        loadCountCourseByStatus("UNCONFIRM");
+        loadCountNewTutor();
+        loadCountSession();
+
+
     pieChart = view.findViewById(R.id.pieChart);
-        show(3,3,4);
+
+
+
+
+
+//        ln_showNewTutor.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+        ln_showNewCourse.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), ManagermentConfirmCourse_admin.class);
+            startActivity(intent);
+//            requireActivity().finish();
+        });
+
+
 //        barChart = view.findViewById(R.id.barChart);
 //        showRateVerification(38,62);
-
 
 
 
@@ -239,4 +277,156 @@ public class AdminDashboardFragment extends Fragment {
 //
 //        ft.commit();
 //    }
+
+    private void loadCountCourseByStatus(String status) {
+
+        ApiService apiService =
+                RetrofitClient.getClient(requireContext()).create(ApiService.class);
+
+        Call<Integer> call = apiService.countCourseByStaus(status);
+
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(@NonNull Call<Integer> call,
+                                   @NonNull Response<Integer> response) {
+
+                if (!isAdded()) return;
+
+                int count = 0;
+                if (response.isSuccessful() && response.body() != null) {
+                    count = response.body();
+                }
+
+                numberNewCourse = count;
+                numberOfNewCourse.setText(String.valueOf(numberNewCourse));
+                // ✅ CẬP NHẬT UI (VÍ DỤ)
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Integer> call,
+                                  @NonNull Throwable t) {
+
+                if (!isAdded()) return;
+
+                numberNewCourse = 0;
+                numberOfNewCourse.setText(String.valueOf(numberNewCourse));
+                Toast.makeText(
+                        requireContext(),
+                        "❌ Lỗi API: " + t.getMessage(),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
+
+    private void loadCountNewTutor() {
+
+        ApiService apiService =
+                RetrofitClient.getClient(requireContext()).create(ApiService.class);
+
+        Call<Integer> call = apiService.countNewTutor();
+
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(@NonNull Call<Integer> call,
+                                   @NonNull Response<Integer> response) {
+
+                if (!isAdded()) return;
+
+                int count = 0;
+                if (response.isSuccessful() && response.body() != null) {
+                    count = response.body();
+                }
+
+                numberNewTutor= count;
+                numberOfNewTutor.setText(String.valueOf(numberNewTutor));
+
+                // ✅ CẬP NHẬT UI (VÍ DỤ)
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Integer> call,
+                                  @NonNull Throwable t) {
+
+                if (!isAdded()) return;
+
+                numberNewTutor = 0;
+                numberOfNewTutor.setText(String.valueOf(numberNewTutor));
+
+                Toast.makeText(
+                        requireContext(),
+                        "❌ Lỗi API: " + t.getMessage(),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+    private void loadCountSession() {
+
+        ApiService apiService =
+                RetrofitClient.getClient(requireContext()).create(ApiService.class);
+
+        Call<List<SessionStatusCount>> call =
+                apiService.countSessionAllStatus();
+
+        call.enqueue(new Callback<List<SessionStatusCount>>() {
+            @Override
+            public void onResponse(
+                    @NonNull Call<List<SessionStatusCount>> call,
+                    @NonNull Response<List<SessionStatusCount>> response) {
+
+                if (!isAdded()) return;
+
+                if (response.isSuccessful() && response.body() != null) {
+
+                    List<SessionStatusCount> list = response.body();
+
+                    int completed = 0;
+                    int unCompleted = 0;
+                    int canceled = 0;
+
+                    for (SessionStatusCount item : list) {
+
+                        if ("COMPLETED".equals(item.getStatus())) {
+                            completed = item.getTotal();
+                        }
+
+                        if ("SCHEDULED".equals(item.getStatus())) {
+                            unCompleted = item.getTotal();
+                        }
+
+                        if ("CANCELED".equals(item.getStatus())) {
+                            canceled = item.getTotal();
+                        }
+                    }
+
+                    show(completed, unCompleted, canceled);
+
+                } else {
+                    Toast.makeText(
+                            requireContext(),
+                            "❌ Lỗi API: " + response.code(),
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+            }
+
+            @Override
+            public void onFailure(
+                    @NonNull Call<List<SessionStatusCount>> call,
+                    @NonNull Throwable t) {
+
+                if (!isAdded()) return;
+
+                Toast.makeText(
+                        requireContext(),
+                        "❌ Lỗi mạng: " + t.getMessage(),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
+
 }
