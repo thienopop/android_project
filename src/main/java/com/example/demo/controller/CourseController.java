@@ -81,6 +81,36 @@ public ResponseEntity<?> getCourseIdBySessionId(@PathVariable int session_id) {
 }
 
 
+// Lấy courseId bằng sessionId
+@GetMapping("/userIdTutorByCourse/{courseId}")
+public ResponseEntity<?> getUserIdByCourseId(@PathVariable int courseId) {
+   if(courseId<=0)
+   {
+    return ResponseEntity.status(404).body(Map.of(
+            "error", "SessionId không hợp lệ " +courseId
+        ));
+   }
+
+   int user_id=0;
+   user_id=courseRepository.findUserIdByCourseId(courseId);
+//    findCourseIdBySessionId(courseId);
+
+
+  if (user_id<=0) {
+        return ResponseEntity.status(404).body(Map.of(
+            "error", "Không tìm thấy user: " 
+        ));
+    }
+   return ResponseEntity.ok(user_id);
+}
+
+    // @GET("userIdTutorByCourse/{courseId}")
+    // Call<Integer> getUserIdTutorByCourse(@Path("courseId") int courseId);
+
+
+// findUserIdByCourseId(@Param("courseId") int courseId);
+
+
 
  // lấy danh sách khóa học của tutor hiện tại theo trạng thái
 // phải chính tutor đó mới xem được
@@ -191,6 +221,25 @@ public ResponseEntity<?> getCoursesByStudetnAndIdCourse(@PathVariable int id) {
 
 
 
+//  List<Course> findByStatus(String status);
+
+
+//lấy thông tin khoá học/ student lấy
+@GetMapping("/by_all_admin/{status}")
+public ResponseEntity<?> getCoursesByStatus(@PathVariable String status) {
+    String st=status; // Biến id từ URL được dùng làm Course ID
+    
+    // 4. Gọi Repository với tên hàm đã chuẩn hóa và kiểu trả về là đối tượng đơn
+    List<CourseInfo> course = courseRepository.findCoursesByAllAdminIdAndStatus(st);
+    // findCoursesByAdminIdAndStatus
+    
+    // Kiểm tra kết quả
+    if (course == null) {
+        return ResponseEntity.notFound().build();
+    }
+    
+    return ResponseEntity.ok(course);    
+}
 
 
 
@@ -235,6 +284,20 @@ public ResponseEntity<?> getCoursesByStudetnAndIdCourse(@PathVariable int id) {
         courseRepository.save(course);
         return ResponseEntity.ok(course);
     }
+
+      @PutMapping("/updateCourseStatus/{id}")
+    //   /updateCourseStatus/{id}")
+    public ResponseEntity<?> updateCourse( @PathVariable int courseId, @RequestBody String status) {
+        Optional<Course> courseOpt = courseRepository.findById(courseId);
+        if (courseOpt.isEmpty()) return ResponseEntity.notFound().build();
+        Course course = courseOpt.get();
+        course.setStatus(status);
+        courseRepository.save(course);
+        return ResponseEntity.ok(course);
+    }
+       
+
+// updateCourseStatus(courseId, status);
 
 
     // ✅ Xóa khóa học
@@ -379,6 +442,17 @@ public ResponseEntity<?> getAvailableCoursesForStudent() {
     }
     return ResponseEntity.ok(availableCourses);
 }
+
+
+@GetMapping("/count_courses_by_status/{status}")
+public ResponseEntity<?> CountCourseByStatus(@PathVariable String status) {
+    String st=status;
+    int count = courseRepository. countCoursesByStatus(st);
+    return ResponseEntity.ok(count);
+}
+//  countCoursesByStatus(@Param("status") String status);
+
+
 // sinh viên lấy khoá học của mình
 @GetMapping("/my_courses_student/me/{status}")
 public ResponseEntity<?> getMyCoursesAsStudent( @PathVariable String status) {
@@ -397,20 +471,23 @@ public ResponseEntity<?> getMyCoursesAsStudent( @PathVariable String status) {
     return ResponseEntity.ok(courses);
 
 }
-// huỷ đăng ký khoá học (student hủy) với điều kiện chưa bắt đầu khoá học
-@PutMapping("/updateCourseStatus/{id}")
-public ResponseEntity<?> updateCourseStatus(@PathVariable int id,@RequestBody String status ) {
-        Optional<Course> courseOpt = courseRepository.findById(id);
-        if (courseOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", "Không tìm thấy khóa học với ID: " +
-                            id));
-        }
-        Course course = courseOpt.get();
-        course.setStatus(status);
-        Course this_course =courseRepository.save(course);
-        return ResponseEntity.ok(this_course);
-    }
+
+
+// @PutMapping("/updateCourseStatus/{id}")
+// public ResponseEntity<?> updateCourseStatus(@PathVariable int id,@RequestBody String status ) {
+//         Optional<Course> courseOpt = courseRepository.findById(id);
+//         if (courseOpt.isEmpty()) {
+//             return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                     .body(Map.of("error", "Không tìm thấy khóa học với ID: " +
+//                             id));
+//         }
+//         Course course = courseOpt.get();
+//         course.setStatus(status);
+//         Course this_course =courseRepository.save(course);
+//         return ResponseEntity.ok(this_course);
+//     }
+
+
 
     @GetMapping("/by_tutor_id/{tutor_id}")
     public ResponseEntity<?> getCoursesByTutorId(@PathVariable int tutor_id) {

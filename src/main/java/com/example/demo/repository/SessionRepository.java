@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 import com.example.demo.entity.entity_design.SessionInfo;
+import com.example.demo.entity.entity_design.SessionStatusCount;
 import com.example.demo.entity.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +21,27 @@ List<Session> findByDate(
         @Param("startOfDay") LocalDateTime startOfDay,
         @Param("endOfDay") LocalDateTime endOfDay
 );
+
+
+@Query("""
+    SELECT COUNT(s.id) AS total, s.status AS status
+    FROM Session s
+    WHERE s.sessionDate BETWEEN :startOfDay AND :endOfDay
+    GROUP BY s.status
+""")
+List<SessionStatusCount> countSessionByStatus(
+        @Param("startOfDay") LocalDateTime startOfDay,
+        @Param("endOfDay") LocalDateTime endOfDay
+);
+
+
+
+
+
+
+
+
+
 
 
 //     // lấy danh sách session của học viên theo ngày

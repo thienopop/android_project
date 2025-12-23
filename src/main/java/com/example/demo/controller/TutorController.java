@@ -1,14 +1,16 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Session;
 import com.example.demo.entity.Tutor;
 import com.example.demo.repository.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -105,4 +107,21 @@ public ResponseEntity<?> getMyTutorProfile() {
         tutorRepository.save(tutor);
         return ResponseEntity.ok(tutor);
     }
+
+
+ @GetMapping("/count_new_tutor")
+ public ResponseEntity<?> getNewTutor() {
+        LocalDate date=LocalDate.now();
+// List<Session> findByDate(
+//         @Param("startOfDay") LocalDateTime startOfDay,
+//         @Param("endOfDay") LocalDateTime endOfDay);
+  // ✅ Tạo khoảng thời gian trong ngày (00:00:00 → 23:59:59)
+    LocalDateTime startOfDay = date.atStartOfDay();
+    LocalDateTime endOfDay = date.atTime(23, 59, 59);
+
+        // 🔍 Truy vấn buổi học t
+     int  count =  tutorRepository.countNewTutor( startOfDay, endOfDay);
+        return ResponseEntity.ok(count);
+    }
+    
 }

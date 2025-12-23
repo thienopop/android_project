@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Course;
+import com.example.demo.entity.Session;
 import com.example.demo.entity.Tutor;
 import com.example.demo.entity.entity_design.*;
 import com.example.demo.entity.Student;
@@ -8,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -74,6 +77,29 @@ List<CourseInfo> findCoursesByTutorIdAndStatus(@Param("tutorId") Integer tutorId
         nativeQuery = true)
 List<CourseInfo> findCoursesByStudentIdAndStatus(@Param("studentId") Integer studentId, @Param("status") String status);
 
+
+
+@Query(value = "SELECT " +
+        "    c.id AS id, " +
+        "    c.start_time AS startTime, " +
+        "    c.total_sessions AS totalSessions, " +
+        "    c.notes AS notes, " +
+        "    c.status AS status, " +
+        "    t.full_name AS fullName, " + // Lấy tên của Tutor (t)
+        "    c.subject AS subject, " +
+        "    COUNT(ss.id) AS sessionCompleted " + // ĐÃ THÊM DẤU CÁCH Ở CUỐI DÒNG NÀY
+        "FROM " +
+        "    courses c " +
+        "LEFT JOIN " +
+        "    tutors t ON c.tutor_id = t.id " + // Join vào bảng tutors dựa trên tutor_id của khóa học
+        "LEFT JOIN " +
+        "    sessions ss ON c.id = ss.course_id AND ss.status = 'COMPLETED' " +
+        "WHERE " +
+        "c.status = :status " +
+        "GROUP BY " +
+        "    c.id, c.start_time, c.total_sessions, c.notes, c.status, t.full_name, c.subject",
+        nativeQuery = true)
+List<CourseInfo> findCoursesByAllAdminIdAndStatus(@Param("status") String status);
 
 
 //Tutor lấy thôgn tin khoá học
@@ -177,4 +203,31 @@ int findCourseIdBySessionId(@Param("sessionId") int sessionId);
         WHERE c.status = 'NEW'
         """)
     List<CourseWithTutorDetail> findAllAvailableCoursesWithTutorDetails();
+
+
+
+
+@Query(
+    value = "SELECT COUNT(c.id) FROM courses c WHERE c.status = :status",
+    nativeQuery = true
+)
+int countCoursesByStatus(@Param("status") String status);
+
+
+
+
+@Query(value = """
+        SELECT u.id
+        FROM courses c
+        JOIN tutors t ON c.id = t.course_id 
+        JOIN users u ON t.user_id = u.id
+        WHERE c.id = :courseId
+        """,
+        nativeQuery = true)
+Integer findUserIdByCourseId(@Param("courseId") int courseId);
+
+
+
+
 }
+
