@@ -19,7 +19,7 @@
 
         <activity
 
-            android:name=".AdminDashboardActivity"
+            android:name=".LoginActivity"
 
             android:exported="true">
             <intent-filter>
@@ -32,11 +32,11 @@
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".TutorDashboardActivity"/>
         <activity android:name=".StudentDashboardActivity"/>
+        <activity android:name=".AdminDashboardActivity"/>
         <activity android:name=".DetailCourseActivity"/>
         <activity android:name=".DetailCourseActivity_admin"/>
         <activity android:name=".DetailCourseActivity_st"/>
         <activity android:name=".UpdateCourseActivity"/>
-        <activity android:name=".LoginActivity"/>
         <activity android:name=".ManagermentConfirmCourse_admin"/>
 
 <!--        android:name=".LoginActivity"-->
