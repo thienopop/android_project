@@ -91,7 +91,7 @@ public class ChatController {
         Chat savedChat = chatRepository.save(newChat);
 
         Message message = new Message();
-        message.setChat(newChat);
+        message.setChat(savedChat);
         message.setSender(sender);
         message.setMessageText(firstMessage);
         message.setIsRead(false);
