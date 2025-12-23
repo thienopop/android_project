@@ -1,8 +1,6 @@
 package com.example.login;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +19,6 @@ import com.example.login.adapter.ListSessionOfCourseAdapter;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
 
-import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,9 +29,9 @@ import retrofit2.Response;
 //         android:id="@+id/showAddCourse"
 
 
-import com.example.login.model.AddSession;
 import com.example.login.model.DetailCourse;
 import com.example.login.model.SessionInfo;
+import com.example.login.model.Notification;
 
 public class DetailCourseActivity_admin extends AppCompatActivity {
 
@@ -49,6 +46,7 @@ public class DetailCourseActivity_admin extends AppCompatActivity {
     EditText tvDate, edtNotes,edtDuration;
     EditText tvTime;
     Button    btCancelCreateCourse, btConfimAddCourse;
+
 
     int courseId=-1;
 
@@ -88,19 +86,19 @@ public class DetailCourseActivity_admin extends AppCompatActivity {
             startActivity(intent);
         });
 
-        im_message.setOnClickListener(v -> {
-
-            String value = v.getTag().toString();
-
-            // Chuyển String → int
-            int idChat = Integer.parseInt(value);
-            String fragment_name="FRAGMENT_CHAT";
-            Intent intent = new Intent(com.example.login.DetailCourseActivity_admin.this, TutorDashboardActivity.class);
-            intent.putExtra("FRAGMENT_NAME", fragment_name);
-            intent.putExtra("CHAT_ID", idChat);
-
-            startActivity(intent);
-        });
+//        im_message.setOnClickListener(v -> {
+//
+//            String value = v.getTag().toString();
+//
+//            // Chuyển String → int
+//            int idChat = Integer.parseInt(value);
+//            String fragment_name="FRAGMENT_CHAT";
+//            Intent intent = new Intent(com.example.login.DetailCourseActivity_admin.this, TutorDashboardActivity.class);
+//            intent.putExtra("FRAGMENT_NAME", fragment_name);
+//            intent.putExtra("CHAT_ID", idChat);
+//
+//            startActivity(intent);
+//        });
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +107,21 @@ public class DetailCourseActivity_admin extends AppCompatActivity {
                 finish();
             }
         });
+        btCancelCreateCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CancelCreateCourse();
+            }
+        });
+
+        btConfimAddCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConfirmCreateCourse();
+            }
+        });
+
+
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -124,36 +137,37 @@ public class DetailCourseActivity_admin extends AppCompatActivity {
         }
 
     }
-    private void showDatePicker() {
-        Calendar calendar = Calendar.getInstance();
+//    private void showDatePicker() {
+//        Calendar calendar = Calendar.getInstance();
+//
+//        int year = calendar.get(Calendar.YEAR);
+//        int month = calendar.get(Calendar.MONTH);
+//        int day = calendar.get(Calendar.DAY_OF_MONTH);
+//        DatePickerDialog datePickerDialog = new DatePickerDialog(
+//                com.example.login.DetailCourseActivity_admin.this,
+//                (view, year1, month1, dayOfMonth) -> {
+//                    String selectedDate = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
+//                    tvDate.setText(selectedDate);
+//                },
+//                year, month, day
+//        );
+//        datePickerDialog.show();
+//    }
+//    private void showTimePicker() {
+//        Calendar calendar = Calendar.getInstance();
+//        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+//        int minute = calendar.get(Calendar.MINUTE);
+//        TimePickerDialog timePickerDialog = new TimePickerDialog(
+//                com.example.login.DetailCourseActivity_admin.this,
+//                (view, hourOfDay, minuteOfHour) -> {
+//                    String selectedTime = hourOfDay + ":" + (minuteOfHour < 10 ? "0" + minuteOfHour : minuteOfHour);
+//                    tvTime.setText(selectedTime);
+//                },
+//                hour, minute, true // 24h format
+//        );
+//        timePickerDialog.show();
+//    }
 
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                com.example.login.DetailCourseActivity_admin.this,
-                (view, year1, month1, dayOfMonth) -> {
-                    String selectedDate = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
-                    tvDate.setText(selectedDate);
-                },
-                year, month, day
-        );
-        datePickerDialog.show();
-    }
-    private void showTimePicker() {
-        Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(
-                com.example.login.DetailCourseActivity_admin.this,
-                (view, hourOfDay, minuteOfHour) -> {
-                    String selectedTime = hourOfDay + ":" + (minuteOfHour < 10 ? "0" + minuteOfHour : minuteOfHour);
-                    tvTime.setText(selectedTime);
-                },
-                hour, minute, true // 24h format
-        );
-        timePickerDialog.show();
-    }
     private void loadCourseDetails(int id) {
         ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
         Call<DetailCourse> call = apiService.getDetailCourseByTutor(id);
@@ -299,4 +313,143 @@ public class DetailCourseActivity_admin extends AppCompatActivity {
 //            }
 //        });
 //    }
+
+
+
+    private void CancelCreateCourse() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.cancel_add_course_card);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCancelable(true);
+
+        Button btnCancel = dialog.findViewById(R.id.btnCancel);
+        Button btnConfirm= dialog.findViewById(R.id.btnConfirm);
+        EditText edViewReasonCancel =dialog.findViewById(R.id.edtReasonCancel);
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        btnConfirm.setOnClickListener(v -> {
+String message=edViewReasonCancel.getText().toString();
+            createNotification("Huỷ yêu cầu mở lớp học", message);
+        });
+        dialog.show();
+    }
+
+    private void ConfirmCreateCourse() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.confirm_add_course_card);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCancelable(true);
+
+        Button btnCancel = dialog.findViewById(R.id.btnCancel);
+        Button btnConfirm= dialog.findViewById(R.id.btnConfirm);
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+String message="Mở lớp học thành công!";
+        btnConfirm.setOnClickListener(v -> {
+            createNotification("Xác nhận yêu cầu mở lớp học", message);
+        });
+        dialog.show();
+    }
+
+    private void createNotification(String title, String message){
+
+        findUserIdTutorByCourse(courseId, userId -> {
+
+            Notification noti = new Notification();
+            noti.setTitle(title);
+            noti.setMessage(message);
+            noti.setIsRead(false);
+            noti.setUserId(userId); // ✅ ĐÚNG CHỖ
+
+            // TODO: Gửi notification lên server / lưu DB
+            sendNotification(noti);
+            updateCsourseStatus("CANCELED");
+        });
+    }
+
+    public void sendNotification(Notification noti)
+    {
+        ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
+        Call<Void> call = apiService.createNotificationById(noti);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+
+                if (response.isSuccessful()) {
+                    Toast.makeText(DetailCourseActivity_admin.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DetailCourseActivity_admin.this, "Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Toast.makeText(DetailCourseActivity_admin.this, "Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+//    Call<Void> createNotificationById(@Body Notification noti);
+
+
+    private void findUserIdTutorByCourse(int courseId, UserIdCallback callback) {
+
+        ApiService apiService =
+                RetrofitClient.getClient(DetailCourseActivity_admin.this)
+                        .create(ApiService.class);
+
+        Call<Integer> call = apiService.getUserIdTutorByCourse(courseId);
+
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(@NonNull Call<Integer> call,
+                                   @NonNull Response<Integer> response) {
+
+                int userId = 0;
+                if (response.isSuccessful() && response.body() != null) {
+                    userId = response.body();
+                }
+                callback.onResult(userId);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Integer> call,
+                                  @NonNull Throwable t) {
+
+                callback.onResult(0);
+
+                Toast.makeText(
+                        DetailCourseActivity_admin.this,
+                        "❌ Lỗi API: " + t.getMessage(),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
+    private void updateCsourseStatus(String status) {
+
+        ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
+        Call<Void> call = apiService.updateCourseStatus(courseId, status);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+
+                if (response.isSuccessful()) {
+                    Toast.makeText(DetailCourseActivity_admin.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DetailCourseActivity_admin.this, "Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Toast.makeText(DetailCourseActivity_admin.this, "Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+
+ interface UserIdCallback {
+    void onResult(int userId);
 }
