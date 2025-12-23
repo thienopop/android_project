@@ -87,7 +87,9 @@ public class ChatController {
 
         Chat newChat = new Chat();
         newChat.setUser1(sender);
+        newChat.setUser1Id(senderId);
         newChat.setUser2(receiver);
+        newChat.setUser2Id(receiverId);
         Chat savedChat = chatRepository.save(newChat);
 
         Message message = new Message();
