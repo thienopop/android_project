@@ -46,7 +46,7 @@ public class FileController {
         String extension = "";
         int dotIndex = originalName.lastIndexOf('.');
         if (dotIndex > 0) {
-            extension = originalName.substring(dotIndex);
+            extension = originalName.substring(dotIndex + 1).toLowerCase();
             originalName = originalName.substring(0, dotIndex);
         }
 
@@ -55,7 +55,7 @@ public class FileController {
             return ResponseEntity.status(400).body("Định dạng tệp không được phép: " + extension);
         }
 
-        String uniqueName = originalName + "_" + System.currentTimeMillis() + extension;
+        String uniqueName = originalName + "_" + System.currentTimeMillis() + "." + extension;
         Path filePath = uploadDirectory.resolve(uniqueName);
         file.transferTo(filePath);
 
