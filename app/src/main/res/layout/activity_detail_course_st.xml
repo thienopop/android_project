@@ -486,15 +486,12 @@
                     tools:text="Nguyễn Văn A" />
             </LinearLayout>
 
-            <!-- Nút Back -->
             <ImageButton
                 android:id="@+id/im_message"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_message"
-                android:contentDescription="Quay lại" />
+                android:src="@drawable/ic_message" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
