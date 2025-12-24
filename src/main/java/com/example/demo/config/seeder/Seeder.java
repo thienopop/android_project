@@ -30,6 +30,8 @@ public class Seeder implements CommandLineRunner {
     private ChatSeeder chatSeeder;
     @Autowired
     private MessageSeeder messageSeeder;
+    @Autowired
+    private FeedbackSeeder feedbackSeeder;
 
     @Value("${app.seed-data:false}")
     private boolean seedData;
@@ -56,16 +58,17 @@ public class Seeder implements CommandLineRunner {
         User user4 = userSeeder.createUser("hocvien1", "hocvien1@vidu.com", "123", "STUDENT");
         User user5 = userSeeder.createUser("hocvien2", "hocvien2@vidu.com", "123", "STUDENT");
         User user6 = userSeeder.createUser("hocvien3", "hocvien3@vidu.com", "123", "STUDENT");
+        User user7 = userSeeder.createUser("hocvien4", "hocvien4@vidu.com", "123", "STUDENT");
 
         Tutor tutor1 = tutorSeeder.createTutor(user1, "Nguyễn Văn An", "0901234567", "123 Đường Lê Lợi, TP.HCM",
                 LocalDate.of(1985, 5, 15), "Gia sư Toán với hơn 10 năm kinh nghiệm dạy kèm học sinh cấp 3",
-                10, 300000.0, true, 150, 4.8, "profile_image_1000000000000.jpg");
+                10, 300000.0, true, 150, 5.0, "profile_image_1000000000000.jpg");
         Tutor tutor2 = tutorSeeder.createTutor(user2, "Trần Thị Bình", "0907654321", "456 Nguyễn Trãi, Hà Nội",
                 LocalDate.of(1990, 8, 22), "Chuyên dạy Lý - Hóa, giúp học sinh hiểu sâu bản chất",
-                7, 250000.0, true, 120, 4.7, "profile_image_1000000000000.jpg");
+                7, 250000.0, true, 120, 5.0, "profile_image_1000000000000.jpg");
         Tutor tutor3 = tutorSeeder.createTutor(user3, "Lê Hoàng Minh", "0903456789", "789 Võ Văn Kiệt, Đà Nẵng",
                 LocalDate.of(1988, 3, 10), "Gia sư tiếng Anh, luyện thi đại học và IELTS",
-                8, 350000.0, true, 80, 4.5, "profile_image_1000000000000.jpg");
+                8, 350000.0, true, 80, 4.0, "profile_image_1000000000000.jpg");
 
         Student student1 = studentSeeder.createStudent(user4, "Phạm Thu Hà", "0911234567", "321 Lý Thường Kiệt, TP.HCM",
                 LocalDate.of(2008, 6, 20), "Lớp 10", "Yêu thích các môn Khoa học Tự nhiên");
@@ -73,6 +76,8 @@ public class Seeder implements CommandLineRunner {
                 LocalDate.of(2009, 9, 14), "Lớp 9", "Muốn cải thiện điểm Toán và Tiếng Anh");
         Student student3 = studentSeeder.createStudent(user6, "Đỗ Ngọc Lan", "0912345678", "987 Nguyễn Huệ, Huế",
                 LocalDate.of(2007, 12, 5), "Lớp 11", "Đang chuẩn bị cho kỳ thi đại học");
+        Student student4 = studentSeeder.createStudent(user7, "Nguyễn Đức Long", "0915558888", "102 Pasteur, TP.HCM",
+                LocalDate.of(2006, 4, 18), "Lớp 12", "Đang ôn thi đại học, cần gia sư chất lượng cao");
 
         Course course1 = courseSeeder.createCourse(tutor1, student1, "Toán nâng cao", 10, 3_000_000.0, "Thứ 2,4,6 18h-19h30",
                 LocalDateTime.of(2025, 11, 10, 18, 0),
@@ -113,6 +118,30 @@ public class Seeder implements CommandLineRunner {
                 LocalDate.of(2025, 11, 17),
                 LocalDate.of(2025, 12, 17),
                 "ONGOING", "Cải thiện kỹ năng giao tiếp tiếng Anh cho học sinh lớp 10");
+        Course completedCourse1 = courseSeeder.createCourse(
+                tutor1, student4, "Toán tổng ôn đại học", 4, 1_600_000.0, "Thứ 2,4 19h-20h30",
+                LocalDateTime.of(2025, 9, 2, 19, 0),
+                LocalDateTime.of(2025, 9, 2, 20, 30),
+                LocalDate.of(2025, 9, 2),
+                LocalDate.of(2025, 9, 20),
+                "COMPLETED", "Khóa học đã hoàn thành, ôn tập toàn bộ chuyên đề trọng tâm"
+        );
+        Course completedCourse2 = courseSeeder.createCourse(
+                tutor2, student4, "Lý – Hóa ôn thi cấp tốc", 4, 1_400_000.0, "Thứ 3,5 18h-19h30",
+                LocalDateTime.of(2025, 9, 3, 18, 0),
+                LocalDateTime.of(2025, 9, 3, 19, 30),
+                LocalDate.of(2025, 9, 3),
+                LocalDate.of(2025, 9, 22),
+                "COMPLETED", "Hệ thống hóa kiến thức và luyện đề thi thử"
+        );
+        Course completedCourse3 = courseSeeder.createCourse(
+                tutor3, student4, "Tiếng Anh luyện đề đại học", 4, 1_800_000.0, "Thứ 6,7 18h-19h30",
+                LocalDateTime.of(2025, 9, 6, 18, 0),
+                LocalDateTime.of(2025, 9, 6, 19, 30),
+                LocalDate.of(2025, 9, 6),
+                LocalDate.of(2025, 9, 25),
+                "COMPLETED", "Luyện đề, sửa lỗi chi tiết, nâng band điểm"
+        );
         courseSeeder.createCourse(
                 tutor1, null, "Toán chuyên đề hình học", 0, 2_000_000.0,
                 "Thứ 2,4 19h-20h30",
@@ -184,6 +213,22 @@ public class Seeder implements CommandLineRunner {
         sessionSeeder.createSession(course5, LocalDateTime.of(2025, 11, 18, 18, 0), 90, "SCHEDULED", "Buổi 2: Giải bài tập nâng cao");
         sessionSeeder.createSession(course6, LocalDateTime.of(2025, 11, 17, 16, 0), 60, "SCHEDULED", "Buổi 1: Làm quen hội thoại cơ bản");
         sessionSeeder.createSession(course6, LocalDateTime.of(2025, 11, 19, 16, 0), 60, "SCHEDULED", "Buổi 2: Thực hành hội thoại theo chủ đề");
+        sessionSeeder.createSession(completedCourse1, LocalDateTime.of(2025, 9, 2, 19, 0), 90, "COMPLETED", "Buổi 1: Tổng quan đề thi");
+        sessionSeeder.createSession(completedCourse1, LocalDateTime.of(2025, 9, 5, 19, 0), 90, "COMPLETED", "Buổi 2: Hàm số và đồ thị");
+        sessionSeeder.createSession(completedCourse1, LocalDateTime.of(2025, 9, 9, 19, 0), 90, "COMPLETED", "Buổi 3: Hình học không gian");
+        sessionSeeder.createSession(completedCourse1, LocalDateTime.of(2025, 9, 12, 19, 0), 90, "COMPLETED", "Buổi 4: Luyện đề tổng hợp");
+        sessionSeeder.createSession(completedCourse2, LocalDateTime.of(2025, 9, 3, 18, 0), 90, "COMPLETED", "Buổi 1: Ôn Lý cơ bản");
+        sessionSeeder.createSession(completedCourse2, LocalDateTime.of(2025, 9, 6, 18, 0), 90, "COMPLETED", "Buổi 2: Bài tập Lý");
+        sessionSeeder.createSession(completedCourse2, LocalDateTime.of(2025, 9, 10, 18, 0), 90, "COMPLETED", "Buổi 3: Ôn Hóa trọng tâm");
+        sessionSeeder.createSession(completedCourse2, LocalDateTime.of(2025, 9, 13, 18, 0), 90, "COMPLETED", "Buổi 4: Luyện đề kết hợp");
+        sessionSeeder.createSession(completedCourse3, LocalDateTime.of(2025, 9, 6, 18, 0), 90, "COMPLETED", "Buổi 1: Reading strategies");
+        sessionSeeder.createSession(completedCourse3, LocalDateTime.of(2025, 9, 9, 18, 0), 90, "COMPLETED", "Buổi 2: Grammar pitfalls");
+        sessionSeeder.createSession(completedCourse3, LocalDateTime.of(2025, 9, 13, 18, 0), 90, "COMPLETED", "Buổi 3: Writing task");
+        sessionSeeder.createSession(completedCourse3, LocalDateTime.of(2025, 9, 16, 18, 0), 90, "COMPLETED", "Buổi 4: Full test practice");
+
+        feedbackSeeder.createFeedback(completedCourse1, student4, 5, "Gia sư dạy rất dễ hiểu, lộ trình rõ ràng, em tiến bộ rõ rệt.");
+        feedbackSeeder.createFeedback(completedCourse2, student4, 5, "Cô dạy rất tận tâm, bài giảng logic và dễ áp dụng khi làm đề.");
+        feedbackSeeder.createFeedback(completedCourse3, student4, 4, "Thầy dạy chắc kiến thức, sửa bài kỹ, giúp em tự tin hơn khi làm bài.");
 
         Chat chat1 = chatSeeder.createChat(user4, user1);
         Chat chat2 = chatSeeder.createChat(user5, user2);
