@@ -3,8 +3,12 @@ package com.example.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -13,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.login.adapter.ListSessionOfCourseAdapter;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
+import com.example.login.model.Course;
 import com.example.login.model.DetailCourse;
+import com.example.login.model.Feedback;
 import com.example.login.model.SessionInfo;
 
 import java.util.List;
@@ -30,6 +36,14 @@ public class DetailCourseActivity_st extends AppCompatActivity {
     TextView text_timeOfTheLesson, text_complete_sessions, text_notes, text_status,
             text_end_date, text_start_date, text_total_price, text_total_sessions,
             text_subject, text_full_name;
+    TextView textRatingTitle;
+    LinearLayout layoutRatingInput, layoutRatingDisplay;
+    RatingBar ratingBar, ratingBarDisplay;
+    EditText editComment;
+    Button btnSubmitRating;
+    TextView textRatingValue, textCommentDisplay;
+    int currentCourseId;
+    String currentCourseStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +67,18 @@ public class DetailCourseActivity_st extends AppCompatActivity {
 
         btnBack = findViewById(R.id.btn_back);
 
+        textRatingTitle = findViewById(R.id.text_rating_title);
+        layoutRatingInput = findViewById(R.id.layout_rating_input);
+        layoutRatingDisplay = findViewById(R.id.layout_rating_display);
+        ratingBar = findViewById(R.id.rating_bar);
+        ratingBarDisplay = findViewById(R.id.rating_bar_display);
+        editComment = findViewById(R.id.edit_comment);
+        btnSubmitRating = findViewById(R.id.btn_submit_rating);
+        textRatingValue = findViewById(R.id.text_rating_value);
+        textCommentDisplay = findViewById(R.id.text_comment_display);
+
+        btnSubmitRating.setOnClickListener(v -> submitFeedback());
+
         // --- 2. THIẾT LẬP NÚT BACK ---
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +92,7 @@ public class DetailCourseActivity_st extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             int courseId = intent.getIntExtra("COURSE_ID_KEY", -1);
+            currentCourseId = courseId;
             if (courseId != -1) {
                 // Tải chi tiết khóa học
                 loadCourseDetails(courseId);
@@ -118,6 +145,17 @@ public class DetailCourseActivity_st extends AppCompatActivity {
         text_status.setText(course.getStatus());
 
         text_notes.setText(course.getNotes() != null && !course.getNotes().isEmpty() ? course.getNotes() : "Không có ghi chú.");
+
+        currentCourseStatus = course.getStatus();
+
+        if ("COMPLETED".equals(currentCourseStatus)) {
+            textRatingTitle.setVisibility(View.VISIBLE);
+            loadFeedback(currentCourseId);
+        } else {
+            textRatingTitle.setVisibility(View.GONE);
+            layoutRatingInput.setVisibility(View.GONE);
+            layoutRatingDisplay.setVisibility(View.GONE);
+        }
     }
 
 
@@ -147,6 +185,107 @@ public class DetailCourseActivity_st extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<List<SessionInfo>> call, @NonNull Throwable t) {
                 Toast.makeText(DetailCourseActivity_st.this, "Lỗi API tải sessions: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadFeedback(int courseId) {
+        ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
+        Call<Feedback> call = apiService.getFeedbackByCourseId(courseId);
+
+        call.enqueue(new Callback<Feedback>() {
+            @Override
+            public void onResponse(@NonNull Call<Feedback> call, @NonNull Response<Feedback> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    displayFeedback(response.body());
+                } else if (response.code() == 404) {
+                    showRatingInput();
+                } else {
+                    Toast.makeText(DetailCourseActivity_st.this, "Không thể tải đánh giá.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Feedback> call, @NonNull Throwable t) {
+                Toast.makeText(DetailCourseActivity_st.this, "Lỗi mạng khi tải đánh giá.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showRatingInput() {
+        layoutRatingInput.setVisibility(View.VISIBLE);
+        layoutRatingDisplay.setVisibility(View.GONE);
+    }
+
+    private void displayFeedback(Feedback feedback) {
+        layoutRatingInput.setVisibility(View.GONE);
+        layoutRatingDisplay.setVisibility(View.VISIBLE);
+
+        ratingBarDisplay.setRating(feedback.getRating());
+        textRatingValue.setText("(" + feedback.getRating() + "/5)");
+        textCommentDisplay.setText(feedback.getComment());
+    }
+
+    private void submitFeedback() {
+        int rating = (int) ratingBar.getRating();
+        String comment = editComment.getText().toString().trim();
+
+        if (comment.isEmpty()) {
+            Toast.makeText(this, "Vui lòng nhập nhận xét.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
+        Call<Course> call = apiService.getCourseById(currentCourseId);
+
+        call.enqueue(new Callback<Course>() {
+            @Override
+            public void onResponse(@NonNull Call<Course> call, @NonNull Response<Course> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Course course = response.body();
+
+                    Feedback feedback = new Feedback();
+                    feedback.setCourseId(currentCourseId);
+                    feedback.setStudentId(course.getStudent_Id());
+                    feedback.setRating(rating);
+                    feedback.setComment(comment);
+
+                    createFeedback(feedback);
+                } else {
+                    Toast.makeText(DetailCourseActivity_st.this, "Không thể lấy thông tin khóa học.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Course> call, @NonNull Throwable t) {
+                Toast.makeText(DetailCourseActivity_st.this, "Lỗi mạng khi lấy thông tin khóa học.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void createFeedback(Feedback feedback) {
+        android.util.Log.d("DEBUG_FEEDBACK", "Creating feedback - CourseId: " + feedback.getCourseId()
+                + ", StudentId: " + feedback.getStudentId()
+                + ", Rating: " + feedback.getRating()
+                + ", Comment: " + feedback.getComment());
+
+        ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
+        Call<Void> call = apiService.createFeedback(feedback);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(DetailCourseActivity_st.this, "Gửi đánh giá thành công!", Toast.LENGTH_SHORT).show();
+                    loadFeedback(currentCourseId);
+                } else {
+                    Toast.makeText(DetailCourseActivity_st.this, "Gửi đánh giá thất bại.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Toast.makeText(DetailCourseActivity_st.this, "Lỗi mạng khi gửi đánh giá.", Toast.LENGTH_SHORT).show();
             }
         });
     }

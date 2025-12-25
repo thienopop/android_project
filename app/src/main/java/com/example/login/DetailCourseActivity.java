@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 //         android:id="@+id/showAddCourse"
+import android.widget.RatingBar;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -31,6 +32,7 @@ import com.example.login.model.AddSession;
 import java.util.Calendar;
 import com.example.login.adapter.ListSessionOfCourseAdapter;
 import com.example.login.model.DetailCourse;
+import com.example.login.model.Feedback;
 import com.example.login.model.SessionInfo;
 
 import java.util.List;
@@ -50,8 +52,12 @@ public class DetailCourseActivity extends AppCompatActivity {
     Button btCancelAddSession;
     Button btAddSession;
     int courseId=-1;
-
-
+    TextView textRatingTitle;
+    LinearLayout layoutRatingDisplay;
+    RatingBar ratingBarDisplay;
+    TextView textRatingValue, textCommentDisplay;
+    int currentCourseId;
+    String currentCourseStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,12 @@ public class DetailCourseActivity extends AppCompatActivity {
         // SỬA LỖI: Ánh xạ ListView đúng cách
         listViewSessions = findViewById(R.id.listViewSessions);
         btnBack = findViewById(R.id.btn_back);
+
+        textRatingTitle = findViewById(R.id.text_rating_title);
+        layoutRatingDisplay = findViewById(R.id.layout_rating_display);
+        ratingBarDisplay = findViewById(R.id.rating_bar_display);
+        textRatingValue = findViewById(R.id.text_rating_value);
+        textCommentDisplay = findViewById(R.id.text_comment_display);
 
         btCancelAddSession=findViewById(R.id.btCancelAddSession);
         btAddSession=findViewById(R.id.btAddSession);
@@ -165,6 +177,7 @@ public class DetailCourseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             courseId = intent.getIntExtra("COURSE_ID_KEY", -1);
+            currentCourseId = courseId;
             if (courseId != -1) {
                 // Tải chi tiết khóa học
                 loadCourseDetails(courseId);
@@ -264,6 +277,16 @@ public class DetailCourseActivity extends AppCompatActivity {
         text_status.setText(course.getStatus());
 
         text_notes.setText(course.getNotes() != null && !course.getNotes().isEmpty() ? course.getNotes() : "Không có ghi chú.");
+
+        currentCourseStatus = course.getStatus();
+
+        if ("COMPLETED".equals(currentCourseStatus)) {
+            textRatingTitle.setVisibility(View.VISIBLE);
+            loadFeedback(currentCourseId);
+        } else {
+            textRatingTitle.setVisibility(View.GONE);
+            layoutRatingDisplay.setVisibility(View.GONE);
+        }
     }
 
     private void addSession() {
@@ -470,7 +493,35 @@ public class DetailCourseActivity extends AppCompatActivity {
         });
     }
 
+    private void loadFeedback(int courseId) {
+        ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
+        Call<Feedback> call = apiService.getFeedbackByCourseId(courseId);
 
+        call.enqueue(new Callback<Feedback>() {
+            @Override
+            public void onResponse(@NonNull Call<Feedback> call, @NonNull Response<Feedback> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    displayFeedback(response.body());
+                } else if (response.code() == 404) {
+                    layoutRatingDisplay.setVisibility(View.GONE);
 
+                } else {
+                    Toast.makeText(DetailCourseActivity.this, "Không thể tải đánh giá.", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onFailure(@NonNull Call<Feedback> call, @NonNull Throwable t) {
+                Toast.makeText(DetailCourseActivity.this, "Lỗi mạng khi tải đánh giá.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void displayFeedback(Feedback feedback) {
+        layoutRatingDisplay.setVisibility(View.VISIBLE);
+
+        ratingBarDisplay.setRating(feedback.getRating());
+        textRatingValue.setText("(" + feedback.getRating() + "/5)");
+        textCommentDisplay.setText(feedback.getComment());
+    }
 }

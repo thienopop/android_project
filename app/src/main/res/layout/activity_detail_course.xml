@@ -417,5 +417,79 @@
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="true"/>
 </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_rating_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="Đánh giá khóa học:"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="4dp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/layout_rating_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="8dp"
+        android:padding="12dp"
+        android:elevation="6dp"
+        android:background="#FFFFFF"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Điểm đánh giá: "
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <RatingBar
+                android:id="@+id/rating_bar_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1"
+                android:isIndicator="true"
+                android:layout_marginStart="8dp"
+                style="?android:attr/ratingBarStyleSmall"
+                android:scaleX="1"
+                android:scaleY="1"/>
+
+            <TextView
+                android:id="@+id/text_rating_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"
+                tools:text="(5/5)"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nhận xét:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/text_comment_display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:lineSpacingExtra="4dp"
+            tools:text="Gia sư dạy rất dễ hiểu, lộ trình rõ ràng, em tiến bộ rõ rệt."/>
+    </LinearLayout>
 </LinearLayout>
 </ScrollView>
