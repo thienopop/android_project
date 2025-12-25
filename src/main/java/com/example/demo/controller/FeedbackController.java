@@ -46,7 +46,7 @@ public class FeedbackController {
                     .body(Map.of("error", "Student ID không khớp với khóa học"));
         }
 
-        if (course.getStatus() != "COMPLETED") {
+        if (!(course.getStatus().equalsIgnoreCase("COMPLETED"))) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("error", "Chỉ có thể đánh giá khóa học đã hoàn thành"));
         }
