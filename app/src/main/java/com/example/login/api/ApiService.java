@@ -3,6 +3,7 @@ package com.example.login.api;
 import com.example.login.model.Chat;
 import com.example.login.model.ChatWithUserDetail;
 import com.example.login.model.CourseWithTutorDetail;
+import com.example.login.model.Feedback;
 import com.example.login.model.Message;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -177,4 +178,13 @@ public interface ApiService {
 
     @POST("chats/create_with_first_message")
     Call<Chat> createChatWithFirstMessage(@Body Map<String, Object> payload); // Payload: { senderId: 9, receiverId: 10, messageContent: "Hello" }
+
+    @POST("feedbacks/create")
+    Call<Void> createFeedback(@Body Feedback feedback);
+
+    @GET("feedbacks/of_course/{courseId}")
+    Call<Feedback> getFeedbackByCourseId(@Path("courseId") int courseId);
+
+    @GET("courses/{courseId}")
+    Call<Course> getCourseById(@Path("courseId") int courseId);
 }

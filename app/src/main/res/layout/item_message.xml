@@ -19,6 +19,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/ivDownload"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_download"
+        android:visibility="gone"
+        android:contentDescription="Download file"
+        app:layout_constraintBottom_toBottomOf="@id/tvMessage"
+        app:layout_constraintStart_toEndOf="@id/tvMessage"
+        app:layout_constraintTop_toTopOf="@id/tvMessage" />
+
     <TextView
         android:id="@+id/tvTimestamp"
         android:layout_width="wrap_content"

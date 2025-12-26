@@ -2,6 +2,7 @@
 package com.example.login.api;
 
 import android.content.Context;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -30,15 +31,13 @@ public class RetrofitClient {
     }
 
     public static String getWebSocketEndpoint() {
-        try {
-            String base = BASE_URL.trim();
-            base = base.replaceFirst("^https://", "wss://")
-                    .replaceFirst("^http://", "ws://")
-                    .replaceFirst("/api/?$", "");
-            return base + "/ws/websocket";
-        } catch (Exception e) {
-            return "ws://10.0.2.2:8080/ws/websocket";
+        String base = BASE_URL.trim();
+        if (base.endsWith("/")) {
+            base = base.substring(0, base.length() - 1);
         }
+        base = base.replaceFirst("^https://", "wss://")
+                .replaceFirst("^http://", "ws://");
+        return base + "/ws/websocket";
     }
 
     public static String getFileUrl(String filename) {

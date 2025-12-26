@@ -5,6 +5,8 @@
     <!-- Quyền cần thiết để truy cập Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +20,9 @@
         android:usesCleartextTraffic="true"> <!-- Cho phép kết nối HTTP -->
 
         <activity
-            android:name=".AdminDashboardActivity"
+
+            android:name=".LoginActivity"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,17 +34,15 @@
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".TutorDashboardActivity"/>
         <activity android:name=".StudentDashboardActivity"/>
+        <activity android:name=".AdminDashboardActivity"/>
         <activity android:name=".DetailCourseActivity"/>
         <activity android:name=".DetailCourseActivity_admin"/>
         <activity android:name=".DetailCourseActivity_st"/>
         <activity android:name=".UpdateCourseActivity"/>
-        <activity android:name=".LoginActivity"/>
         <activity android:name=".ManagermentConfirmCourse_admin"/>
 
-<!--        android:name=".LoginActivity"-->
-<!--        <activity android:name=".AdminDashboardActivity"/>-->
+        <!--        android:name=".LoginActivity"-->
+        <!--        <activity android:name=".AdminDashboardActivity"/>-->
         <!--            android:name=".LoginActivity"-->
     </application>
 </manifest>
-
-
