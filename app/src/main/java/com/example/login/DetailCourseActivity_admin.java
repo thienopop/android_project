@@ -53,7 +53,7 @@ public class DetailCourseActivity_admin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_course_admin);
+        setContentView(R.layout.activity_detail_confirm_course_admin);
         text_timeOfTheLesson = findViewById(R.id.text_timeOfTheLesson);
         text_complete_sessions = findViewById(R.id.text_complete_sessions);
         text_notes = findViewById(R.id.text_notes);
@@ -321,15 +321,18 @@ public class DetailCourseActivity_admin extends AppCompatActivity {
         dialog.setContentView(R.layout.cancel_add_course_card);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setCancelable(true);
-
-        Button btnCancel = dialog.findViewById(R.id.btnCancel);
-        Button btnConfirm= dialog.findViewById(R.id.btnConfirm);
+        Button btnCancel = dialog.findViewById(R.id.btnThoat);
+        Button btnConfirm_c= dialog.findViewById(R.id.btnConfirm_c);
         EditText edViewReasonCancel =dialog.findViewById(R.id.edtReasonCancel);
         btnCancel.setOnClickListener(v -> dialog.dismiss());
-
-        btnConfirm.setOnClickListener(v -> {
+        btnConfirm_c.setOnClickListener(v -> {
 String message=edViewReasonCancel.getText().toString();
             createNotification("Huỷ yêu cầu mở lớp học", message);
+            String status="CANCELED";
+            updateCsourseStatus(status);
+            callDashBoard();
+
+
         });
         dialog.show();
     }
@@ -340,12 +343,15 @@ String message=edViewReasonCancel.getText().toString();
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setCancelable(true);
 
-        Button btnCancel = dialog.findViewById(R.id.btnCancel);
-        Button btnConfirm= dialog.findViewById(R.id.btnConfirm);
+        Button btnCancel = dialog.findViewById(R.id.btnThoat);
+        Button btnConfirm_add= dialog.findViewById(R.id.btnConfirm_add);
         btnCancel.setOnClickListener(v -> dialog.dismiss());
+
 String message="Mở lớp học thành công!";
-        btnConfirm.setOnClickListener(v -> {
-            createNotification("Xác nhận yêu cầu mở lớp học", message);
+        btnConfirm_add.setOnClickListener(v -> {
+            String status="NEW";
+            updateCsourseStatus(status);
+            callDashBoard();
         });
         dialog.show();
     }
@@ -358,18 +364,18 @@ String message="Mở lớp học thành công!";
             noti.setTitle(title);
             noti.setMessage(message);
             noti.setIsRead(false);
-            noti.setUserId(userId); // ✅ ĐÚNG CHỖ
+            noti.setUserId(userId);
 
             // TODO: Gửi notification lên server / lưu DB
             sendNotification(noti);
-            updateCsourseStatus("CANCELED");
+
         });
     }
 
     public void sendNotification(Notification noti)
     {
         ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
-        Call<Void> call = apiService.createNotificationById(noti);
+        Call<Void> call = apiService.createNotification(noti);
 
         call.enqueue(new Callback<Void>() {
             @Override
@@ -447,6 +453,16 @@ String message="Mở lớp học thành công!";
                 Toast.makeText(DetailCourseActivity_admin.this, "Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void callDashBoard()
+    {
+        Intent intent = new Intent(this, AdminDashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+        this.finish();
     }
 }
 

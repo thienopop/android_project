@@ -37,16 +37,16 @@
             android:orientation="horizontal"
             android:background="@color/light_pink">
             <Button
-                android:id="@+id/btnConfirm"
+
+                android:id="@+id/btnThoat"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/blue"
-                android:text="@string/cancel"/>
+                android:text="Thoát"/>
             <Button
-                android:id="@+id/btnCancel"
+                android:id="@+id/btnConfirm_c"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
-
                 android:layout_marginLeft="12dp"
                 android:backgroundTint="@color/blue"
                 android:text="@string/confirm"/>

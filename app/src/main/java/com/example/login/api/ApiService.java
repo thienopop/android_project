@@ -62,14 +62,14 @@ public interface ApiService {
     @PUT("notifications/update/isread/{id}")
     Call<Void> updateIsReadNotificationById(@Path("id") int id);
     @PUT("notifications/create")
-    Call<Void> createNotificationById(@Body Notification noti);
+    Call<Void> createNotification(@Body Notification noti);
 
-
+//    ping("/create")
 
 //    @PutMapping("/updateCourseStatus/{id}")
 
-    @PUT("courses/updateCourseStatus/{id}")
-    Call<Void> updateCourseStatus(@Path("id") int id,@Body String status);
+    @PUT("courses/updateCourseStatus/{courseId}")
+    Call<Void> updateCourseStatus(@Path("courseId") int id,@Body String status);
 
 
 //
