@@ -2,9 +2,8 @@ package com.example.demo.controller;
 import com.example.demo.entity.Tutor;
 import com.example.demo.repository.TutorRepository;
 
-import org.aspectj.weaver.ast.Call;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -243,25 +242,25 @@ public ResponseEntity<?> getCoursesByStatus(@PathVariable String status) {
 
 
 
-    // ✅ Tạo mới khóa học (Tutor tạo)
-    @PostMapping("/create")
-    public ResponseEntity<?> createCourse(@RequestBody Course course) {
-        // Kiểm tra tutor & student có tồn tại không
-     String username = SecurityContextHolder.getContext().getAuthentication().getName();
-    // System.out.println(">>> Current username: " + username);
+        // ✅ Tạo mới khóa học (Tutor tạo)
+        @PostMapping("/create")
+        public ResponseEntity<?> createCourse(@RequestBody Course course) {
+            // Kiểm tra tutor & student có tồn tại không
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        // System.out.println(">>> Current username: " + username);
 
-    Optional<Tutor> tutorOpt = tutorRepository.findByUser_Username(username);
-    if (tutorOpt.isEmpty()) {
-        return ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
-    }
-        course.setTutor(tutorOpt.get());
-        course.setStatus("NEW");
-     
-        Course newCourse = courseRepository.save(course);
-        int courseId=newCourse.getId();
-        //không gửi giữ liệu
-        return ResponseEntity.ok(courseId);
-    }
+        Optional<Tutor> tutorOpt = tutorRepository.findByUser_Username(username);
+        if (tutorOpt.isEmpty()) {
+            return ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
+        }
+            course.setTutor(tutorOpt.get());
+            course.setStatus("NEW");
+        
+            Course newCourse = courseRepository.save(course);
+            int courseId=newCourse.getId();
+            //không gửi giữ liệu
+            return ResponseEntity.ok(courseId);
+        }
 
 
 
@@ -285,17 +284,29 @@ public ResponseEntity<?> getCoursesByStatus(@PathVariable String status) {
         return ResponseEntity.ok(course);
     }
 
-      @PutMapping("/updateCourseStatus/{id}")
-    //   /updateCourseStatus/{id}")
-    public ResponseEntity<?> updateCourse( @PathVariable int courseId, @RequestBody String status) {
-        Optional<Course> courseOpt = courseRepository.findById(courseId);
-        if (courseOpt.isEmpty()) return ResponseEntity.notFound().build();
-        Course course = courseOpt.get();
-        course.setStatus(status);
-        courseRepository.save(course);
-        return ResponseEntity.ok(course);
-    }
+// ✅ Cập nhật trạng thái khóa học
        
+
+    @PutMapping("/updateCourseStatus/{courseId}")
+public ResponseEntity<?> updateCourseStatus(
+        @PathVariable("courseId") int courseId,
+        @RequestBody String status) {
+
+    Optional<Course> courseOpt = courseRepository.findById(courseId);
+    if (courseOpt.isEmpty()) {
+        return ResponseEntity.notFound().build();
+    }
+
+    Course course = courseOpt.get();
+    // String normalizedStatus = status.trim().toUpperCase();
+    course.setStatus(status.replace("\"", "").trim());
+
+    // course.setStatus(normalizedStatus);
+    courseRepository.save(course);
+
+    return ResponseEntity.ok(course);
+}
+
 
 // updateCourseStatus(courseId, status);
 

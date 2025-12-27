@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Course;
 import com.example.demo.entity.Notification;
 import com.example.demo.entity.Student;
+import com.example.demo.entity.Tutor;
 import com.example.demo.entity.User;
 import com.example.demo.repository.NotificationRepository;
 import com.example.demo.repository.UserRepository;
@@ -86,15 +87,38 @@ public class NotificationController {
     }
 
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createNotification(@RequestBody Notification notification) {
-        if (userRepository.findById(notification.getUserId()).isEmpty()) {
-            return ResponseEntity.status(404).body("Không tìm thấy người dùng với ID = " + notification.getUserId());
-        }
-        Notification savedNotification = notificationRepository.save(notification);
-        return ResponseEntity.ok(savedNotification);
 
-    } 
+    // ✅ Tạo mới khóa học (Tutor tạo)
+    @PostMapping("/create")
+    public ResponseEntity<?> createNoti(@RequestBody Notification noti) {
+      
+
+    Optional<User> user = userRepository.findById(noti.getUserId());
+    if (user.isEmpty()) {
+        return ResponseEntity.status(404).body("Không tìm thấy user");
+    }
+        noti.setUser(user.get());
+     noti.setIsRead(false);
+        Notification newNotification = notificationRepository.save(noti);
+        return ResponseEntity.ok(newNotification);
+    }
+
+    // @PostMapping("/create")
+    // public ResponseEntity<?> createNotification(@RequestBody Notification notification) {
+    //    User user=userRepository.findById(notification.getUserId()).orElse(null);
+    //     if (user == null) {
+    //         return ResponseEntity.status(404).body("Không tìm thấy người dùng với ID = " + notification.getUserId());
+    //     }
+
+    //         Notification newNotification = new Notification();
+    // newNotification.setTitle(notification.getTitle());
+    // newNotification.setMessage(notification.getMessage());
+    // newNotification.setUser(user);
+    // newNotification.setIsRead(false);
+
+    //     Notification savedNotification = notificationRepository.save(newNotification);
+    //     return ResponseEntity.ok(savedNotification);
+    // } 
     @PutMapping("update/isread/{id}")
     public ResponseEntity<?> updateReadNotification(@PathVariable Integer id) {
         Optional<Notification> existingNotificationOpt = notificationRepository.findById(id);
