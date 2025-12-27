@@ -16,7 +16,9 @@ import androidx.fragment.app.Fragment;
 import com.example.login.R;
 import com.example.login.api.ApiService;
 import com.example.login.api.RetrofitClient;
+import com.example.login.model.SessionStatusCount;
 import com.example.login.model.Tutor;
+import com.example.login.model.Verified;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -78,6 +80,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 // Java
 import java.util.ArrayList;
+import java.util.List;
 
 // Retrofit
 import retrofit2.Call;
@@ -87,7 +90,7 @@ import retrofit2.Response;
 public class VerifiedTutorFragment extends Fragment {
     private TextView  tx_verified,tx_unverified;
     private int numberOfUnverified=23;
-    private int numberOfVerified=121;
+    private int numberOfVerified=100;
     private PieChart pieChart ;
     private BarChart barChart;
     @Nullable
@@ -106,14 +109,11 @@ public class VerifiedTutorFragment extends Fragment {
         tx_unverified= view.findViewById(R.id.tx_unverified);
 //        loadNumberOfNewTutor();
 //        loadNumberOfNewCourse();
-        tx_verified.setText(String.valueOf(numberOfVerified));
-        tx_unverified.setText(String.valueOf(numberOfUnverified));
+
         pieChart = view.findViewById(R.id.pieChart);
-        show(numberOfVerified,numberOfUnverified);
-//        barChart = view.findViewById(R.id.barChart);
-//        showRateVerification(38,62);
 
-
+//        show(2,8);
+        loadVerified();
 
 
 //        imMotification.setOnClickListener(v -> {
@@ -137,54 +137,81 @@ public class VerifiedTutorFragment extends Fragment {
 
     }
 
-    private void showRateVerification( int completed, int unCompleted, int cancel )
-    {
 
 
-// 1️⃣ Giá trị từng cột
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0f, completed)); // Lớp A
-        entries.add(new BarEntry(1f, unCompleted)); // Lớp B
 
-        BarDataSet dataSet = new BarDataSet(entries, "%");
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        dataSet.setValueTextSize(12f);
-        dataSet.setValueTextColor(Color.BLACK);
 
-// 2️⃣ Gán dữ liệu cho chart
-        BarData data = new BarData(dataSet);
-        barChart.setData(data);
 
-// 3️⃣ Nội dung chữ dưới từng cột (TRỤC X)
-        ArrayList<String> labels = new ArrayList<>();
-        labels.add("Verified");
-        labels.add("Unverified");
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setGranularity(1f);
-        xAxis.setDrawGridLines(false);
+    private void loadVerified() {
 
-// 4️⃣ Cấu hình thêm
-        barChart.getDescription().setEnabled(false);
-//        barChart.animateY(1000);
-        barChart.invalidate();
+        ApiService apiService =
+                RetrofitClient.getClient(requireContext()).create(ApiService.class);
 
+        Call<List<Verified>> call = apiService.countVerified();
+
+        call.enqueue(new Callback<List<Verified>>() {
+            @Override
+            public void onResponse(
+                    @NonNull Call<List<Verified>> call,
+                    @NonNull Response<List<Verified>> response) {
+
+                if (!isAdded()) return;
+
+                if (response.isSuccessful() && response.body() != null) {
+
+                    List<Verified> list = response.body();
+
+                    int verified = 0;
+                    int unVerified=0;
+
+                    for (Verified item : list) {
+                        if (item.getVerified()==1) {
+                            verified = item.getTotal();
+                        } else {
+                            unVerified = item.getTotal();
+                        }
+                    }
+                    show( verified,unVerified);
+
+                } else {
+                    Toast.makeText(
+                            requireContext(),
+                            "❌ Lỗi API: " + response.code(),
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+            }
+
+            @Override
+            public void onFailure(
+                    @NonNull Call<List<Verified>> call,
+                    @NonNull Throwable t) {
+
+                if (!isAdded()) return;
+
+                Toast.makeText(
+                        requireContext(),
+                        "❌ Lỗi mạng: " + t.getMessage(),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
     }
 
 
 
 
-    private void show(int numberOfVerified, int numberOfUnverified){
-
+    private void show(int verified,int unverified){
+        tx_verified.setText(String.valueOf(verified));
+        tx_unverified.setText(String.valueOf(unverified));
 
 // 1️⃣ Bật chế độ phần trăm
         pieChart.setUsePercentValues(true);
 
 // 2️⃣ Dữ liệu
         ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(numberOfVerified, "Verified"));
-        entries.add(new PieEntry(numberOfUnverified, "Unverified"));
+        entries.add(new PieEntry(verified, "Verified"));
+        entries.add(new PieEntry(unverified, "Unverified"));
 
 // 3️⃣ Dataset
         PieDataSet dataSet = new PieDataSet(entries, "");
@@ -211,69 +238,5 @@ public class VerifiedTutorFragment extends Fragment {
 
     }
 
-
-
-
-
-
-    private void loadNumberOfNewTutor() {
-        ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
-        Call<Tutor> call = apiService.getTutorLogin();
-
-        call.enqueue(new Callback<Tutor>() {
-            @Override
-            public void onResponse(Call<Tutor> call, Response<Tutor> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Tutor tutor = response.body();
-
-                } else {
-                    Log.e("API_ERROR", "Response error: " + response.message());
-                    Toast.makeText(getContext(), "⚠️ Không thể tải thông tin. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public void onFailure(Call<Tutor> call, Throwable t) {
-
-                Log.e("API_FAILURE", "Error: " + t.getMessage());
-                Toast.makeText(getContext(), "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
-    private void loadNumberOfNewCourse() {
-        ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
-        Call<Tutor> call = apiService.getTutorLogin();
-
-        call.enqueue(new Callback<Tutor>() {
-            @Override
-            public void onResponse(Call<Tutor> call, Response<Tutor> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Tutor tutor = response.body();
-
-                } else {
-                    Log.e("API_ERROR", "Response error: " + response.message());
-                    Toast.makeText(getContext(), "⚠️ Không thể tải thông tin. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public void onFailure(Call<Tutor> call, Throwable t) {
-
-                Log.e("API_FAILURE", "Error: " + t.getMessage());
-                Toast.makeText(getContext(), "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-//    private void loadChildFragment(Fragment fragment) {
-//        FragmentManager fm = getChildFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//
-//        // .replace() sẽ tự động gỡ fragment cũ ra và thêm fragment mới vào
-//        ft.replace(R.id.main_container, fragment);
-//
-//        // (Tùy chọn) Thêm vào back stack của trình quản lý con
-//        // ft.addToBackStack(null);
-//
-//        ft.commit();
-//    }
 }
+

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tìm kiếm gia sư</string>
+    <string name="app_name">Kết nối gia sư và học viên</string>
 
         <string name="lich_hoc_titel">Lịch Học</string>
         <string name="khoa_hoc_title">Khóa học</string>

@@ -58,10 +58,29 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="New Tutors Today"
+                                        android:text="New Tutors"
                                         android:textSize="12sp"/>
                                 </LinearLayout>
-
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:id="@+id/ln_showNewStudent">
+                                    <TextView
+                                        android:id="@+id/tx_new_student"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="15"
+                                        android:textSize="24sp"
+                                        android:textStyle="bold"
+                                        android:textColor="@android:color/black"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="New Students"
+                                        android:textSize="12sp"/>
+                                </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -79,7 +98,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="New Classes Created"
+                                        android:text="New Classes"
                                         android:textSize="12sp"/>
                                 </LinearLayout>
                             </LinearLayout>

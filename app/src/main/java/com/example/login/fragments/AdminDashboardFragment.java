@@ -58,11 +58,13 @@ import retrofit2.Response;
 import retrofit2.http.Path;
 
 public class AdminDashboardFragment extends Fragment {
-    private TextView numberOfNewCourse, numberOfNewTutor;
+    private TextView numberOfNewCourse, numberOfNewTutor,numberOfNewStudent;
 
     LinearLayout ln_showNewTutor,ln_showNewCourse;
     private int numberNewCourse=10;
     private int numberNewTutor=10;
+    private int numberNewStudent=10;
+
     private  PieChart pieChart ;
     private  BarChart barChart;
     @Nullable
@@ -79,6 +81,7 @@ public class AdminDashboardFragment extends Fragment {
         // Ánh xạ View
   numberOfNewTutor = view.findViewById(R.id.tx_new_tutor);
         numberOfNewCourse  = view.findViewById(R.id.tx_new_course);
+        numberOfNewStudent  = view.findViewById(R.id.tx_new_student);
 
         ln_showNewTutor  = view.findViewById(R.id. ln_showNewTutor);
         ln_showNewCourse  = view.findViewById(R.id. ln_showNewCourse);
@@ -87,6 +90,7 @@ public class AdminDashboardFragment extends Fragment {
 //        loadNumberOfNewCourse();
         loadCountCourseByStatus("UNCONFIRM");
         loadCountNewTutor();
+        loadCountNewStudent();
         loadCountSession();
 
 
@@ -242,6 +246,8 @@ public class AdminDashboardFragment extends Fragment {
     }
 
 
+
+
     private void loadNumberOfNewCourse() {
         ApiService apiService = RetrofitClient.getClient(getContext()).create(ApiService.class);
         Call<Tutor> call = apiService.getTutorLogin();
@@ -353,6 +359,48 @@ public class AdminDashboardFragment extends Fragment {
 
                 numberNewTutor = 0;
                 numberOfNewTutor.setText(String.valueOf(numberNewTutor));
+
+                Toast.makeText(
+                        requireContext(),
+                        "❌ Lỗi API: " + t.getMessage(),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+    private void loadCountNewStudent() {
+
+        ApiService apiService =
+                RetrofitClient.getClient(requireContext()).create(ApiService.class);
+
+        Call<Integer> call = apiService.countNewStudent();
+
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(@NonNull Call<Integer> call,
+                                   @NonNull Response<Integer> response) {
+
+                if (!isAdded()) return;
+
+                int count = 0;
+                if (response.isSuccessful() && response.body() != null) {
+                    count = response.body();
+                }
+
+                numberNewStudent= count;
+                numberOfNewStudent.setText(String.valueOf(numberNewStudent));
+
+                // ✅ CẬP NHẬT UI (VÍ DỤ)
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Integer> call,
+                                  @NonNull Throwable t) {
+
+                if (!isAdded()) return;
+
+                numberNewStudent = 0;
+                numberOfNewStudent.setText(String.valueOf(numberNewStudent));
 
                 Toast.makeText(
                         requireContext(),

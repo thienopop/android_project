@@ -7,7 +7,7 @@ import com.example.login.model.Feedback;
 import com.example.login.model.Message;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-
+import com.example.login.model. Verified;
 import com.example.login.model.Tutor;
 import com.example.login.model.Student;
 import com.example.login.model.Course;
@@ -102,6 +102,13 @@ public interface ApiService {
 
     @GET("tutors/count_new_tutor")
     Call<Integer> countNewTutor();
+    @GET("students/count_new_student")
+    Call<Integer> countNewStudent();
+
+    @GET("tutors/count_verified_tutor")
+    Call<List<Verified>> countVerified();
+
+
 
     @GET("students/me")
     Call<Student> getStudentLogin(
