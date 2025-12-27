@@ -2,6 +2,8 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.Tutor;
 import com.example.demo.entity.User;
+import com.example.demo.entity.Verified_tutor;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,10 +23,25 @@ public interface TutorRepository extends JpaRepository<Tutor, Long> {
     List<Tutor> findByVerified(boolean verified);
 
 @Query(
-    value = "SELECT COUNT(t.id) FROM tutor t WHERE WHERE t.creates_at BETWEEN :startOfDay AND :endOfDay",
+    value = "SELECT COUNT(t.id) FROM tutors t WHERE t.created_at BETWEEN :startOfDay AND :endOfDay",
     nativeQuery = true)
 int countNewTutor( @Param("startOfDay") LocalDateTime startOfDay,
         @Param("endOfDay") LocalDateTime endOfDay);
+
+        
+//         @Query("""
+//     SELECT t.verified, COUNT(t.id)
+//     FROM Tutor t
+//     GROUP BY t.verified
+// """)
+// List<Verified_tutor> countVerifiedStatus();
+@Query(
+    value = "SELECT CASE WHEN t.verified = true THEN 1 ELSE 0 END AS verified, " +
+            "COUNT(t.id) AS total " +
+            "FROM tutors t GROUP BY t.verified",
+    nativeQuery = true
+)
+List<Verified_tutor> countVerifiedStatus();
 
 
 }

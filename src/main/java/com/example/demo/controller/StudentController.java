@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,5 +88,20 @@ public ResponseEntity<?> getMyStudentProfile() {
         }
         studentRepository.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+     @GetMapping("/count_new_students")
+ public ResponseEntity<?> getNewStudents() {
+        LocalDate date=LocalDate.now();
+// List<Session> findByDate(
+//         @Param("startOfDay") LocalDateTime startOfDay,
+//         @Param("endOfDay") LocalDateTime endOfDay);
+  // ✅ Tạo khoảng thời gian trong ngày (00:00:00 → 23:59:59)
+    LocalDateTime startOfDay = date.atStartOfDay();
+    LocalDateTime endOfDay = date.atTime(23, 59, 59);
+
+        // 🔍 Truy vấn buổi học t
+     int  count =  studentRepository.countNewStudents( startOfDay, endOfDay);
+        return ResponseEntity.ok(count);
     }
 }

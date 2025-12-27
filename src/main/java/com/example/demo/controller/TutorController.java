@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Session;
 import com.example.demo.entity.Tutor;
+import com.example.demo.entity.Verified_tutor;
 import com.example.demo.repository.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -123,5 +124,14 @@ public ResponseEntity<?> getMyTutorProfile() {
      int  count =  tutorRepository.countNewTutor( startOfDay, endOfDay);
         return ResponseEntity.ok(count);
     }
+
+    @GetMapping("/count_verified_tutor")
+public ResponseEntity<?> countVerifiedStatus() {
+  
+    // 🔐 Lấy username từ token
+    List<Verified_tutor> sessions = tutorRepository.countVerifiedStatus();
+
+    return ResponseEntity.ok(sessions);
+}
     
 }
