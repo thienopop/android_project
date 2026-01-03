@@ -19,7 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvForgotPassword, tvRegister;
 
-    private ApiService apiService;  // ✅ Retrofit API interface
+    private ApiService apiService;  // Retrofit API interface
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         tvForgotPassword = findViewById(R.id.FtvForgotPassword);
         tvRegister = findViewById(R.id.FtvRegister);
 
-        // ✅ Khởi tạo Retrofit
+        // Khởi tạo Retrofit
         apiService = RetrofitClient.getClient(this).create(ApiService.class);
 
         // --- Xử lý khi nhấn nút Đăng nhập ---
@@ -45,12 +45,12 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show();
                 return;
             }
-            // ✅ Tạo user gửi đi
+            // Tạo user gửi đi
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
 
-            // ✅ Gọi API đăng nhập
+            // Gọi API đăng nhập
             Call<RegisterLoginResponse> call = apiService.login(user);
             call.enqueue(new Callback<RegisterLoginResponse>() {
                 @Override
@@ -59,19 +59,19 @@ public class LoginActivity extends AppCompatActivity {
 
                         RegisterLoginResponse loginResponse = response.body();
 
-                        String message = loginResponse.getMessage();  // ✅ Lấy message từ JSON
-                        String token = loginResponse.getToken();      // ✅ Lấy token từ JSON
+                        String message = loginResponse.getMessage();  // Lấy message từ JSON
+                        String token = loginResponse.getToken();      // Lấy token từ JSON
                         int currentUserId = loginResponse.getCurrentUserId();
                         String role=loginResponse.getRole();
                         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
 
-                        // 🔒 Lưu token vào SharedPreferences để dùng sau
+                        // Lưu token vào SharedPreferences để dùng sau
                         PrefsHelper.saveToken(LoginActivity.this, token);
                         PrefsHelper.saveCurrentUserId(LoginActivity.this, currentUserId);
 //cáh lấy token: String token = PrefsHelper.getToken(this);
 //                        Kiểm tra role
                         if (role.equals("STUDENT")) {
-                            // 👉 Navigate to Student Dashboard
+                            // Navigate to Student Dashboard
                             Intent intent = new Intent(LoginActivity.this, StudentDashboardActivity.class);
                             startActivity(intent);
                             finish(); // Prevents user from going back to Login using the Back button
@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                     } else {
-                        // ❌ Xử lý khi login thất bại (ví dụ sai tài khoản hoặc lỗi server)
+                        // Xử lý khi login thất bại (ví dụ sai tài khoản hoặc lỗi server)
                         try {
                             // Lấy thông báo lỗi trả về từ server (nếu có)
                             String errorBody = response.errorBody().string();

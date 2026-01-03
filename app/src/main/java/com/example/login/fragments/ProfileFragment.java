@@ -76,7 +76,7 @@ public class ProfileFragment extends Fragment {
 
 //
 //    android:id="@+id/btnlogOut"
-//            // 🔒 Lưu token vào SharedPreferences để dùng sau
+//            // Lưu token vào SharedPreferences để dùng sau
 //            PrefsHelper.saveToken(LoginActivity.this, token);
 //            PrefsHelper.saveCurrentUserId(LoginActivity.this, currentUserId);
 //    private TutorDashboardActivity
@@ -153,7 +153,7 @@ public class ProfileFragment extends Fragment {
                     updateUI(tutor);
                 } else {
                     Log.e("API_ERROR", "Response error: " + response.message());
-                    Toast.makeText(getContext(), "⚠️ Không thể tải thông tin. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Không thể tải thông tin. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -200,15 +200,15 @@ public class ProfileFragment extends Fragment {
 //            public void onResponse(Call<Tutor> call, Response<Tutor> response) {
 //                if (response.isSuccessful() && response.body() != null) {
 //                    Tutor tutor = response.body();
-//                    Toast.makeText(getContext(), "✅ Load OK: ", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Load OK: ", Toast.LENGTH_SHORT).show();
 //                } else {
-//                    Toast.makeText(getContext(), "⚠️ API trả về rỗng hoặc lỗi " + response.code(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "API trả về rỗng hoặc lỗi " + response.code(), Toast.LENGTH_SHORT).show();
 //                }
 //            }
 //
 //            @Override
 //            public void onFailure(Call<Tutor> call, Throwable t) {
-//                Toast.makeText(getContext(), "❌ Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
 //                tvTutorName.setText(t.getMessage());
 //            }
 //        });`

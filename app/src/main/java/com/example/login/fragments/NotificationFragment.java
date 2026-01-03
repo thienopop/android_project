@@ -99,7 +99,7 @@ public class NotificationFragment   extends Fragment {
             @Override
             public void onFailure(@NonNull Call<List<Notification>> call, @NonNull Throwable t) {
                 if (!isAdded()) return;
-                Toast.makeText(getContext(), "❌ Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -109,7 +109,7 @@
 //                        // TODO: mở Fragment chi tiết khóa học tại đây (nếu cần)
 //                    });
 //                } else {
-//                    txtMessage.setText("⚠️ API trả về dữ liệu không hợp lệ!");
+//                    txtMessage.setText("API trả về dữ liệu không hợp lệ!");
 //                    txtMessage.setVisibility(View.VISIBLE);
 //                }
 //            }
@@ -117,7 +117,7 @@
 //            @Override
 //            public void onFailure(Call<List<CourseInfo>> call, Throwable t) {
 //                if (!isAdded()) return;
-//                txtMessage.setText("❌ Lỗi kết nối API: " + t.getMessage());
+//                txtMessage.setText("Lỗi kết nối API: " + t.getMessage());
 //                txtMessage.setVisibility(View.VISIBLE);
 //            }
 //        });
@@ -292,7 +292,7 @@ public class ShowCourseFragment_st extends Fragment {
 
                     });
                 } else {
-                    txtMessage.setText("⚠️ API trả về dữ liệu không hợp lệ!");
+                    txtMessage.setText("API trả về dữ liệu không hợp lệ!");
                     txtMessage.setVisibility(View.VISIBLE);
                 }
             }
@@ -300,7 +300,7 @@ public class ShowCourseFragment_st extends Fragment {
             @Override
             public void onFailure(Call<List<CourseInfo>> call, Throwable t) {
                 if (!isAdded()) return;
-                txtMessage.setText("❌ Lỗi kết nối API: " + t.getMessage());
+                txtMessage.setText("Lỗi kết nối API: " + t.getMessage());
                 txtMessage.setVisibility(View.VISIBLE);
             }
         });
@@ -315,7 +315,7 @@ public class ShowCourseFragment_st extends Fragment {
     }
 
     /**
-     * ⭐ HÀM ĐÃ ĐƯỢC TÁI CẤU TRÚC (Refactored) ⭐
+     * HÀM ĐÃ ĐƯỢC TÁI CẤU TRÚC (Refactored)
      * Hàm này chỉ quản lý trạng thái (selected), không quản lý màu sắc.
      * Màu sắc sẽ tự động thay đổi dựa trên file XML Selector.
      */
@@ -332,7 +332,7 @@ public class ShowCourseFragment_st extends Fragment {
     }
 
     /**
-     * ❌ HÀM NÀY KHÔNG CÒN CẦN THIẾT NỮA ❌
+     * HÀM NÀY KHÔNG CÒN CẦN THIẾT NỮA
      * private void resetButtonColors() { ... }
      */
 

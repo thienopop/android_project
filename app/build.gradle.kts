@@ -27,7 +27,7 @@ android {
         }
     }
 
-    // ⭐ SỬA LỖI 1: Cú pháp .kts dùng dấu '=' và 'isCoreLibraryDesugaringEnabled'
+    // SỬA LỖI 1: Cú pháp .kts dùng dấu '=' và 'isCoreLibraryDesugaringEnabled'
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -52,7 +52,7 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
-    // ⭐ SỬA LỖI 2: Cú pháp .kts dùng dấu ngoặc đơn ()
+    // SỬA LỖI 2: Cú pháp .kts dùng dấu ngoặc đơn ()
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 
     implementation("com.github.bumptech.glide:glide:4.16.0")

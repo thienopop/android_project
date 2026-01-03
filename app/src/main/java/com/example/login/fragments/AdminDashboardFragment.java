@@ -145,7 +145,7 @@ public class AdminDashboardFragment extends Fragment {
     {
 
 
-// 1️⃣ Giá trị từng cột
+// Giá trị từng cột
         ArrayList<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0f, completed)); // Lớp A
         entries.add(new BarEntry(1f, unCompleted)); // Lớp B
@@ -155,11 +155,11 @@ public class AdminDashboardFragment extends Fragment {
         dataSet.setValueTextSize(12f);
         dataSet.setValueTextColor(Color.BLACK);
 
-// 2️⃣ Gán dữ liệu cho chart
+// Gán dữ liệu cho chart
         BarData data = new BarData(dataSet);
         barChart.setData(data);
 
-// 3️⃣ Nội dung chữ dưới từng cột (TRỤC X)
+// Nội dung chữ dưới từng cột (TRỤC X)
         ArrayList<String> labels = new ArrayList<>();
         labels.add("Verified");
         labels.add("Unverified");
@@ -169,7 +169,7 @@ public class AdminDashboardFragment extends Fragment {
         xAxis.setGranularity(1f);
         xAxis.setDrawGridLines(false);
 
-// 4️⃣ Cấu hình thêm
+// Cấu hình thêm
         barChart.getDescription().setEnabled(false);
 //        barChart.animateY(1000);
         barChart.invalidate();
@@ -182,27 +182,27 @@ public class AdminDashboardFragment extends Fragment {
     private void show(int completed, int unCompleted, int canceled){
 
 
-// 1️⃣ Bật chế độ phần trăm
+// Bật chế độ phần trăm
         pieChart.setUsePercentValues(true);
 
-// 2️⃣ Dữ liệu
+// Dữ liệu
         ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(completed, "Completed"));
         entries.add(new PieEntry(unCompleted, "Uncompleted"));
         entries.add(new PieEntry(canceled, "Canceled"));
 
-// 3️⃣ Dataset
+// Dataset
         PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         dataSet.setValueTextSize(12f);
         dataSet.setValueTextColor(Color.WHITE);
 
-// 4️⃣ Data + Formatter %
+// Data + Formatter %
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter(pieChart));
         pieChart.setData(data);
 
-// 5️⃣ Cấu hình giao diện
+// Cấu hình giao diện
         pieChart.getDescription().setEnabled(false);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleRadius(40f);
@@ -210,7 +210,7 @@ public class AdminDashboardFragment extends Fragment {
         pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.setEntryLabelTextSize(12f);
 
-// 6️⃣ Animation
+// Animation
         pieChart.animateY(1000);
         pieChart.invalidate();
 
@@ -233,7 +233,7 @@ public class AdminDashboardFragment extends Fragment {
 
                 } else {
                     Log.e("API_ERROR", "Response error: " + response.message());
-                    Toast.makeText(getContext(), "⚠️ Không thể tải thông tin. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Không thể tải thông tin. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
@@ -260,7 +260,7 @@ public class AdminDashboardFragment extends Fragment {
 
                 } else {
                     Log.e("API_ERROR", "Response error: " + response.message());
-                    Toast.makeText(getContext(), "⚠️ Không thể tải thông tin. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Không thể tải thông tin. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
@@ -305,7 +305,7 @@ public class AdminDashboardFragment extends Fragment {
 
                 numberNewCourse = count;
                 numberOfNewCourse.setText(String.valueOf(numberNewCourse));
-                // ✅ CẬP NHẬT UI (VÍ DỤ)
+                // CẬP NHẬT UI (VÍ DỤ)
             }
 
             @Override
@@ -318,7 +318,7 @@ public class AdminDashboardFragment extends Fragment {
                 numberOfNewCourse.setText(String.valueOf(numberNewCourse));
                 Toast.makeText(
                         requireContext(),
-                        "❌ Lỗi API: " + t.getMessage(),
+                        "Lỗi API: " + t.getMessage(),
                         Toast.LENGTH_SHORT
                 ).show();
             }
@@ -348,7 +348,7 @@ public class AdminDashboardFragment extends Fragment {
                 numberNewTutor= count;
                 numberOfNewTutor.setText(String.valueOf(numberNewTutor));
 
-                // ✅ CẬP NHẬT UI (VÍ DỤ)
+                // CẬP NHẬT UI (VÍ DỤ)
             }
 
             @Override
@@ -362,7 +362,7 @@ public class AdminDashboardFragment extends Fragment {
 
                 Toast.makeText(
                         requireContext(),
-                        "❌ Lỗi API: " + t.getMessage(),
+                        "Lỗi API: " + t.getMessage(),
                         Toast.LENGTH_SHORT
                 ).show();
             }
@@ -390,7 +390,7 @@ public class AdminDashboardFragment extends Fragment {
                 numberNewStudent= count;
                 numberOfNewStudent.setText(String.valueOf(numberNewStudent));
 
-                // ✅ CẬP NHẬT UI (VÍ DỤ)
+                // CẬP NHẬT UI (VÍ DỤ)
             }
 
             @Override
@@ -404,7 +404,7 @@ public class AdminDashboardFragment extends Fragment {
 
                 Toast.makeText(
                         requireContext(),
-                        "❌ Lỗi API: " + t.getMessage(),
+                        "Lỗi API: " + t.getMessage(),
                         Toast.LENGTH_SHORT
                 ).show();
             }
@@ -454,7 +454,7 @@ public class AdminDashboardFragment extends Fragment {
                 } else {
                     Toast.makeText(
                             requireContext(),
-                            "❌ Lỗi API: " + response.code(),
+                            "Lỗi API: " + response.code(),
                             Toast.LENGTH_SHORT
                     ).show();
                 }
@@ -469,7 +469,7 @@ public class AdminDashboardFragment extends Fragment {
 
                 Toast.makeText(
                         requireContext(),
-                        "❌ Lỗi mạng: " + t.getMessage(),
+                        "Lỗi mạng: " + t.getMessage(),
                         Toast.LENGTH_SHORT
                 ).show();
             }

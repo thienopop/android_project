@@ -425,7 +425,7 @@ String message="Mở lớp học thành công!";
 
                 Toast.makeText(
                         DetailCourseActivity_admin.this,
-                        "❌ Lỗi API: " + t.getMessage(),
+                        "Lỗi API: " + t.getMessage(),
                         Toast.LENGTH_SHORT
                 ).show();
             }

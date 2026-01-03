@@ -155,7 +155,7 @@ public class TutorDashboardActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<ChatWithUserDetail> call, @NonNull Throwable t) {
 
-                Toast.makeText(TutorDashboardActivity.this, "❌ Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(TutorDashboardActivity.this, "Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

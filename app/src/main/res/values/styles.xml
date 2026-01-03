@@ -16,4 +16,8 @@
     </style>
 
 
+    <style name="BottomNavText" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 </resources>

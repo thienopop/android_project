@@ -73,7 +73,7 @@ public class ProfileFragment_st extends Fragment {
                     Student student = response.body();
                     updateUI(student);
                 } else {
-                    Toast.makeText(requireContext(), "⚠️ Không thể tải thông tin.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Không thể tải thông tin.", Toast.LENGTH_SHORT).show();
                 }
             }
 

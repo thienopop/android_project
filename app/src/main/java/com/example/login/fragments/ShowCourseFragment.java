@@ -147,14 +147,14 @@ public class ShowCourseFragment extends Fragment {
 //                    startActivity(intent);
 
                 } else {
-                    txtMessage.setText("⚠️ API trả về dữ liệu không hợp lệ!");
+                    txtMessage.setText("API trả về dữ liệu không hợp lệ!");
                     txtMessage.setVisibility(View.VISIBLE);
                 }
             }
             @Override
             public void onFailure(Call<List<CourseInfo>> call, Throwable t) {
                 if (!isAdded()) return;
-                txtMessage.setText("❌ Lỗi kết nối API: " + t.getMessage());
+                txtMessage.setText("Lỗi kết nối API: " + t.getMessage());
                 txtMessage.setVisibility(View.VISIBLE);
             }
         });
@@ -169,7 +169,7 @@ public class ShowCourseFragment extends Fragment {
     }
 
     /**
-     * ⭐ HÀM ĐÃ ĐƯỢC TÁI CẤU TRÚC (Refactored) ⭐
+     * HÀM ĐÃ ĐƯỢC TÁI CẤU TRÚC (Refactored)
      * Hàm này chỉ quản lý trạng thái (selected), không quản lý màu sắc.
      * Màu sắc sẽ tự động thay đổi dựa trên file XML Selector.
      */
@@ -186,7 +186,7 @@ public class ShowCourseFragment extends Fragment {
     }
 
     /**
-     * ❌ HÀM NÀY KHÔNG CÒN CẦN THIẾT NỮA ❌
+     * HÀM NÀY KHÔNG CÒN CẦN THIẾT NỮA
      * private void resetButtonColors() { ... }
      */
 

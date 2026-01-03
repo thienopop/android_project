@@ -40,7 +40,7 @@ public class ManagermentCourseAdapter_admin  extends ArrayAdapter<CourseInfo> {
         if (course != null) {
             view.setTag(course.getId()); // Gắn ID vào View để tái sử dụng
             txtSubject.setText("📘 " + course.getSubject());
-            txtTutor.setText("👨‍🏫 Giáo viên: " + course.getFullName());
+            txtTutor.setText("🎓 Gia sư: " + course.getFullName());
         }
         return view;
     }

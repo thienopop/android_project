@@ -33,6 +33,8 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
+        app:itemTextAppearanceActive="@style/BottomNavText"
+        app:itemTextAppearanceInactive="@style/BottomNavText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

@@ -41,10 +41,10 @@ public class ShowSessionsFragment extends Fragment {
     private Calendar myCalendar;
     private TextView txtMessage;
 
-    // ⭐ TÁCH RA: Định dạng này chỉ DÙNG ĐỂ HIỂN THỊ cho người dùng
+    // TÁCH RA: Định dạng này chỉ DÙNG ĐỂ HIỂN THỊ cho người dùng
     private SimpleDateFormat uiSdf;
 
-    // ⭐ TÁCH RA: Định dạng này DÙNG ĐỂ GỌI API (phải khớp với backend)
+    // TÁCH RA: Định dạng này DÙNG ĐỂ GỌI API (phải khớp với backend)
     private SimpleDateFormat apiSdf;
 
     public ShowSessionsFragment() {
@@ -64,7 +64,7 @@ public class ShowSessionsFragment extends Fragment {
         txtMessage = view.findViewById(R.id.txtMessageSh);
         myCalendar = Calendar.getInstance(); // Khởi tạo calendar (mặc định là hôm nay)
 
-        // ⭐ Khởi tạo các định dạng (format)
+        // Khởi tạo các định dạng (format)
         String uiFormat = "dd/MM/yyyy"; // Hiển thị: 09/11/2025
         uiSdf = new SimpleDateFormat(uiFormat, Locale.US);
 
@@ -72,7 +72,7 @@ public class ShowSessionsFragment extends Fragment {
         apiSdf = new SimpleDateFormat(apiFormat, Locale.US);
 
 
-        // ⭐ LOGIC MỚI: Định nghĩa listener ở đây
+        // LOGIC MỚI: Định nghĩa listener ở đây
         DatePickerDialog.OnDateSetListener dateSetListener = (view1, year, month, dayOfMonth) -> {
             // Cập nhật calendar với ngày người dùng chọn
             myCalendar.set(Calendar.YEAR, year);
@@ -82,7 +82,7 @@ public class ShowSessionsFragment extends Fragment {
             // Cập nhật text cho EditText (dùng format UI)
             updateLabel();
 
-            // ⭐ FIX 4 & 5: Gọi loadSessions TỪ ĐÂY với format API
+            // FIX 4 & 5: Gọi loadSessions TỪ ĐÂY với format API
             String apiDateString = apiSdf.format(myCalendar.getTime());
             loadSessions(apiDateString);
         };
@@ -161,7 +161,7 @@ public class ShowSessionsFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Call<List<SessionInfo>> call, @NonNull Throwable t) {
                 if (!isAdded()) return;
-                Toast.makeText(getContext(), "❌ Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -192,7 +192,7 @@ public class ShowSessionsFragment extends Fragment {
             public void onFailure(@NonNull Call<Integer> call, @NonNull Throwable t) {
                 if (!isAdded()) return;
 
-                Toast.makeText(getContext(), "❌ Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 callback.onResult(0);
             }
         });

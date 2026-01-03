@@ -38,7 +38,7 @@ public class FagmentsSessionAdapter_st extends ArrayAdapter<SessionInfo> {
         if (session != null) {
             view.setTag(session.getId()); //getId()
             txtSubject.setText("📘 " + session.getSubject());
-            txtTutor.setText("👨‍🏫Giáo viên: " + session.getFullName());
+            txtTutor.setText("🎓 Gia sư: " + session.getFullName());
             txtStatus.setText("⏳ Trạng thái: " + session.getStatus());
             txtSessionDate.setText("🗓️ Ngày học: " + session.getSessionDate());
             txtDuration.setText("Thời lượng: "+ session.getDuration());

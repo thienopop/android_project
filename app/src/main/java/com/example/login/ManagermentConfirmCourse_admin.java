@@ -65,7 +65,7 @@ public class ManagermentConfirmCourse_admin extends AppCompatActivity {
 
         btnBack.setOnClickListener(v -> finish());
 
-        // ✅ GỌI LOAD DATA
+        //  GỌI LOAD DATA
         loadCourses("UNCONFIRM"); // hoặc CONFIRMED / REJECTED
     }
 

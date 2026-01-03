@@ -176,7 +176,7 @@ public class VerifiedTutorFragment extends Fragment {
                 } else {
                     Toast.makeText(
                             requireContext(),
-                            "❌ Lỗi API: " + response.code(),
+                            "Lỗi API: " + response.code(),
                             Toast.LENGTH_SHORT
                     ).show();
                 }
@@ -191,7 +191,7 @@ public class VerifiedTutorFragment extends Fragment {
 
                 Toast.makeText(
                         requireContext(),
-                        "❌ Lỗi mạng: " + t.getMessage(),
+                        "Lỗi mạng: " + t.getMessage(),
                         Toast.LENGTH_SHORT
                 ).show();
             }
@@ -205,26 +205,26 @@ public class VerifiedTutorFragment extends Fragment {
         tx_verified.setText(String.valueOf(verified));
         tx_unverified.setText(String.valueOf(unverified));
 
-// 1️⃣ Bật chế độ phần trăm
+// Bật chế độ phần trăm
         pieChart.setUsePercentValues(true);
 
-// 2️⃣ Dữ liệu
+// Dữ liệu
         ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(verified, "Verified"));
         entries.add(new PieEntry(unverified, "Unverified"));
 
-// 3️⃣ Dataset
+// Dataset
         PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         dataSet.setValueTextSize(12f);
         dataSet.setValueTextColor(Color.WHITE);
 
-// 4️⃣ Data + Formatter %
+// Data + Formatter %
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter(pieChart));
         pieChart.setData(data);
 
-// 5️⃣ Cấu hình giao diện
+// Cấu hình giao diện
         pieChart.getDescription().setEnabled(false);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleRadius(40f);
@@ -232,7 +232,7 @@ public class VerifiedTutorFragment extends Fragment {
         pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.setEntryLabelTextSize(12f);
 
-// 6️⃣ Animation
+// Animation
         pieChart.animateY(1000);
         pieChart.invalidate();
 

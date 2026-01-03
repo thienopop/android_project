@@ -2,24 +2,24 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="Trang Chủ" />
 
     <item
         android:id="@+id/nav_sessions"
         android:icon="@drawable/ic_schedule"
-        android:title="Sessions" />
+        android:title="Buổi Học" />
     <item
         android:id="@+id/nav_create_course"
         android:icon="@drawable/add_course"
-        android:title="Add course" />
+        android:title="Thêm Khóa Học" />
 
     <item
         android:id="@+id/nav_chats"
         android:icon="@drawable/ic_message"
-        android:title="Chats" />
+        android:title="Tin Nhắn" />
 
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_profile"
-        android:title="Profile" />
+        android:title="Hồ Sơ" />
 </menu>
