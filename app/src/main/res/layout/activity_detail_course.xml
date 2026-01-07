@@ -286,7 +286,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:gravity="center">
 
         <ImageButton
@@ -309,7 +309,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="#FFFFFF"
+                android:background="@color/white"
                 android:visibility="gone">
                 <TextView
                     android:layout_width="wrap_content"
@@ -406,7 +406,7 @@
     android:layout_margin="8dp"
     android:padding="12dp"
     android:elevation="6dp"
-    android:background="#FFFFFF">
+    android:background="@color/white">
 
     <ListView
         android:id="@+id/listViewSessions"
@@ -434,7 +434,7 @@
         android:layout_margin="8dp"
         android:padding="12dp"
         android:elevation="6dp"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:visibility="gone">
 
         <LinearLayout

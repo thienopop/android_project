@@ -14,7 +14,7 @@
     android:padding="12dp"
         android:layout_marginTop="20dp"
     android:elevation="6dp"
-    android:background="#FFFFFF">
+    android:background="@color/white">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -264,7 +264,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:gravity="center">
         <Button
             android:id="@+id/btCancelCreateCourse"
@@ -302,7 +302,7 @@
         android:layout_margin="8dp"
         android:padding="12dp"
         android:elevation="6dp"
-        android:background="#FFFFFF">
+        android:background="@color/white">
         <ListView
             android:id="@+id/listViewSessions"
             android:layout_width="match_parent"

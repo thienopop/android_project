@@ -6,7 +6,7 @@
     android:layout_margin="8dp"
     app:cardElevation="6dp"
     app:cardCornerRadius="12dp"
-    app:cardBackgroundColor="#FFFFFF"
+    app:cardBackgroundColor="@color/white"
     app:contentPadding="12dp">
 
     <!-- Root Row -->
@@ -29,7 +29,7 @@
                 android:text="Subject"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#000000" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/txtTutor"
