@@ -36,11 +36,11 @@ public class FragmentsCourseAdapter extends ArrayAdapter<CourseInfo> {
 
         if (course != null) {
             view.setTag(course.getId()); // Gắn ID vào View để tái sử dụng
-            txtSubject.setText("📘 " + course.getSubject());
-            txtStudent.setText("🎓 Học viên: " + course.getFullName());
-            txtStatus.setText("⏳ Trạng thái: " + course.getStatus());
-            txtStartDate.setText("🗓️ Ngày học: " + course.getStartTime());
-            txtTotalSessions.setText("⏱️ Buổi học đã hoàn thành: " + course.getSessionCompleted()+"/"+ course.getTotalSessions());
+            txtSubject.setText("" + course.getSubject());
+            txtStudent.setText("Học viên: " + course.getFullName());
+            txtStatus.setText("Trạng thái: " + course.getStatus());
+            txtStartDate.setText("Ngày học: " + course.getStartTime());
+            txtTotalSessions.setText("Buổi học đã hoàn thành: " + course.getSessionCompleted()+"/"+ course.getTotalSessions());
         }
         return view;
     }

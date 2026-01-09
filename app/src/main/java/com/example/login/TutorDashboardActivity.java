@@ -62,29 +62,6 @@ public class TutorDashboardActivity extends AppCompatActivity {
         // Load Fragment mặc định khi mở Activity
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
 
-//
-//        // --- 3. TẢI DỮ LIỆU ---
-//        Intent intent = getIntent();
-//
-//        if (intent == null)
-//        {
-//            bottomNavigationView.setSelectedItemId(R.id.nav_home);
-//        }
-//        else {
-//            String fragmentName = intent.getStringExtra("FRAGMENT_NAME");
-//            if( fragmentName.isEmpty() ) {
-//
-//                int chatId= intent.getIntExtra("CHAT_ID", -1);
-////                findChatWithUserDetail(chatId);
-//
-//                findChatWithChatId( chatId);
-//
-//            } else {
-//                Toast.makeText(this, "Không tìm thấy ID khóa học.", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-
-
 
 
     }

@@ -366,7 +366,7 @@ String message="Mở lớp học thành công!";
             noti.setIsRead(false);
             noti.setUserId(userId);
 
-            // TODO: Gửi notification lên server / lưu DB
+//             TODO: Gửi notification lên server / lưu DB
             sendNotification(noti);
 
         });

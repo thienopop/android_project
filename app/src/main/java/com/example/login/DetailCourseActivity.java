@@ -150,7 +150,7 @@ public class DetailCourseActivity extends AppCompatActivity {
             }
         });
 
-        // --- 2. THIẾT LẬP NÚT BACK ---
+        // ---  THIẾT LẬP NÚT BACK ---
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,7 +173,7 @@ public class DetailCourseActivity extends AppCompatActivity {
             }
         });
 
-        // --- 3. TẢI DỮ LIỆU ---
+        // --- TẢI DỮ LIỆU ---
         Intent intent = getIntent();
         if (intent != null) {
             courseId = intent.getIntExtra("COURSE_ID_KEY", -1);
@@ -191,10 +191,10 @@ public class DetailCourseActivity extends AppCompatActivity {
         tvDate = findViewById(R.id.tvDate);
         tvTime = findViewById(R.id.tvTime);
 
-        // --- Chọn ngày ---
+        // Chọn ngày
         tvDate.setOnClickListener(v -> showDatePicker());
 
-        // --- Chọn giờ ---
+        // Chọn giờ
         tvTime.setOnClickListener(v -> showTimePicker());
     }
     private void showDatePicker() {

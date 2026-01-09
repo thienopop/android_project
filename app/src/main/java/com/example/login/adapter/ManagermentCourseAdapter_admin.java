@@ -39,8 +39,8 @@ public class ManagermentCourseAdapter_admin  extends ArrayAdapter<CourseInfo> {
         TextView txtTutor = view.findViewById(R.id.txtTutor);
         if (course != null) {
             view.setTag(course.getId()); // Gắn ID vào View để tái sử dụng
-            txtSubject.setText("📘 " + course.getSubject());
-            txtTutor.setText("🎓 Gia sư: " + course.getFullName());
+            txtSubject.setText("" + course.getSubject());
+            txtTutor.setText("Gia sư: " + course.getFullName());
         }
         return view;
     }

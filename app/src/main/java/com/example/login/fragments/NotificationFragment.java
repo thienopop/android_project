@@ -46,7 +46,7 @@ public class NotificationFragment   extends Fragment {
 
         loadNotification();
 
-        return view; // 👈 BẮT BUỘC PHẢI CÓ
+        return view;
     }
 
 

@@ -74,10 +74,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    /**
-     * Hàm này giờ sẽ thay thế bất kỳ fragment nào được truyền vào
-     * vào trong 'child_fragment_container'.
-     */
+
     private void loadChildFragment(Fragment fragment) {
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
