@@ -34,14 +34,14 @@ public class SessionController {
     @Autowired
     private StudentRepository studentRepository;
 
-    // 🟢 1. Lấy tất cả buổi học
+    // Lấy tất cả buổi học
     @GetMapping
     public ResponseEntity<List<Session>> getAllSessions() {
         List<Session> sessions = sessionRepository.findAll();
         return ResponseEntity.ok(sessions);
     }
     
-    // 🟢 2. Lấy buổi học theo ID
+    // Lấy buổi học theo ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getSessionById(@PathVariable Integer id) {
         Optional<Session> sessionOpt = sessionRepository.findById(id);
@@ -51,7 +51,7 @@ public class SessionController {
         return ResponseEntity.ok(sessionOpt.get());
     }
 
-    // 🟡 3. Tạo buổi học mới
+    //  Tạo buổi học mới
   @PostMapping("/create")
 public ResponseEntity<?> createSession(@RequestBody Session session) {
     if (session.getCourseId() == null) {
@@ -67,7 +67,7 @@ public ResponseEntity<?> createSession(@RequestBody Session session) {
     // Lấy đối tượng Course hợp lệ
     Course course = courseOpt.get();
     
-    // 💡 BƯỚC THIẾU: Thiết lập quan hệ Course cho đối tượng Session
+    // BƯỚC THIẾU: Thiết lập quan hệ Course cho đối tượng Session
     // Giả sử Entity Session của bạn có phương thức setCourse(Course course)
     // Hoặc setCourseId(Integer id) nếu bạn sử dụng ID thô
     
@@ -85,7 +85,7 @@ public ResponseEntity<?> createSession(@RequestBody Session session) {
 }
 
 
-    // 🟠 4. Cập nhật buổi học
+    //  Cập nhật buổi học
     @PutMapping("/{id}")
     public ResponseEntity<?> updateSession(@PathVariable Integer id, @RequestBody Session updatedSession) {
         Optional<Session> existingOpt = sessionRepository.findById(id);
@@ -106,7 +106,7 @@ public ResponseEntity<?> createSession(@RequestBody Session session) {
         return ResponseEntity.ok(existing);
     }
 
-    // 🔴 5. Xóa buổi học
+    //  Xóa buổi học
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSession(@PathVariable Integer id) {
         Optional<Session> sessionOpt = sessionRepository.findById(id);
@@ -118,7 +118,7 @@ public ResponseEntity<?> createSession(@RequestBody Session session) {
         return ResponseEntity.ok("Đã xóa buổi học ID = " + id);
     }
 
-    // 🔵 6. Lấy danh sách buổi học theo khóa học
+    // Lấy danh sách buổi học theo khóa học
     @GetMapping("/by-course/{courseId}")
     public ResponseEntity<?> getSessionsByCourse(@PathVariable Integer courseId) {
         List<Session> sessions = sessionRepository.findByCourseId(courseId);
@@ -148,7 +148,7 @@ public ResponseEntity<?> getSessionsByStudentStatusDate(
         @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate sessionDate) {
   LocalDateTime startOfDay = sessionDate.atStartOfDay();
     LocalDateTime endOfDay = sessionDate.atTime(23, 59, 59);
-    // 🔐 Lấy username từ token
+    // Lấy username từ token
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
     System.out.println(">>> Current username: " + username);
 
@@ -173,22 +173,22 @@ public ResponseEntity<?> getSessionsByStudentStatusDate(
 public ResponseEntity<?> getSessionsByTutorAndDate(
         @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate sessionDate) {
 
-    // ✅ Tạo khoảng thời gian trong ngày (00:00:00 → 23:59:59)
+    // Tạo khoảng thời gian trong ngày (00:00:00 → 23:59:59)
     LocalDateTime startOfDay = sessionDate.atStartOfDay();
     LocalDateTime endOfDay = sessionDate.atTime(23, 59, 59);
 
-    // 🔐 Lấy username từ token (đã xác thực qua Spring Security)
+    // Lấy username từ token (đã xác thực qua Spring Security)
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
     System.out.println(">>> Current username: " + username);
 
-    // 🔍 Tìm tutor theo username
+    // Tìm tutor theo username
     Optional<Tutor> tutorOpt = tutorRepository.findByUser_Username(username);
     if (tutorOpt.isEmpty()) {
         return ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
     }
     Integer tutorId = tutorOpt.get().getId();
 
-    // 🔍 Truy vấn buổi học trong ngày
+    // Truy vấn buổi học trong ngày
     List<SessionInfo> sessionInfo = sessionRepository.findSessionsByTutorIdAndDate(
             tutorId, startOfDay, endOfDay);
 
@@ -209,18 +209,18 @@ public ResponseEntity<?> getSessionsByTutorAndDate(
     @GetMapping("/by-tutor/status/{status}")
     public ResponseEntity<?> getSessionsByTutorAndStatus(@PathVariable String status) {
         
-        // 🔐 Lấy username từ token (đã xác thực qua Spring Security)
+        // Lấy username từ token (đã xác thực qua Spring Security)
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println(">>> Current username: " + username);
 
-        // 🔍 Tìm tutor theo username
+        // Tìm tutor theo username
         Optional<Tutor> tutorOpt = tutorRepository.findByUser_Username(username);
         if (tutorOpt.isEmpty()) {
             return ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
         }
         Integer tutorId = tutorOpt.get().getId();
 
-        // 🔍 Truy vấn buổi học theo trạng thái
+        // Truy vấn buổi học theo trạng thái
         List<Session> sessions = sessionRepository.findSessionsByTutorIdAndStatus(
                 tutorId, status);
 
@@ -240,11 +240,11 @@ public ResponseEntity<?> getSessionsByTutorAndDate(
 // List<Session> findByDate(
 //         @Param("startOfDay") LocalDateTime startOfDay,
 //         @Param("endOfDay") LocalDateTime endOfDay);
-  // ✅ Tạo khoảng thời gian trong ngày (00:00:00 → 23:59:59)
+  // Tạo khoảng thời gian trong ngày (00:00:00 → 23:59:59)
     LocalDateTime startOfDay = date.atStartOfDay();
     LocalDateTime endOfDay = date.atTime(23, 59, 59);
 
-        // 🔍 Truy vấn buổi học t
+        // Truy vấn buổi học t
      List<Session> sessions = sessionRepository.findByDate(startOfDay,endOfDay);
      return sessions;
     }
@@ -255,18 +255,18 @@ public ResponseEntity<?> getSessionsByTutorAndDate(
     @GetMapping("/by-student/status/{status}")
     public ResponseEntity<?> getSessionsByStudentAndStatus(@PathVariable String status) {
         
-        // 🔐 Lấy username từ token (đã xác thực qua Spring Security)
+        // Lấy username từ token (đã xác thực qua Spring Security)
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println(">>> Current username: " + username);
 
-        // 🔍 Tìm tutor theo username
+        // Tìm tutor theo username
         Optional<Student> studentOpt = studentRepository.findByUser_Username(username);
         if (studentOpt.isEmpty()) {
             return ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
         }
         Integer studentId = studentOpt.get().getId();
 
-        // 🔍 Truy vấn buổi học theo trạng thái
+        //  Truy vấn buổi học theo trạng thái
         List<Session> sessions = sessionRepository.findSessionsByStudentIdAndStatus(
                 studentId, status);
 
@@ -298,7 +298,7 @@ public ResponseEntity<?> countSessionAllStatus() {
     LocalDate date=LocalDate.now();
   LocalDateTime startOfDay = date.atStartOfDay();
     LocalDateTime endOfDay = date.atTime(23, 59, 59);
-    // 🔐 Lấy username từ token
+    // Lấy username từ token
     List<SessionStatusCount> sessions = sessionRepository.countSessionByStatus( startOfDay, endOfDay);
 
     return ResponseEntity.ok(sessions);

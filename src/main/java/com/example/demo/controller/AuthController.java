@@ -89,7 +89,7 @@ public ResponseEntity<?> registerUser(@RequestBody User user) {
             studentRepository.save(student);
         }
 
-        // 7. Generate Token
+        // 7Generate Token
         String token = jwtTokenUtil.generateToken(savedUser.getUsername());
 
         // 8. Return Success JSON

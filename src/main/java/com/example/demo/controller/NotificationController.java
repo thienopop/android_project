@@ -69,7 +69,7 @@ public class NotificationController {
 
    String username = SecurityContextHolder.getContext().getAuthentication().getName();
     
-    // 2. Tìm Student (Cẩn thận lỗi Zero Date ở đây nếu chưa fix config DB)
+    //  Tìm Student (Cẩn thận lỗi Zero Date ở đây nếu chưa fix config DB)
     Optional<User> userOpt = userRepository.findByUsername(username);  // ✅ Đúng
     if (userOpt.isEmpty()) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of());
@@ -88,7 +88,7 @@ public class NotificationController {
 
 
 
-    // ✅ Tạo mới khóa học (Tutor tạo)
+    // Tạo mới khóa học (Tutor tạo)
     @PostMapping("/create")
     public ResponseEntity<?> createNoti(@RequestBody Notification noti) {
       

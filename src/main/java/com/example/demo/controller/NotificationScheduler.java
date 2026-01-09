@@ -8,7 +8,9 @@ import com.example.demo.entity.User;
 import com.example.demo.entity.Student;
 import com.example.demo.repository.NotificationRepository;
 import com.example.demo.repository.CourseRepository;
+import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -28,16 +30,15 @@ public class NotificationScheduler {
     @Autowired
     private SessionController sessionController;
 
-    @Autowired
-     private CourseRepository courseRepository;
+
     @Autowired
     private CourseController courseController;
+        @Autowired
+    private StudentRepository studentRepository;
     @Autowired
-    private UserRepository userRepository;
+    private TutorRepository tutorRepository;
 
     private List<Session> listSession;
-
-
     public void getList() {
         String dateStr = LocalDate.now().toString() + " 00:00:00";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -45,79 +46,25 @@ public class NotificationScheduler {
         LocalDate date = LocalDateTime.parse(dateStr, formatter).toLocalDate();
         listSession = sessionController.getAllSessions(date);
     }
-
-
-//     @Scheduled(fixedRate = 10000)
-//     public void generateAutoNotification() {
-
-//         getList();
-       
-
-//         if (listSession == null || listSession.isEmpty()) {
-//             return;
-//         }
-
-//         for (Session session : listSession) {
-//  Course course = null;
-//         course = courseControler.getCourseById(session.getCourseId());
-
-//             // CHẶN LỖI NULL
-//             if (course == null) {
-//                 System.out.println("⚠ Course NULL for sessionId = " + session.getId());
-//                 continue;
-//             }
-
-//             if (course.getStudent_Id() <=0) {
-//                 System.out.println("⚠ student_id NULL for courseId = " + course.getId());
-//                 continue;
-//             }
-
-
-// Integer tutorId=course.getTutor_Id();
-//             if (tutorId<=0) {
-//                 System.out.println("⚠ tutor_id NULL for courseId = " + course.getId());
-//                 continue;
-//             }
-
-//             Integer studentId = course.getStudent_Id();
-// if (studentId<=0) {
-//     continue; // bỏ qua nếu không có student
-// }
-
-//             // 🔔 Gửi thông báo cho student
-//             Notification notiStudent = new Notification();
-//             notiStudent.setUserId(studentId);
-//             notiStudent.setIsRead(false);
-//             notiStudent.setCreatedAt(LocalDateTime.now());
-//             notiStudent.setTitle("Nhắc lịch học");
-//             notiStudent.setMessage("Bạn có buổi học môn " + course.getSubject()
-//                     + " hôm nay, vào lúc " + course.getStartTime());
-
-//             // 🔔 Gửi thông báo cho tutor
-//             Notification notiTutor = new Notification();
-//             notiTutor.setUserId(tutorId);
-//             notiTutor.setIsRead(false);
-//             notiTutor.setCreatedAt(LocalDateTime.now());
-//             notiTutor.setTitle("Nhắc lịch dạy");
-//             notiTutor.setMessage("Bạn có buổi dạy môn " + course.getSubject()
-//                     + " hôm nay, vào lúc " + course.getStartTime());
-
-//             notificationRepository.save(notiStudent);
-//             notificationRepository.save(notiTutor);
-//         }
-//     }
-
+    
 //  @Scheduled(cron = "0 0 0 * * *")
  @Scheduled(fixedRate = 10000)
 public void generateAutoNotification() {
-
+//lấy danh sách khoá học hôm nay
     getList();
+
 
     if (listSession == null || listSession.isEmpty()) {
         return;
     }
 
     for (Session session : listSession) {
+
+        //kiểm tra nếu thời gian buổi học đã qua thì bỏ qua
+        if(session.getSessionDate()==null || !session.getSessionDate().isAfter(LocalDateTime.now())) {
+
+            continue;
+        }
 
         Course course = courseController.getCourseById(session.getCourseId());
         if (course == null) {
@@ -137,32 +84,38 @@ public void generateAutoNotification() {
             continue;
         }
 
-        // 🧑‍🎓 Lấy entity User cho student
-        User student = userRepository.findById(studentId).orElse(null);
+        //  Lấy entity User cho student
+// Lấy danh thông tin stuent
+Student stu = studentRepository.findById(studentId).orElse(null);
+// lấy user của student 
+
+        User student = stu.getUser();
+
+          System.out.println(" student____ID " + studentId);
         if (student == null) {
             System.out.println("⚠ Student user NOT FOUND: " + studentId);
             continue;
         }
-
-        // 🧑‍🏫 Lấy entity User cho tutor
-        User tutor = userRepository.findById(tutorId).orElse(null);
+        Tutor tutorEntity = tutorRepository.findById(tutorId).orElse(null);
+// lấy user của student 
+        User tutor = tutorEntity.getUser();
+         System.out.println(" tutor____ID " + tutorId);
         if (tutor == null) {
             System.out.println("⚠ Tutor user NOT FOUND: " + tutorId);
             continue;
         }
-
-        // 🔔 Gửi thông báo cho student
+        //  Gửi thông báo cho student
         Notification notiStudent = new Notification();
-        notiStudent.setUser(student);  // QUAN TRỌNG
+        notiStudent.setUser(student);  
         notiStudent.setIsRead(false);
         notiStudent.setCreatedAt(LocalDateTime.now());
         notiStudent.setTitle("Nhắc lịch học");
         notiStudent.setMessage("Bạn có buổi học môn " + course.getSubject()
                 + " hôm nay, vào lúc " + course.getStartTime());
 
-        // 🔔 Gửi thông báo cho tutor
+        // Gửi thông báo cho tutor
         Notification notiTutor = new Notification();
-        notiTutor.setUser(tutor);  // QUAN TRỌNG
+        notiTutor.setUser(tutor);  
         notiTutor.setIsRead(false);
         notiTutor.setCreatedAt(LocalDateTime.now());
         notiTutor.setTitle("Nhắc lịch dạy");
@@ -174,13 +127,4 @@ public void generateAutoNotification() {
     }
 }
 
-    // @Scheduled(cron = "0 0 0 * * *")
-    // public void generateDailyNotification() {
-    //     Notification noti = new Notification();
-    //     noti.setMessage("Thông báo đầu ngày mới: " + LocalDate.now());
-    //     noti.setIsRead(false);
-    //     noti.setCreatedAt(LocalDateTime.now());
-
-    //     notificationRepository.save(noti);
-    // }
 }

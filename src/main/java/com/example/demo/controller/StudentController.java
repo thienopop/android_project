@@ -28,12 +28,12 @@ public class StudentController {
     @Autowired
     private UserRepository userRepository;
 
-    // ✅ Lấy tất cả hồ sơ học viên
+    // Lấy tất cả hồ sơ học viên
     @GetMapping
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
-    // ✅ Lấy hồ sơ học viên theo ID
+    // Lấy hồ sơ học viên theo ID
    //lấy thông tin tutor của user hiện tại
 // chính student đăng nhập để lấy thông tin của mình
 
@@ -54,7 +54,7 @@ public ResponseEntity<?> getMyStudentProfile() {
 
 
 
-    // ✅ Cập nhật hồ sơ học viên 
+    // Cập nhật hồ sơ học viên 
     @PutMapping("/update_by_student")
     public ResponseEntity<?> updateStudent( @RequestBody Student updated) {
          String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -80,7 +80,7 @@ public ResponseEntity<?> getMyStudentProfile() {
         Optional<Student> studentOpt = studentRepository.findById(id);
         return studentOpt.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
-    // ✅ Xóa hồ sơ học viên
+    // Xóa hồ sơ học viên
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteStudent(@PathVariable int id) {
         if (!studentRepository.existsById(id)) {
@@ -96,11 +96,11 @@ public ResponseEntity<?> getMyStudentProfile() {
 // List<Session> findByDate(
 //         @Param("startOfDay") LocalDateTime startOfDay,
 //         @Param("endOfDay") LocalDateTime endOfDay);
-  // ✅ Tạo khoảng thời gian trong ngày (00:00:00 → 23:59:59)
+  // Tạo khoảng thời gian trong ngày (00:00:00 → 23:59:59)
     LocalDateTime startOfDay = date.atStartOfDay();
     LocalDateTime endOfDay = date.atTime(23, 59, 59);
 
-        // 🔍 Truy vấn buổi học t
+        // Truy vấn buổi học t
      int  count =  studentRepository.countNewStudents( startOfDay, endOfDay);
         return ResponseEntity.ok(count);
     }

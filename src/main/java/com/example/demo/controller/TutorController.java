@@ -116,11 +116,11 @@ public ResponseEntity<?> getMyTutorProfile() {
 // List<Session> findByDate(
 //         @Param("startOfDay") LocalDateTime startOfDay,
 //         @Param("endOfDay") LocalDateTime endOfDay);
-  // ✅ Tạo khoảng thời gian trong ngày (00:00:00 → 23:59:59)
+  // Tạo khoảng thời gian trong ngày (00:00:00 → 23:59:59)
     LocalDateTime startOfDay = date.atStartOfDay();
     LocalDateTime endOfDay = date.atTime(23, 59, 59);
 
-        // 🔍 Truy vấn buổi học t
+        // Truy vấn buổi học t
      int  count =  tutorRepository.countNewTutor( startOfDay, endOfDay);
         return ResponseEntity.ok(count);
     }
@@ -128,7 +128,7 @@ public ResponseEntity<?> getMyTutorProfile() {
     @GetMapping("/count_verified_tutor")
 public ResponseEntity<?> countVerifiedStatus() {
   
-    // 🔐 Lấy username từ token
+    // Lấy username từ token
     List<Verified_tutor> sessions = tutorRepository.countVerifiedStatus();
 
     return ResponseEntity.ok(sessions);

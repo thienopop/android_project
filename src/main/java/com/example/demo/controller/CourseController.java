@@ -33,14 +33,14 @@ public class CourseController {
     @Autowired
     private StudentRepository studentRepository;
 
-    // ✅ Lấy danh sách tất cả khóa học
+    // Lấy danh sách tất cả khóa học
     @GetMapping
     public List<Course> getAllCourses() {
         return courseRepository.findAll();
     }
 
     // chức năng cho tutor
-    // ✅ Xem chi tiết 1 khóa học theo id/ cả student và tutor đều xem được
+    //  Xem chi tiết 1 khóa học theo id/ cả student và tutor đều xem được
 
     // @GetMapping("/{id}")
     // public ResponseEntity<Course> getCourseById(@PathVariable int id) {
@@ -162,7 +162,7 @@ public ResponseEntity<?> getMyCoursesStudentByStatus(@PathVariable String status
         ));
     }
 
-    // 3. Chuẩn hóa input
+    //Chuẩn hóa input
     String normalizedStatus = status.trim().toUpperCase();
     
     // Danh sách này PHẢI KHỚP CHÍNH XÁC với dữ liệu trong cột 'status' của bảng 'courses'
@@ -242,7 +242,7 @@ public ResponseEntity<?> getCoursesByStatus(@PathVariable String status) {
 
 
 
-        // ✅ Tạo mới khóa học (Tutor tạo)
+        // Tạo mới khóa học (Tutor tạo)
         @PostMapping("/create")
         public ResponseEntity<?> createCourse(@RequestBody Course course) {
             // Kiểm tra tutor & student có tồn tại không
@@ -269,7 +269,7 @@ public ResponseEntity<?> getCoursesByStatus(@PathVariable String status) {
 
 
 
-    // ✅ Cập nhật khóa học
+    // Cập nhật khóa học
     @PutMapping("/update")
     public ResponseEntity<?> updateCourse( @RequestBody Course updatedCourse) {
         Optional<Course> courseOpt = courseRepository.findById(updatedCourse.getId());
@@ -284,7 +284,7 @@ public ResponseEntity<?> getCoursesByStatus(@PathVariable String status) {
         return ResponseEntity.ok(course);
     }
 
-// ✅ Cập nhật trạng thái khóa học
+// Cập nhật trạng thái khóa học
        
 
     @PutMapping("/updateCourseStatus/{courseId}")
@@ -311,7 +311,7 @@ public ResponseEntity<?> updateCourseStatus(
 // updateCourseStatus(courseId, status);
 
 
-    // ✅ Xóa khóa học
+    // Xóa khóa học
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteCourse(@PathVariable int id) {
         if (!courseRepository.existsById(id)) return ResponseEntity.notFound().build();
@@ -340,7 +340,7 @@ public ResponseEntity<?> updateCourseStatus(
         ));
     }
 
-    //✅ Hủy khóa học (tutor hủy)
+    //Hủy khóa học (tutor hủy)
     @PutMapping("/cancel_course/{id}")
     public ResponseEntity<?> cancelCourse(@PathVariable int id) {
         Optional<Course> courseOpt = courseRepository.findById(id);
@@ -397,7 +397,7 @@ public ResponseEntity<?> updateCourseStatus(
 
 
 
-        // ✅ Đăng ký khóa học (Student đăng ký)
+        //  Đăng ký khóa học (Student đăng ký)
 @PutMapping("/register_course_by_student/{id}")
 public ResponseEntity<?> registerCourse(@PathVariable int id) {
     // 🔹 Tìm khóa học theo ID

@@ -17,13 +17,13 @@ import java.time.LocalDateTime;
 @Table(name = "sessions")
 public class Session extends BaseEntity {
 
-    // ✅ Nên dùng @ManyToOne thay vì @OneToOne (vì một Course có thể có nhiều Session)
+    // Nên dùng @ManyToOne thay vì @OneToOne (vì một Course có thể có nhiều Session)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     @JsonIgnore
     private Course course;
 
-    // ✅ Trả thêm course_id ra JSON (không ảnh hưởng DB)
+    // Trả thêm course_id ra JSON (không ảnh hưởng DB)
     @Column(name = "course_id", insertable = false, updatable = false)
     private Integer courseId;
 
@@ -33,7 +33,7 @@ public class Session extends BaseEntity {
     @Column(name = "duration", nullable = false)
     private Integer duration;
 
-    // ✅ end_time do DB sinh tự động
+    // end_time do DB sinh tự động
     @Column(name = "end_time", insertable = false, updatable = false)
     private LocalDateTime endTime;
 
