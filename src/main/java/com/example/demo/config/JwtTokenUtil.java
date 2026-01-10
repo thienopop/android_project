@@ -11,20 +11,20 @@ import java.util.Date;
 @Component
 public class JwtTokenUtil {
 
-    // ✅ Khóa bí mật (ít nhất 32 ký tự ~ 256-bit)
+    // Khóa bí mật (ít nhất 32 ký tự ~ 256-bit)
     private final String jwtSecret = "mysecretkey12345mysecretkey12345";
 
-    // ✅ Token hết hạn sau 1 ngày
+    // Token hết hạn sau 1 ngày
     private final long jwtExpirationMs = 86400000;
 
-    // ✅ Tạo khóa ký (key) từ chuỗi bí mật
+    // Tạo khóa ký (key) từ chuỗi bí mật
     private Key getSigningKey() {
         // Không cần Base64 decode — dùng trực tiếp bytes
         byte[] keyBytes = jwtSecret.getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // ✅ Sinh token từ username
+    // Sinh token từ username
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -34,7 +34,7 @@ public class JwtTokenUtil {
                 .compact();
     }
 
-    // ✅ Lấy username từ token
+    // Lấy username từ token
     public String getUsernameFromToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
@@ -44,7 +44,7 @@ public class JwtTokenUtil {
                 .getSubject();
     }
 
-    // ✅ Kiểm tra token hết hạn chưa
+    // Kiểm tra token hết hạn chưa
     public boolean isTokenExpired(String token) {
         Date expiration = Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
@@ -55,7 +55,7 @@ public class JwtTokenUtil {
         return expiration.before(new Date());
     }
 
-    // ✅ Kiểm tra token có hợp lệ không
+    // Kiểm tra token có hợp lệ không
     public boolean validateToken(String token, String username) {
         String tokenUsername = getUsernameFromToken(token);
         return (tokenUsername.equals(username) && !isTokenExpired(token));

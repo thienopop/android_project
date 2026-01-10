@@ -72,13 +72,13 @@ public class Seeder implements CommandLineRunner {
 
         Tutor tutor1 = tutorSeeder.createTutor(user1, "Nguyễn Văn An", "0901234567", "123 Đường Lê Lợi, TP.HCM",
                 LocalDate.of(1985, 5, 15), "Gia sư Toán với hơn 10 năm kinh nghiệm dạy kèm học sinh cấp 3",
-                10, 300000.0, true, 150, 5.0, "profile_image_1000000000000.jpg");
+                10, 300000.0, true, 150, 5.0, "profile_image_1000000000001.jpg");
         Tutor tutor2 = tutorSeeder.createTutor(user2, "Trần Thị Bình", "0907654321", "456 Nguyễn Trãi, Hà Nội",
                 LocalDate.of(1990, 8, 22), "Chuyên dạy Lý - Hóa, giúp học sinh hiểu sâu bản chất",
-                7, 250000.0, true, 120, 5.0, "profile_image_1000000000000.jpg");
+                7, 250000.0, true, 120, 5.0, "profile_image_1000000000002.jpg");
         Tutor tutor3 = tutorSeeder.createTutor(user3, "Lê Hoàng Minh", "0903456789", "789 Võ Văn Kiệt, Đà Nẵng",
                 LocalDate.of(1988, 3, 10), "Gia sư tiếng Anh, luyện thi đại học và IELTS",
-                8, 350000.0, true, 80, 4.0, "profile_image_1000000000000.jpg");
+                8, 350000.0, true, 80, 4.0, "profile_image_1000000000003.jpg");
 
         Student student1 = studentSeeder.createStudent(user4, "Phạm Thu Hà", "0911234567", "321 Lý Thường Kiệt, TP.HCM",
                 LocalDate.of(2008, 6, 20), "Lớp 10", "Yêu thích các môn Khoa học Tự nhiên");
@@ -308,22 +308,22 @@ public class Seeder implements CommandLineRunner {
         Chat chat6 = chatSeeder.createChat(user6, user2);
 
         messageSeeder.createMessage(chat1, user1, "Chào Thu Hà, hôm nay chúng ta sẽ ôn tập Toán nâng cao.", null, false, null);
-        messageSeeder.createMessage(chat1, user1, "", "attachment_1000000000001.pdf", false, null);
+        messageSeeder.createMessage(chat1, user1, "", "attachment_1000000000000.pdf", false, null);
         messageSeeder.createMessage(chat1, user4, "Dạ, thầy An ơi, em đã chuẩn bị bài tập rồi.", null, false, null);
         messageSeeder.createMessage(chat2, user2, "Quân ơi, hôm nay chúng ta học Lý - Hóa nhé.", null, false, null);
-        messageSeeder.createMessage(chat2, user2, "", "attachment_1000000000001.pdf", false, null);
+        messageSeeder.createMessage(chat2, user2, "", "attachment_1000000000000.pdf", false, null);
         messageSeeder.createMessage(chat2, user5, "Vâng ạ, em đã đọc trước lý thuyết rồi.", null, false, null);
         messageSeeder.createMessage(chat3, user3, "Lan, hôm nay luyện kỹ năng nghe nói Tiếng Anh.", null, false, null);
-        messageSeeder.createMessage(chat3, user3, "", "attachment_1000000000001.pdf", false, null);
+        messageSeeder.createMessage(chat3, user3, "", "attachment_1000000000000.pdf", false, null);
         messageSeeder.createMessage(chat3, user6, "Vâng ạ.", null, false, null);
         messageSeeder.createMessage(chat4, user1, "Chào Quân, hôm nay chúng ta học Toán cơ bản nhé.", null, false, null);
-        messageSeeder.createMessage(chat4, user1, "", "attachment_1000000000001.pdf", false, null);
+        messageSeeder.createMessage(chat4, user1, "", "attachment_1000000000000.pdf", false, null);
         messageSeeder.createMessage(chat4, user5, "Dạ, em đã chuẩn bị bài tập.", null, false, null);
         messageSeeder.createMessage(chat5, user3, "Chào Thu Hà, hôm nay luyện Tiếng Anh giao tiếp.", null, false, null);
-        messageSeeder.createMessage(chat5, user3, "", "attachment_1000000000001.pdf", false, null);
+        messageSeeder.createMessage(chat5, user3, "", "attachment_1000000000000.pdf", false, null);
         messageSeeder.createMessage(chat5, user4, "Em sẵn sàng ạ.", null, false, null);
         messageSeeder.createMessage(chat6, user2, "Lan, hôm nay học Hóa nâng cao nhé.", null, false, null);
-        messageSeeder.createMessage(chat6, user2, "", "attachment_1000000000001.pdf", false, null);
+        messageSeeder.createMessage(chat6, user2, "", "attachment_1000000000000.pdf", false, null);
         messageSeeder.createMessage(chat6, user6, "Vâng, em đã chuẩn bị lý thuyết.", null, false, null);
 
         log.info("Hoàn tất khởi tạo dữ liệu mẫu");

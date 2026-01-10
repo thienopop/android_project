@@ -68,7 +68,7 @@ public void generateAutoNotification() {
 
         Course course = courseController.getCourseById(session.getCourseId());
         if (course == null) {
-            System.out.println("⚠ Course NULL for sessionId = " + session.getId());
+            System.out.println("Course NULL for sessionId = " + session.getId());
             continue;
         }
 
@@ -76,11 +76,11 @@ public void generateAutoNotification() {
         Integer tutorId = course.getTutor_Id();
 
         if (studentId == null || studentId <= 0) {
-            System.out.println("⚠ student_id NULL for courseId = " + course.getId());
+            System.out.println("student_id NULL for courseId = " + course.getId());
             continue;
         }
         if (tutorId == null || tutorId <= 0) {
-            System.out.println("⚠ tutor_id NULL for courseId = " + course.getId());
+            System.out.println("tutor_id NULL for courseId = " + course.getId());
             continue;
         }
 
@@ -93,7 +93,7 @@ Student stu = studentRepository.findById(studentId).orElse(null);
 
           System.out.println(" student____ID " + studentId);
         if (student == null) {
-            System.out.println("⚠ Student user NOT FOUND: " + studentId);
+            System.out.println("Student user NOT FOUND: " + studentId);
             continue;
         }
         Tutor tutorEntity = tutorRepository.findById(tutorId).orElse(null);
@@ -101,7 +101,7 @@ Student stu = studentRepository.findById(studentId).orElse(null);
         User tutor = tutorEntity.getUser();
          System.out.println(" tutor____ID " + tutorId);
         if (tutor == null) {
-            System.out.println("⚠ Tutor user NOT FOUND: " + tutorId);
+            System.out.println("Tutor user NOT FOUND: " + tutorId);
             continue;
         }
         //  Gửi thông báo cho student
