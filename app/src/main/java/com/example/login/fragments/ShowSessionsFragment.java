@@ -139,16 +139,17 @@ public class ShowSessionsFragment extends Fragment {
                     listViewSessions.setAdapter(adapter);
 
                     listViewSessions.setOnItemClickListener((parent, view, position, id) -> {
-                        SessionInfo ss = sessionList.get(position);
-                        int sessionId= ss.getId();
-                        loadCourseId(sessionId, courseId -> {
-
-                            Intent intent = new Intent(requireContext(), DetailCourseActivity.class);
-
-                            intent.putExtra("COURSE_ID_KEY", courseId);
-                            startActivity(intent);
-
-                        });
+//                        SessionInfo ss = sessionList.get(position);
+//                        int sessionId= ss.getId();
+//                        loadCourseId(sessionId, courseId -> {
+//
+//                            Intent intent = new Intent(requireContext(), DetailCourseActivity.class);
+//
+//                            intent.putExtra("COURSE_ID_KEY", courseId);
+//                            startActivity(intent);
+//
+//                        });
+                        return; // Tạm thời vô hiệu hóa
                     });
                 } else {
                     // Xóa list cũ nếu không có dữ liệu mới

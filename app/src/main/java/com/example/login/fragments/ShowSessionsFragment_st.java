@@ -134,8 +134,9 @@ public class ShowSessionsFragment_st extends Fragment {
                     listViewSessions.setAdapter(adapter);
 
                     listViewSessions.setOnItemClickListener((parent, view, position, id) -> {
-                        SessionInfo ss = sessionList.get(position);
-                        Toast.makeText(getContext(), "Bạn chọn session ID: " + ss.getId(), Toast.LENGTH_SHORT).show();
+//                        SessionInfo ss = sessionList.get(position);
+//                        Toast.makeText(getContext(), "Bạn chọn session ID: " + ss.getId(), Toast.LENGTH_SHORT).show();
+                        return; // Tạm thời vô hiệu hóa
                     });
                 } else {
                     // Xóa list cũ nếu không có dữ liệu mới

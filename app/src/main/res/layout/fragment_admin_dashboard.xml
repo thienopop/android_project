@@ -30,7 +30,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Overview"
+                                android:text="Tổng quan"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:textColor="#2E3E5C"/>
@@ -58,7 +58,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="New Tutors"
+                                        android:text="Gia sư mới"
                                         android:textSize="12sp"/>
                                 </LinearLayout>
                                 <LinearLayout
@@ -78,7 +78,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="New Students"
+                                        android:text="Học viên mới"
                                         android:textSize="12sp"/>
                                 </LinearLayout>
                                 <LinearLayout
@@ -98,7 +98,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="New Classes"
+                                        android:text="Khóa học mới"
                                         android:textSize="12sp"/>
                                 </LinearLayout>
                             </LinearLayout>
@@ -119,7 +119,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8.dp"
-                                android:text="The statistical chart shows the completion rate of the lesson for the day"
+                                android:text="Biểu đồ thống kê khóa học theo trạng thái trong ngày hôm nay"
                                 android:textColor="#00796B"
                                 android:layout_gravity="center"
                                 android:textStyle="bold"/>
