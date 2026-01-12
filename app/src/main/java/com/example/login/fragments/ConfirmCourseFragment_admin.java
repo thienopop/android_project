@@ -81,13 +81,13 @@ public class ConfirmCourseFragment_admin  extends Fragment {
 
             // SỬA LỖI 1: Phải là Call<Void>
             // (Giả sử ApiService.AddCourse đã trả về Call<Void>)
-            Call<CourseInfo> call = apiService.AddCourse(newCourse);
+            Call<Integer> call = apiService.AddCourse(newCourse);
 
             // Xử lý Callback<Void>
-            call.enqueue(new Callback<CourseInfo>() {
+            call.enqueue(new Callback<Integer>() {
                 @Override
                 // SỬA LỖI 2: Tham số phải là Call<Void>
-                public void onResponse(Call<CourseInfo> call, Response<CourseInfo> response) {
+                public void onResponse(Call<Integer> call, Response<Integer> response) {
 
                     // SỬA LỖI 4: Xóa kiểm tra response.body()
                     if (response.isSuccessful()) {
@@ -95,9 +95,9 @@ public class ConfirmCourseFragment_admin  extends Fragment {
                         Toast.makeText(getContext(), "Thêm khoá học thành công!", Toast.LENGTH_SHORT).show();
 
 //                        chuyển đến thêm khoá học
-                        CourseInfo course = response.body();
+                        int courseId = response.body();
                         Intent intent = new Intent(requireContext(), DetailCourseActivity.class);
-                        int courseId = course.getId();
+//                        int courseId = course.getId();
 
                         intent.putExtra("COURSE_ID_KEY", courseId);
                         startActivity(intent);
@@ -114,10 +114,10 @@ public class ConfirmCourseFragment_admin  extends Fragment {
                 }
 
                 @Override
-                // SỬA LỖI 3: Tham số phải là Call<Void>
-                public void onFailure(Call<CourseInfo> call, Throwable t) {
+                //  Tham số phải là Call<Void>
+                public void onFailure(Call<Integer> call, Throwable t) {
                     // Lỗi mạng hoặc kết nối
-                    // SỬA LỖI 5: Xóa setText không cần thiết
+                    //  Xóa setText không cần thiết
                     Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

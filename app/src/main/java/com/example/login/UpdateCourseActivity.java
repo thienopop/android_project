@@ -61,7 +61,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
                 finish();
             }
         });
-        // --- 3. TẢI DỮ LIỆU ---
+//lấy id course
         Intent intent = getIntent();
         if (intent != null) {
             course_id = intent.getIntExtra("COURSE_ID", -1);
@@ -100,17 +100,15 @@ public class UpdateCourseActivity extends AppCompatActivity {
 
         Course newCourse = new Course(subject, notes, timeOfTheLesson, totalPrice, totalSessions);
         newCourse.setId(course_id);
-        // SỬA LỖI 1: Phải là Call<Void>
-        // (Giả sử ApiService.AddCourse đã trả về Call<Void>)
+
         Call<CourseInfo> call = apiService.UpdateCourse(newCourse);
 
-        // Xử lý Callback<Void>
+
         call.enqueue(new Callback<CourseInfo>() {
             @Override
-            // SỬA LỖI 2: Tham số phải là Call<Void>
             public void onResponse(Call<CourseInfo> call, Response<CourseInfo> response) {
 
-                // SỬA LỖI 4: Xóa kiểm tra response.body()
+
                 if (response.isSuccessful()) {
 
                     Toast.makeText(UpdateCourseActivity.this, "Cập nhật khoá học thành công!", Toast.LENGTH_SHORT).show();

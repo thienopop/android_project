@@ -86,26 +86,29 @@ public class CreateCourseFragment extends Fragment {
 
             // SỬA LỖI 1: Phải là Call<Void>
             // (Giả sử ApiService.AddCourse đã trả về Call<Void>)
-            Call<CourseInfo> call = apiService.AddCourse(newCourse);
+            Call<Integer> call = apiService.AddCourse(newCourse);
 
             // Xử lý Callback<Void>
-            call.enqueue(new Callback<CourseInfo>() {
+            call.enqueue(new Callback<Integer>() {
                 @Override
-                // SỬA LỖI 2: Tham số phải là Call<Void>
-                public void onResponse(Call<CourseInfo> call, Response<CourseInfo> response) {
 
-                    // SỬA LỖI 4: Xóa kiểm tra response.body()
+                public void onResponse(Call<Integer> call, Response<Integer> response) {
+
+
                     if (response.isSuccessful()) {
 
                         Toast.makeText(getContext(), "Thêm khoá học thành công!", Toast.LENGTH_SHORT).show();
 
-//                        chuyển đến thêm khoá học
-                        CourseInfo course = response.body();
+//                        chuyển đến thêm buổi học
+                        Integer courseId = response.body();
                         Intent intent = new Intent(requireContext(), DetailCourseActivity.class);
-                        int courseId = course.getId();
+
 
                         intent.putExtra("COURSE_ID_KEY", courseId);
                         startActivity(intent);
+
+
+
 
                         if (getActivity() != null) {
                             getActivity().getSupportFragmentManager().popBackStack();
@@ -113,33 +116,22 @@ public class CreateCourseFragment extends Fragment {
 
 
                     } else {
-                        // Server trả về lỗi (4xx, 5xx)
+                        // Server trả về lỗi
                         Toast.makeText(getContext(), "Thêm thất bại. Mã lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
-                // SỬA LỖI 3: Tham số phải là Call<Void>
-                public void onFailure(Call<CourseInfo> call, Throwable t) {
+
+                public void onFailure(Call<Integer> call, Throwable t) {
                     // Lỗi mạng hoặc kết nối
-                    // SỬA LỖI 5: Xóa setText không cần thiết
+
                     Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         });
     }
 
-    private void loadChildFragment(Fragment fragment) {
-        FragmentManager fm = getChildFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
 
-        // .replace() sẽ tự động gỡ fragment cũ ra và thêm fragment mới vào
-        ft.replace(R.id.child_fragment_container, fragment);
-
-        // (Tùy chọn) Thêm vào back stack của trình quản lý con
-        // ft.addToBackStack(null);
-
-        ft.commit();
-    }
 
 }

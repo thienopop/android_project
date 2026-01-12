@@ -138,6 +138,7 @@ public interface ApiService {
     @GET("courses/by_tutor/{id}")
     Call<DetailCourse> getDetailCourseByTutor(@Path("id") int id);
 //    getDetailCourseByTutor(id);
+//getDetailCourseByTutor(id);
     @GET("courses/by_student/{id}")
     Call<DetailCourse> getDetailCourseByStudent(@Path("id") int id);
 //    @GetMapping("/by_student/{id}")
@@ -158,7 +159,8 @@ public interface ApiService {
     @POST("files/upload")
     Call<UploadFileResponse> uploadFile(@Part MultipartBody.Part file);
     @POST("courses/create")
-    Call<CourseInfo> AddCourse(@Body Course course);
+    Call<Integer> AddCourse(@Body Course course);
+
     @POST("courses/update")
     Call<CourseInfo> UpdateCourse(@Body Course course);
 
