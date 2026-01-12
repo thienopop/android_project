@@ -34,3 +34,6 @@ build/
 
 ### Others ###
 uploads
+.DS_Store
+**/.DS_Store
+

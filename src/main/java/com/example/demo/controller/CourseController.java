@@ -150,10 +150,10 @@ public ResponseEntity<?> getMyCoursesByStatus(@PathVariable String status) {
 
 @GetMapping("/my_courses_student/{status}")
 public ResponseEntity<?> getMyCoursesStudentByStatus(@PathVariable String status) {
-    // 1. Lấy username từ Token
+    //  Lấy username từ Token
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
     
-    // 2. Tìm Student (Cẩn thận lỗi Zero Date ở đây nếu chưa fix config DB)
+    // Tìm Student (Cẩn thận lỗi Zero Date ở đây nếu chưa fix config DB)
     Optional<Student> studentOpt = studentRepository.findByUser_Username(username);
 
     if (studentOpt.isEmpty()) {
@@ -175,7 +175,7 @@ public ResponseEntity<?> getMyCoursesStudentByStatus(@PathVariable String status
         ));
     }
 
-    // 4. Gọi Repository (Hàm native query đã fix ở bước trước)
+    //  Gọi Repository (Hàm native query đã fix ở bước trước)
     List<CourseInfo> courseInfo = courseRepository.findCoursesByStudentIdAndStatus(
         studentOpt.get().getId(), normalizedStatus
     );
@@ -205,7 +205,7 @@ public ResponseEntity<?> getCoursesByTutorAndIdCourse(@PathVariable int id) {
 public ResponseEntity<?> getCoursesByStudetnAndIdCourse(@PathVariable int id) {
     int courseId = id; // Biến id từ URL được dùng làm Course ID
     
-    // 4. Gọi Repository với tên hàm đã chuẩn hóa và kiểu trả về là đối tượng đơn
+    // Gọi Repository với tên hàm đã chuẩn hóa và kiểu trả về là đối tượng đơn
     DetailCourse course = courseRepository.findDetailCourseByIdOfStudent(courseId);
     
     // Kiểm tra kết quả
@@ -245,7 +245,7 @@ public ResponseEntity<?> getCoursesByStatus(@PathVariable String status) {
         // Tạo mới khóa học (Tutor tạo)
         @PostMapping("/create")
         public ResponseEntity<?> createCourse(@RequestBody Course course) {
-            // Kiểm tra tutor & student có tồn tại không
+            // Kiểm tra tutor có tồn tại không
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         // System.out.println(">>> Current username: " + username);
 
@@ -254,17 +254,27 @@ public ResponseEntity<?> getCoursesByStatus(@PathVariable String status) {
             return ResponseEntity.status(404).body("Không tìm thấy tutor cho user: " + username);
         }
             course.setTutor(tutorOpt.get());
-            course.setStatus("NEW");
+            course.setStatus("UNCONFIRM");// trạng thái mặc định khi tạo khoá học
         
             Course newCourse = courseRepository.save(course);
-            int courseId=newCourse.getId();
-            //không gửi giữ liệu
+//             int courseId=newCourse.getId();
+//             //không gửi giữ liệ
+//             // u
+
+//             // Trong code của bạn:
+// int courseId = newCourse.getId(); 
+
+// Nên sửa thành:
+Integer courseId = newCourse.getId();
+            if (courseId <=0) {
+        return ResponseEntity.notFound().build();
+    }
             return ResponseEntity.ok(courseId);
         }
 
 
 
-    //   @POST("courses/update")
+    //   @POST("courses/update")    
     // Call<CourseInfo> UpdateCourse(@Body Course course);
 
 
@@ -400,17 +410,17 @@ public ResponseEntity<?> updateCourseStatus(
         //  Đăng ký khóa học (Student đăng ký)
 @PutMapping("/register_course_by_student/{id}")
 public ResponseEntity<?> registerCourse(@PathVariable int id) {
-    // Tìm khóa học theo ID
+    // 🔹 Tìm khóa học theo ID
     Optional<Course> courseOpt = courseRepository.findById(id);
     if (courseOpt.isEmpty()) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Map.of("error", "Không tìm thấy khóa học với ID: " + id));
     }
 
-    // Lấy username của người dùng hiện tại (đã login bằng token)
+    // 🔹 Lấy username của người dùng hiện tại (đã login bằng token)
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-    // Tìm student tương ứng với username
+    // 🔹 Tìm student tương ứng với username
     Optional<Student> studentOpt = studentRepository.findByUser_UsernameAndUser_Role(username, "STUDENT");
     // Optional<Student> findByUser_UsernameAndUser_Role(String username, String role);
 
@@ -421,17 +431,17 @@ public ResponseEntity<?> registerCourse(@PathVariable int id) {
 
     Course course = courseOpt.get();
 
-    // Kiểm tra xem khóa học đã có student chưa
+    // 🔹 Kiểm tra xem khóa học đã có student chưa
     if (course.getStudent() != null) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("error", "Khóa học này đã có sinh viên đăng ký rồi."));
     }
 
-    // Gán sinh viên hiện tại vào khóa học
+    // 🔹 Gán sinh viên hiện tại vào khóa học
     course.setStudent(studentOpt.get());
     course.setStatus("STUDENT_REGISTERED"); // hoặc "ONGOING" nếu bạn muốn bắt đầu ngay
 
-    // Lưu lại thay đổi
+    // 🔹 Lưu lại thay đổi
     courseRepository.save(course);
 
     return ResponseEntity.ok(Map.of(

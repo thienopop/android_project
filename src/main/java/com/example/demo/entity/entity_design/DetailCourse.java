@@ -4,13 +4,13 @@ public interface DetailCourse {
 
     Integer getId();//
  String getFullName();//
- int getUserId();
+ Integer getUserId();
  String getSubject();//
- int getTotalSessions();//
+ Integer getTotalSessions();//
  double getTotalPrice();//
  String getTimeOfTheLesson() ;//
   String getStartDate();//
-  int getCompletedSessions();
+  Integer getCompletedSessions();
   String getEndDate();
   String getStatus();//
    String getNotes();//
